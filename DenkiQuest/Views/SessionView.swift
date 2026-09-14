@@ -1,9 +1,15 @@
 import SwiftUI
+import SwiftData
 
 /// 1 セッションの画面。問題 → 解説 → 次へ を繰り返し、最後に結果を表示する。
 struct SessionView: View {
     @State private var session: QuizSession
+    @State private var timer = StudyTimer()
+    @State private var savedThisRun = false
+    @State private var savedSeconds: Double = 0
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.scenePhase) private var scenePhase
 
     init(unit: LearningUnit) {
         _session = State(initialValue: QuizSession(unit: unit))
@@ -15,8 +21,12 @@ struct SessionView: View {
             if session.isFinished {
                 ResultView(
                     session: session,
+                    studySeconds: savedSeconds,
                     retry: {
                         GameFeedback.tap()
+                        savedThisRun = false
+                        savedSeconds = 0
+                        timer.reset()
                         session = QuizSession(unit: session.unit)
                     },
                     finish: {
@@ -26,7 +36,7 @@ struct SessionView: View {
                 )
                 .transition(.move(edge: .trailing).combined(with: .opacity))
             } else if let item = session.current {
-                QuestionView(session: session, item: item)
+                QuestionView(session: session, item: item, timer: timer)
                     .id(item.id)
                     .transition(.asymmetric(
                         insertion: .move(edge: .trailing).combined(with: .opacity),
@@ -41,6 +51,39 @@ struct SessionView: View {
         .navigationTitle(session.unit.title)
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(.hidden, for: .navigationBar)
+        .onAppear { timer.start() }
+        .onDisappear { saveIfNeeded() }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active {
+                timer.start()
+            } else {
+                timer.pause()
+            }
+        }
+        .onChange(of: session.isFinished) { _, finished in
+            if finished { saveIfNeeded() }
+        }
+    }
+
+    /// 学習時間を SwiftData に記録する。1 回の挑戦につき 1 回だけ。
+    private func saveIfNeeded() {
+        guard !savedThisRun else { return }
+        timer.pause()
+        let seconds = min(timer.elapsed, StudyGoal.maxSecondsPerRecord)
+        let answered = session.currentIndex + (session.hasAnswered || session.isFinished ? 1 : 0)
+        guard session.isFinished || seconds >= StudyGoal.minSecondsToRecord else { return }
+
+        let record = StudyRecord(
+            startedAt: timer.createdAt,
+            durationSeconds: seconds,
+            unitId: session.unit.id,
+            answeredCount: min(answered, session.items.count),
+            correctCount: session.correctCount,
+            completed: session.isFinished
+        )
+        modelContext.insert(record)
+        savedThisRun = true
+        savedSeconds = seconds
     }
 }
 
@@ -48,6 +91,7 @@ struct SessionView: View {
 private struct QuestionView: View {
     let session: QuizSession
     let item: QuizSession.Item
+    let timer: StudyTimer
 
     @State private var shakeOffset: CGFloat = 0
     @State private var correctScale: CGFloat = 1.0
@@ -103,6 +147,11 @@ private struct QuestionView: View {
                 Text("第 \(session.currentIndex + 1) 問 / \(session.items.count) 問")
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(Theme.textSecondary)
+                TimelineView(.periodic(from: .now, by: 1)) { _ in
+                    Label(StudyFormat.clock(timer.elapsed), systemImage: "hourglass")
+                        .font(.caption.monospacedDigit())
+                        .foregroundStyle(Theme.textSecondary)
+                }
                 Spacer()
                 if session.combo >= 2 {
                     HStack(spacing: 4) {
@@ -239,6 +288,7 @@ private struct QuestionView: View {
 /// セッション終了時の結果。
 private struct ResultView: View {
     let session: QuizSession
+    let studySeconds: Double
     let retry: () -> Void
     let finish: () -> Void
 
@@ -309,9 +359,10 @@ private struct ResultView: View {
                 }
             }
 
-            HStack(spacing: 24) {
+            HStack(spacing: 16) {
                 statBlock(title: "正解", value: "\(session.correctCount) / \(session.items.count)")
                 statBlock(title: "最大コンボ", value: "\(session.maxCombo)")
+                statBlock(title: "学習時間", value: "+" + StudyFormat.duration(studySeconds))
             }
             .padding(16)
             .gameCard()
@@ -357,6 +408,6 @@ private struct ResultView: View {
                 .font(.title2.bold())
                 .foregroundStyle(Theme.textPrimary)
         }
-        .frame(minWidth: 100)
+        .frame(maxWidth: .infinity)
     }
 }

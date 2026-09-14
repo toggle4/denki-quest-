@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 
 @main
 struct DenkiQuestApp: App {
@@ -15,5 +16,6 @@ struct DenkiQuestApp: App {
                 .preferredColorScheme(.dark)
                 .tint(Theme.volt)
         }
+        .modelContainer(for: StudyRecord.self)
     }
 }

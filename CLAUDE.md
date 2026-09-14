@@ -29,7 +29,7 @@ xcodebuild -project DenkiQuest.xcodeproj -scheme DenkiQuest \
 
 ## ディレクトリ構成
 - `DenkiQuest/` … アプリ本体（Xcode の同期フォルダ。ここに置いたファイルは自動でターゲットに含まれる）
-  - `Models/` … 教材 JSON を表す Codable 型
+  - `Models/` … 教材 JSON を表す Codable 型、SwiftData の `StudyRecord`（学習時間の記録）と目標値 `StudyGoal`
   - `Services/` … 教材の読み込み、効果音（`SoundPlayer`）、触覚（`Haptics`）、両方をまとめた `GameFeedback`
   - `Theme/` … 配色・カード・ボタンなど共通スタイル
   - `Views/` … SwiftUI 画面

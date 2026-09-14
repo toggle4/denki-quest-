@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 
 /// 単元一覧。タップすると 1 セッション（10 問）を開始する。
 struct UnitListView: View {
@@ -6,6 +7,10 @@ struct UnitListView: View {
     @State private var loadError: String?
     @AppStorage(SoundPlayer.enabledKey) private var soundEnabled = true
     @AppStorage(Haptics.enabledKey) private var hapticsEnabled = true
+    @Query(sort: \StudyRecord.startedAt, order: .reverse) private var records: [StudyRecord]
+    @State private var showStudyLog = false
+
+    private var stats: StudyStats { StudyStats(records: records) }
 
     var body: some View {
         NavigationStack {
@@ -21,6 +26,18 @@ struct UnitListView: View {
                     ScrollView {
                         VStack(spacing: 16) {
                             header
+                            Button {
+                                GameFeedback.tap()
+                                showStudyLog = true
+                            } label: {
+                                StudyGaugeView(stats: stats)
+                            }
+                            .buttonStyle(.plain)
+                            Text("クエストを選ぼう")
+                                .font(.headline)
+                                .foregroundStyle(Theme.textSecondary)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.top, 4)
                             ForEach(units) { unit in
                                 NavigationLink(value: unit) {
                                     UnitRow(unit: unit)
@@ -50,6 +67,9 @@ struct UnitListView: View {
             .navigationDestination(for: LearningUnit.self) { unit in
                 SessionView(unit: unit)
             }
+            .sheet(isPresented: $showStudyLog) {
+                StudyLogView(stats: stats, records: records, units: units)
+            }
         }
         .task { load() }
     }
@@ -59,16 +79,13 @@ struct UnitListView: View {
             Image("Mascot")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 120, height: 120)
+                .frame(width: 96, height: 96)
                 .shadow(color: Theme.volt.opacity(0.5), radius: 20)
-            Text("クエストを選ぼう")
-                .font(.title2.bold())
-                .foregroundStyle(Theme.textPrimary)
             Text("1 クエスト = 10 問・約 5 分")
                 .font(.subheadline)
                 .foregroundStyle(Theme.textSecondary)
         }
-        .padding(.vertical, 8)
+        .padding(.top, 4)
     }
 
     private func load() {
