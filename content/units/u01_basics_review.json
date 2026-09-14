@@ -1,0 +1,213 @@
+{
+  "id": "u01_basics_review",
+  "title": "電気の基礎（中学理科の復習）",
+  "order": 1,
+  "stage": "review",
+  "description": "電流・電圧・抵抗・電力の意味と単位、オームの法則の関係を思い出す。",
+  "questions": [
+    {
+      "id": "u01_basics_review_q001",
+      "type": "choice",
+      "prompt": "電流の大きさを表す単位はどれか。",
+      "choices": ["A（アンペア）", "V（ボルト）", "Ω（オーム）", "W（ワット）"],
+      "answer": 0,
+      "explanation": "電流の単位はアンペア（A）。電圧は V、抵抗は Ω、電力は W と覚える。"
+    },
+    {
+      "id": "u01_basics_review_q002",
+      "type": "choice",
+      "prompt": "電圧の大きさを表す単位はどれか。",
+      "choices": ["V（ボルト）", "A（アンペア）", "Ω（オーム）", "Wh（ワット時）"],
+      "answer": 0,
+      "explanation": "電圧は電流を流そうとする働きの大きさで、単位はボルト（V）。"
+    },
+    {
+      "id": "u01_basics_review_q003",
+      "type": "choice",
+      "prompt": "抵抗の大きさを表す単位はどれか。",
+      "choices": ["Ω（オーム）", "A（アンペア）", "V（ボルト）", "W（ワット）"],
+      "answer": 0,
+      "explanation": "抵抗は電流の流れにくさで、単位はオーム（Ω）。"
+    },
+    {
+      "id": "u01_basics_review_q004",
+      "type": "choice",
+      "prompt": "電力の大きさを表す単位はどれか。",
+      "choices": ["W（ワット）", "V（ボルト）", "A（アンペア）", "Ω（オーム）"],
+      "answer": 0,
+      "explanation": "電力は 1 秒あたりに使われる電気エネルギーで、単位はワット（W）。"
+    },
+    {
+      "id": "u01_basics_review_q005",
+      "type": "choice",
+      "prompt": "銅や鉄のように電気をよく通す物質を何というか。",
+      "choices": ["導体", "絶縁体", "半導体", "磁性体"],
+      "answer": 0,
+      "explanation": "電気をよく通す物質が導体。電線の芯に銅が使われるのは導体だから。"
+    },
+    {
+      "id": "u01_basics_review_q006",
+      "type": "choice",
+      "prompt": "ゴムやガラスのように電気をほとんど通さない物質を何というか。",
+      "choices": ["絶縁体", "導体", "半導体", "電解質"],
+      "answer": 0,
+      "explanation": "電気をほとんど通さない物質が絶縁体。電線の被覆に使われるビニルも絶縁体。"
+    },
+    {
+      "id": "u01_basics_review_q007",
+      "type": "choice",
+      "prompt": "直列回路で、回路の各部分を流れる電流の大きさはどうなるか。",
+      "choices": ["どこでも等しい", "電源に近いほど大きい", "抵抗が大きい部分ほど大きい", "抵抗が小さい部分ほど大きい"],
+      "answer": 0,
+      "explanation": "直列回路は電流の通り道が 1 本なので、どの部分でも同じ大きさの電流が流れる。"
+    },
+    {
+      "id": "u01_basics_review_q008",
+      "type": "choice",
+      "prompt": "並列回路で、それぞれの枝にかかる電圧はどうなるか。",
+      "choices": ["どの枝も等しい", "抵抗が大きい枝ほど大きい", "抵抗が小さい枝ほど大きい", "枝の数で割った値になる"],
+      "answer": 0,
+      "explanation": "並列回路では各枝が電源に直接つながっているので、どの枝にも電源と同じ電圧がかかる。"
+    },
+    {
+      "id": "u01_basics_review_q009",
+      "type": "choice",
+      "prompt": "電池の回路図記号（2 本の平行線）で、長い線が表すのはどちらの極か。",
+      "choices": ["＋極", "－極", "どちらでもよい", "接地"],
+      "answer": 0,
+      "explanation": "電池の記号は長い線が＋極、短い線が－極。"
+    },
+    {
+      "id": "u01_basics_review_q010",
+      "type": "choice",
+      "prompt": "回路図で決められている電流の向きはどれか。",
+      "choices": ["＋極から－極へ向かう向き", "－極から＋極へ向かう向き", "電子が動く向きと同じ向き", "回路によって異なる"],
+      "answer": 0,
+      "explanation": "電流は＋極から出て－極へ流れると決められている。電子の動きとは逆向き。"
+    },
+    {
+      "id": "u01_basics_review_q011",
+      "type": "choice",
+      "prompt": "オームの法則を表す式はどれか。（V: 電圧、I: 電流、R: 抵抗）",
+      "choices": ["V = I × R", "V = I ÷ R", "V = R ÷ I", "V = I + R"],
+      "answer": 0,
+      "explanation": "電圧 = 電流 × 抵抗。形を変えると I = V ÷ R、R = V ÷ I になる。"
+    },
+    {
+      "id": "u01_basics_review_q012",
+      "type": "choice",
+      "prompt": "抵抗の大きさが一定のとき、電圧を 2 倍にすると電流はどうなるか。",
+      "choices": ["2 倍になる", "半分になる", "変わらない", "4 倍になる"],
+      "answer": 0,
+      "explanation": "I = V ÷ R で R が一定なら、電流は電圧に比例する。"
+    },
+    {
+      "id": "u01_basics_review_q013",
+      "type": "choice",
+      "prompt": "電力を求める式はどれか。（P: 電力、V: 電圧、I: 電流）",
+      "choices": ["P = V × I", "P = V ÷ I", "P = V + I", "P = I ÷ V"],
+      "answer": 0,
+      "explanation": "電力 = 電圧 × 電流。100 V で 5 A 流れれば 500 W。"
+    },
+    {
+      "id": "u01_basics_review_q014",
+      "type": "choice",
+      "prompt": "家庭の電気料金の計算に使われる電力量の単位はどれか。",
+      "choices": ["kWh（キロワット時）", "kW（キロワット）", "kV（キロボルト）", "kA（キロアンペア）"],
+      "answer": 0,
+      "explanation": "電力量 = 電力 × 時間。家庭では kWh（キロワット時）で数える。"
+    },
+    {
+      "id": "u01_basics_review_q015",
+      "type": "choice",
+      "prompt": "100 W の電球を 2 時間使ったときの電力量はいくらか。",
+      "choices": ["200 Wh", "50 Wh", "100 Wh", "400 Wh"],
+      "answer": 0,
+      "explanation": "電力量 = 電力 × 時間 = 100 W × 2 h = 200 Wh。"
+    },
+    {
+      "id": "u01_basics_review_q016",
+      "type": "choice",
+      "prompt": "日本の家庭のコンセントで使われている電圧はどれか。",
+      "choices": ["100 V", "12 V", "50 V", "1000 V"],
+      "answer": 0,
+      "explanation": "日本の一般家庭のコンセントは 100 V。エアコンなどには 200 V も使われる。"
+    },
+    {
+      "id": "u01_basics_review_q017",
+      "type": "choice",
+      "prompt": "電流の向きが周期的に入れかわる電気を何というか。",
+      "choices": ["交流", "直流", "静電気", "放電"],
+      "answer": 0,
+      "explanation": "向きが周期的に変わるのが交流（AC）。家庭のコンセントは交流。"
+    },
+    {
+      "id": "u01_basics_review_q018",
+      "type": "choice",
+      "prompt": "乾電池から取り出せる、向きが一定の電気を何というか。",
+      "choices": ["直流", "交流", "誘導電流", "静電気"],
+      "answer": 0,
+      "explanation": "向きが変わらない電気が直流（DC）。乾電池や充電池は直流。"
+    },
+    {
+      "id": "u01_basics_review_q019",
+      "type": "choice",
+      "prompt": "電熱線から出る熱の量（発熱量）は何に比例するか。",
+      "choices": ["電力と時間", "電圧だけ", "電流だけ", "電熱線の長さだけ"],
+      "answer": 0,
+      "explanation": "発熱量 = 電力 × 時間。電力が大きいほど、長く使うほど熱が多く出る。"
+    },
+    {
+      "id": "u01_basics_review_q020",
+      "type": "choice",
+      "prompt": "コイルに電流を流したとき、コイルのまわりに生じるものは何か。",
+      "choices": ["磁界", "静電気", "音波", "光"],
+      "answer": 0,
+      "explanation": "電流のまわりには磁界ができる。コイルにすると電磁石になる。"
+    },
+    {
+      "id": "u01_basics_review_q021",
+      "type": "choice",
+      "prompt": "コイルの中で磁石を出し入れすると電流が流れる現象を何というか。",
+      "choices": ["電磁誘導", "静電誘導", "電気分解", "熱伝導"],
+      "answer": 0,
+      "explanation": "磁界の変化によって電流が生じる現象が電磁誘導。発電機はこの原理で動く。"
+    },
+    {
+      "id": "u01_basics_review_q022",
+      "type": "choice",
+      "prompt": "2 本の抵抗を直列につないだときの全体の抵抗（合成抵抗）はどうなるか。",
+      "choices": ["2 本の抵抗の和", "2 本の抵抗の積", "2 本の抵抗の差", "2 本の抵抗の平均"],
+      "answer": 0,
+      "explanation": "直列では電流の通り道が長くなるので、合成抵抗は各抵抗の和になる。"
+    },
+    {
+      "id": "u01_basics_review_q023",
+      "type": "choice",
+      "prompt": "同じ大きさの抵抗を 2 本並列につないだときの合成抵抗はどうなるか。",
+      "choices": ["1 本の半分", "1 本の 2 倍", "1 本と同じ", "1 本の 4 倍"],
+      "answer": 0,
+      "explanation": "並列では電流の通り道が増えて流れやすくなる。同じ抵抗 2 本なら合成抵抗は半分。"
+    },
+    {
+      "id": "u01_basics_review_q024",
+      "type": "choice",
+      "prompt": "回路に流れる電流を測るとき、電流計はどのようにつなぐか。",
+      "choices": ["測りたい部分に直列につなぐ", "測りたい部分に並列につなぐ", "電源に並列につなぐ", "つなぎ方は問わない"],
+      "answer": 0,
+      "explanation": "電流計は電流の通り道に割り込ませる（直列）。並列につなぐと大きな電流が流れて壊れる。"
+    },
+    {
+      "id": "u01_basics_review_q025",
+      "type": "choice",
+      "prompt": "ある部分にかかる電圧を測るとき、電圧計はどのようにつなぐか。",
+      "choices": ["測りたい部分に並列につなぐ", "測りたい部分に直列につなぐ", "電源に直列につなぐ", "つなぎ方は問わない"],
+      "answer": 0,
+      "explanation": "電圧計は測りたい部分の両端にまたがるようにつなぐ（並列）。"
+    }
+  ],
+  "boss": {
+    "questionCount": 10,
+    "timeLimitSeconds": 90
+  }
+}
