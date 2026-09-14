@@ -21,6 +21,10 @@ final class QuizSession {
     private(set) var selectedIndex: Int?
     private(set) var correctCount = 0
     private(set) var isFinished = false
+    /// 現在の連続正解数。間違えると 0 に戻る。
+    private(set) var combo = 0
+    /// セッション中の最大連続正解数。
+    private(set) var maxCombo = 0
 
     init(unit: LearningUnit, questionCount: Int = QuizSession.questionsPerSession) {
         self.unit = unit
@@ -61,7 +65,15 @@ final class QuizSession {
         selectedIndex = index
         if index == current.correctIndex {
             correctCount += 1
+            combo += 1
+            maxCombo = max(maxCombo, combo)
+        } else {
+            combo = 0
         }
+    }
+
+    var isPerfect: Bool {
+        !items.isEmpty && correctCount == items.count
     }
 
     func next() {

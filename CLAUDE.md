@@ -30,8 +30,12 @@ xcodebuild -project DenkiQuest.xcodeproj -scheme DenkiQuest \
 ## ディレクトリ構成
 - `DenkiQuest/` … アプリ本体（Xcode の同期フォルダ。ここに置いたファイルは自動でターゲットに含まれる）
   - `Models/` … 教材 JSON を表す Codable 型
-  - `Services/` … 教材の読み込みなど
+  - `Services/` … 教材の読み込み、効果音（`SoundPlayer`）、触覚（`Haptics`）、両方をまとめた `GameFeedback`
+  - `Theme/` … 配色・カード・ボタンなど共通スタイル
   - `Views/` … SwiftUI 画面
+  - `Sounds/` … 効果音 WAV（`tools/gen_sounds.py` で自作合成。外部素材は使わない）
+  - `Assets.xcassets/Mascot.imageset` … マスコット SVG（自作）
+- `tools/` … 効果音・アプリアイコンの生成スクリプト（Python 標準ライブラリのみ）
 - `content/units/` … 単元ごとの教材 JSON（フォルダ参照としてアプリにバンドルされる）
 - `content/schema.md` … 教材 JSON の形式
 - `docs/curriculum.md` … 単元の順序と学習時間の配分

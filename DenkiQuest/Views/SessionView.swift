@@ -10,21 +10,37 @@ struct SessionView: View {
     }
 
     var body: some View {
-        Group {
+        ZStack {
+            GameBackground()
             if session.isFinished {
                 ResultView(
                     session: session,
-                    retry: { session = QuizSession(unit: session.unit) },
-                    finish: { dismiss() }
+                    retry: {
+                        GameFeedback.tap()
+                        session = QuizSession(unit: session.unit)
+                    },
+                    finish: {
+                        GameFeedback.tap()
+                        dismiss()
+                    }
                 )
+                .transition(.move(edge: .trailing).combined(with: .opacity))
             } else if let item = session.current {
                 QuestionView(session: session, item: item)
+                    .id(item.id)
+                    .transition(.asymmetric(
+                        insertion: .move(edge: .trailing).combined(with: .opacity),
+                        removal: .move(edge: .leading).combined(with: .opacity)
+                    ))
             } else {
                 ContentUnavailableView("問題がありません", systemImage: "questionmark.circle")
             }
         }
+        .animation(.spring(response: 0.4, dampingFraction: 0.85), value: session.currentIndex)
+        .animation(.spring(response: 0.4, dampingFraction: 0.85), value: session.isFinished)
         .navigationTitle(session.unit.title)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(.hidden, for: .navigationBar)
     }
 }
 
@@ -32,6 +48,10 @@ struct SessionView: View {
 private struct QuestionView: View {
     let session: QuizSession
     let item: QuizSession.Item
+
+    @State private var shakeOffset: CGFloat = 0
+    @State private var correctScale: CGFloat = 1.0
+    @State private var comboScale: CGFloat = 1.0
 
     private let choiceLabels = ["ア", "イ", "ウ", "エ", "オ", "カ"]
 
@@ -41,7 +61,11 @@ private struct QuestionView: View {
                 header
                 Text(item.question.prompt)
                     .font(.title3.weight(.semibold))
+                    .foregroundStyle(Theme.textPrimary)
                     .fixedSize(horizontal: false, vertical: true)
+                    .padding(16)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .gameCard()
 
                 VStack(spacing: 10) {
                     ForEach(Array(item.choices.enumerated()), id: \.offset) { index, choice in
@@ -51,70 +75,108 @@ private struct QuestionView: View {
 
                 if session.hasAnswered {
                     feedback
+                        .transition(.scale(scale: 0.9).combined(with: .opacity))
                 }
             }
             .padding()
         }
+        .animation(.spring(response: 0.35, dampingFraction: 0.7), value: session.hasAnswered)
         .safeAreaInset(edge: .bottom) {
             if session.hasAnswered {
                 Button {
+                    GameFeedback.tap()
                     session.next()
                 } label: {
                     Text(session.currentIndex + 1 < session.items.count ? "次へ" : "結果を見る")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 8)
                 }
-                .buttonStyle(.borderedProminent)
+                .buttonStyle(VoltButtonStyle())
                 .padding()
-                .background(.bar)
+                .background(.ultraThinMaterial)
+                .transition(.move(edge: .bottom).combined(with: .opacity))
             }
         }
     }
 
     private var header: some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Text("第 \(session.currentIndex + 1) 問 / \(session.items.count) 問")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(Theme.textSecondary)
                 Spacer()
-                Text("正解 \(session.correctCount)")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                if session.combo >= 2 {
+                    HStack(spacing: 4) {
+                        Image(systemName: "flame.fill")
+                        Text("\(session.combo) COMBO")
+                    }
+                    .font(.subheadline.bold())
+                    .foregroundStyle(Theme.backgroundBottom)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 4)
+                    .background(Theme.volt, in: Capsule())
+                    .scaleEffect(comboScale)
+                    .transition(.scale.combined(with: .opacity))
+                }
             }
             ProgressView(value: session.progress)
+                .tint(Theme.volt)
+                .scaleEffect(x: 1, y: 2, anchor: .center)
         }
+        .animation(.spring(response: 0.3, dampingFraction: 0.6), value: session.combo)
     }
 
     private func choiceButton(index: Int, choice: String) -> some View {
         Button {
-            session.select(index)
+            answer(index)
         } label: {
             HStack(alignment: .top, spacing: 12) {
                 Text(choiceLabels[index % choiceLabels.count])
                     .font(.headline)
-                    .frame(width: 28, height: 28)
-                    .background(Color.secondary.opacity(0.15), in: Circle())
+                    .foregroundStyle(labelColor(for: index))
+                    .frame(width: 30, height: 30)
+                    .background(labelBackground(for: index), in: Circle())
                 Text(choice)
+                    .foregroundStyle(Theme.textPrimary)
                     .multilineTextAlignment(.leading)
                     .fixedSize(horizontal: false, vertical: true)
                 Spacer(minLength: 0)
                 if let icon = resultIcon(for: index) {
                     Image(systemName: icon)
-                        .font(.headline)
+                        .font(.title3)
+                        .foregroundStyle(index == item.correctIndex ? Theme.correct : Theme.wrong)
                 }
             }
-            .padding(12)
+            .padding(14)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(choiceBackground(for: index), in: RoundedRectangle(cornerRadius: 12))
-            .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                    .strokeBorder(borderColor(for: index), lineWidth: 1)
-            )
+            .gameCard(tint: tint(for: index), border: border(for: index))
         }
         .buttonStyle(.plain)
         .disabled(session.hasAnswered)
+        .scaleEffect(session.hasAnswered && index == item.correctIndex ? correctScale : 1.0)
+        .offset(x: session.hasAnswered && index == session.selectedIndex && !session.isCurrentCorrect ? shakeOffset : 0)
+    }
+
+    private func answer(_ index: Int) {
+        session.select(index)
+        if session.isCurrentCorrect {
+            GameFeedback.correct(combo: session.combo)
+            withAnimation(.spring(response: 0.25, dampingFraction: 0.4)) {
+                correctScale = 1.06
+                comboScale = 1.25
+            }
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.6).delay(0.15)) {
+                correctScale = 1.0
+                comboScale = 1.0
+            }
+        } else {
+            GameFeedback.wrong()
+            withAnimation(.linear(duration: 0.06).repeatCount(5, autoreverses: true)) {
+                shakeOffset = 8
+            }
+            withAnimation(.linear(duration: 0.06).delay(0.36)) {
+                shakeOffset = 0
+            }
+        }
     }
 
     private func resultIcon(for index: Int) -> String? {
@@ -124,35 +186,53 @@ private struct QuestionView: View {
         return nil
     }
 
-    private func choiceBackground(for index: Int) -> Color {
-        guard session.hasAnswered else { return Color(.secondarySystemBackground) }
-        if index == item.correctIndex { return Color.green.opacity(0.2) }
-        if index == session.selectedIndex { return Color.red.opacity(0.2) }
-        return Color(.secondarySystemBackground)
+    private func tint(for index: Int) -> Color {
+        guard session.hasAnswered else { return .clear }
+        if index == item.correctIndex { return Theme.correct.opacity(0.18) }
+        if index == session.selectedIndex { return Theme.wrong.opacity(0.18) }
+        return .clear
     }
 
-    private func borderColor(for index: Int) -> Color {
-        guard session.hasAnswered else { return .clear }
-        if index == item.correctIndex { return .green }
-        if index == session.selectedIndex { return .red }
-        return .clear
+    private func border(for index: Int) -> Color {
+        guard session.hasAnswered else { return Theme.cardBorder }
+        if index == item.correctIndex { return Theme.correct }
+        if index == session.selectedIndex { return Theme.wrong }
+        return Theme.cardBorder.opacity(0.5)
+    }
+
+    private func labelColor(for index: Int) -> Color {
+        guard session.hasAnswered else { return Theme.volt }
+        if index == item.correctIndex { return Theme.backgroundBottom }
+        if index == session.selectedIndex { return Theme.backgroundBottom }
+        return Theme.textSecondary
+    }
+
+    private func labelBackground(for index: Int) -> Color {
+        guard session.hasAnswered else { return Theme.volt.opacity(0.18) }
+        if index == item.correctIndex { return Theme.correct }
+        if index == session.selectedIndex { return Theme.wrong }
+        return Color.white.opacity(0.08)
     }
 
     private var feedback: some View {
         VStack(alignment: .leading, spacing: 8) {
             Label(
-                session.isCurrentCorrect ? "正解！" : "不正解",
-                systemImage: session.isCurrentCorrect ? "checkmark.circle.fill" : "xmark.circle.fill"
+                session.isCurrentCorrect ? "正解！" : "ざんねん…",
+                systemImage: session.isCurrentCorrect ? "checkmark.seal.fill" : "xmark.seal.fill"
             )
             .font(.headline)
-            .foregroundStyle(session.isCurrentCorrect ? Color.green : Color.red)
+            .foregroundStyle(session.isCurrentCorrect ? Theme.correct : Theme.wrong)
             Text(item.question.explanation)
                 .font(.body)
+                .foregroundStyle(Theme.textPrimary)
                 .fixedSize(horizontal: false, vertical: true)
         }
-        .padding()
+        .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 12))
+        .gameCard(
+            tint: (session.isCurrentCorrect ? Theme.correct : Theme.wrong).opacity(0.10),
+            border: (session.isCurrentCorrect ? Theme.correct : Theme.wrong).opacity(0.6)
+        )
     }
 }
 
@@ -162,50 +242,121 @@ private struct ResultView: View {
     let retry: () -> Void
     let finish: () -> Void
 
+    @State private var shownStars = 0
+    @State private var mascotScale: CGFloat = 0.6
+
+    private var ratio: Double {
+        session.items.isEmpty ? 0 : Double(session.correctCount) / Double(session.items.count)
+    }
+
+    private var stars: Int {
+        switch ratio {
+        case 1.0: return 3
+        case 0.8...: return 2
+        case 0.5...: return 1
+        default: return 0
+        }
+    }
+
+    private var rank: (label: String, color: Color) {
+        switch ratio {
+        case 1.0: return ("S", Theme.volt)
+        case 0.8...: return ("A", Theme.correct)
+        case 0.5...: return ("B", Color(red: 0.40, green: 0.75, blue: 1.0))
+        default: return ("C", Theme.textSecondary)
+        }
+    }
+
     private var message: String {
-        let total = session.items.count
-        guard total > 0 else { return "" }
-        switch Double(session.correctCount) / Double(total) {
-        case 1.0: return "全問正解！この単元はばっちり。"
+        switch ratio {
+        case 1.0: return "パーフェクト！この単元はばっちり。"
         case 0.8...: return "あと少し。間違えた問題の解説を読み返そう。"
-        case 0.5...: return "半分以上正解。もう 1 セッションやってみよう。"
+        case 0.5...: return "半分以上正解。もう 1 クエストやってみよう。"
         default: return "まずは用語に慣れるところから。繰り返せば必ず覚えられる。"
         }
     }
 
     var body: some View {
-        VStack(spacing: 24) {
+        VStack(spacing: 20) {
             Spacer()
-            Image(systemName: "bolt.circle.fill")
-                .font(.system(size: 72))
-                .foregroundStyle(Color.accentColor)
-            Text("セッション終了")
-                .font(.title.bold())
-            Text("\(session.correctCount) / \(session.items.count) 問正解")
-                .font(.title2)
+            Image("Mascot")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 140, height: 140)
+                .shadow(color: rank.color.opacity(0.6), radius: 24)
+                .scaleEffect(mascotScale)
+
+            HStack(spacing: 8) {
+                ForEach(0..<3, id: \.self) { i in
+                    Image(systemName: i < shownStars ? "star.fill" : "star")
+                        .font(.system(size: 34))
+                        .foregroundStyle(i < shownStars ? Theme.volt : Theme.textSecondary.opacity(0.4))
+                        .scaleEffect(i < shownStars ? 1.0 : 0.8)
+                }
+            }
+
+            VStack(spacing: 6) {
+                Text("クエスト クリア")
+                    .font(.title.bold())
+                    .foregroundStyle(Theme.textPrimary)
+                HStack(alignment: .firstTextBaseline, spacing: 12) {
+                    Text("RANK")
+                        .font(.caption.bold())
+                        .foregroundStyle(Theme.textSecondary)
+                    Text(rank.label)
+                        .font(.system(size: 56, weight: .black, design: .rounded))
+                        .foregroundStyle(rank.color)
+                }
+            }
+
+            HStack(spacing: 24) {
+                statBlock(title: "正解", value: "\(session.correctCount) / \(session.items.count)")
+                statBlock(title: "最大コンボ", value: "\(session.maxCombo)")
+            }
+            .padding(16)
+            .gameCard()
+
             Text(message)
                 .font(.body)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Theme.textSecondary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
+
             Spacer()
+
             VStack(spacing: 12) {
-                Button(action: retry) {
-                    Text("もう一度")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 8)
-                }
-                .buttonStyle(.borderedProminent)
-                Button(action: finish) {
-                    Text("単元一覧に戻る")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 8)
-                }
-                .buttonStyle(.bordered)
+                Button("もう一度", action: retry)
+                    .buttonStyle(VoltButtonStyle())
+                Button("クエスト一覧に戻る", action: finish)
+                    .buttonStyle(VoltButtonStyle(prominent: false))
             }
         }
         .padding()
+        .onAppear {
+            GameFeedback.sessionCleared(perfect: session.isPerfect)
+            withAnimation(.spring(response: 0.5, dampingFraction: 0.5)) {
+                mascotScale = 1.0
+            }
+            for i in 0..<stars {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4 + Double(i) * 0.3) {
+                    Haptics.tap()
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.5)) {
+                        shownStars = i + 1
+                    }
+                }
+            }
+        }
+    }
+
+    private func statBlock(title: String, value: String) -> some View {
+        VStack(spacing: 4) {
+            Text(title)
+                .font(.caption)
+                .foregroundStyle(Theme.textSecondary)
+            Text(value)
+                .font(.title2.bold())
+                .foregroundStyle(Theme.textPrimary)
+        }
+        .frame(minWidth: 100)
     }
 }

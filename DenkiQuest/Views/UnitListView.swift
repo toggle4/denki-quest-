@@ -4,10 +4,13 @@ import SwiftUI
 struct UnitListView: View {
     @State private var units: [LearningUnit] = []
     @State private var loadError: String?
+    @AppStorage(SoundPlayer.enabledKey) private var soundEnabled = true
+    @AppStorage(Haptics.enabledKey) private var hapticsEnabled = true
 
     var body: some View {
         NavigationStack {
-            Group {
+            ZStack {
+                GameBackground()
                 if let loadError {
                     ContentUnavailableView(
                         "教材を読み込めません",
@@ -15,19 +18,57 @@ struct UnitListView: View {
                         description: Text(loadError)
                     )
                 } else {
-                    List(units) { unit in
-                        NavigationLink(value: unit) {
-                            UnitRow(unit: unit)
+                    ScrollView {
+                        VStack(spacing: 16) {
+                            header
+                            ForEach(units) { unit in
+                                NavigationLink(value: unit) {
+                                    UnitRow(unit: unit)
+                                }
+                                .buttonStyle(.plain)
+                                .simultaneousGesture(TapGesture().onEnded { GameFeedback.tap() })
+                            }
                         }
+                        .padding()
                     }
                 }
             }
             .navigationTitle("でんきクエスト")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbarBackground(.hidden, for: .navigationBar)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Menu {
+                        Toggle("効果音", isOn: $soundEnabled)
+                        Toggle("振動", isOn: $hapticsEnabled)
+                    } label: {
+                        Image(systemName: "gearshape.fill")
+                            .foregroundStyle(Theme.textSecondary)
+                    }
+                }
+            }
             .navigationDestination(for: LearningUnit.self) { unit in
                 SessionView(unit: unit)
             }
         }
         .task { load() }
+    }
+
+    private var header: some View {
+        VStack(spacing: 8) {
+            Image("Mascot")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 120, height: 120)
+                .shadow(color: Theme.volt.opacity(0.5), radius: 20)
+            Text("クエストを選ぼう")
+                .font(.title2.bold())
+                .foregroundStyle(Theme.textPrimary)
+            Text("1 クエスト = 10 問・約 5 分")
+                .font(.subheadline)
+                .foregroundStyle(Theme.textSecondary)
+        }
+        .padding(.vertical, 8)
     }
 
     private func load() {
@@ -43,27 +84,41 @@ private struct UnitRow: View {
     let unit: LearningUnit
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            HStack(spacing: 8) {
+        HStack(spacing: 14) {
+            ZStack {
+                Circle()
+                    .fill(Theme.stageColor(unit.stage).opacity(0.2))
+                    .frame(width: 52, height: 52)
+                Text("\(unit.order)")
+                    .font(.title3.bold())
+                    .foregroundStyle(Theme.stageColor(unit.stage))
+            }
+            VStack(alignment: .leading, spacing: 4) {
                 Text(unit.stage.label)
                     .font(.caption.bold())
+                    .foregroundStyle(Theme.backgroundBottom)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 2)
-                    .background(Color.accentColor.opacity(0.15), in: Capsule())
+                    .background(Theme.stageColor(unit.stage), in: Capsule())
                 Text(unit.title)
                     .font(.headline)
+                    .foregroundStyle(Theme.textPrimary)
+                Text(unit.description)
+                    .font(.caption)
+                    .foregroundStyle(Theme.textSecondary)
+                    .lineLimit(2)
             }
-            Text(unit.description)
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-            Text("\(unit.questions.count) 問")
-                .font(.caption)
-                .foregroundStyle(.secondary)
+            Spacer(minLength: 0)
+            Image(systemName: "chevron.right")
+                .foregroundStyle(Theme.textSecondary)
         }
-        .padding(.vertical, 4)
+        .padding(14)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .gameCard()
     }
 }
 
 #Preview {
     UnitListView()
+        .preferredColorScheme(.dark)
 }
