@@ -1,0 +1,28 @@
+{
+  "id": "u13_distribution",
+  "title": "配電理論（電圧降下・電力損失）",
+  "order": 13,
+  "stage": "calculate",
+  "description": "単相 2 線式・単相 3 線式・三相 3 線式の電圧降下と電力損失、中性線の役割を計算で理解する。",
+  "questions": [
+    {"id": "u13_distribution_q001", "type": "choice", "prompt": "単相 2 線式で、電線 1 本の抵抗が r [Ω]、電流が I [A] のときの電圧降下はどれか。", "choices": ["2 I r", "I r", "√3 I r", "3 I r"], "answer": 0, "hint": "行きと帰りの 2 本で降下する。", "explanation": "単相 2 線式は往復 2 本で降下するので e = 2Ir。"},
+    {"id": "u13_distribution_q002", "type": "number", "prompt": "単相 2 線式で、電線 1 本の抵抗 0.1 Ω、負荷電流 20 A のとき、電圧降下 [V] を整数で答えよ。", "answer": 4, "unit": "V", "hint": "e = 2 I r", "explanation": "e = 2 × 20 × 0.1 = 4 V。"},
+    {"id": "u13_distribution_q003", "type": "number", "prompt": "単相 2 線式で電源電圧 104 V、電線 1 本の抵抗 0.1 Ω、負荷電流 20 A のとき、負荷にかかる電圧 [V] を整数で答えよ。", "answer": 100, "unit": "V", "explanation": "電圧降下 4 V。104 − 4 = 100 V。"},
+    {"id": "u13_distribution_q004", "type": "number", "prompt": "単相 2 線式で、電線 1 本の抵抗 0.1 Ω、負荷電流 20 A のとき、電線の電力損失 [W] を整数で答えよ。", "answer": 80, "unit": "W", "hint": "損失 = 2 I² r", "explanation": "2 × 20² × 0.1 = 2 × 400 × 0.1 = 80 W。"},
+    {"id": "u13_distribution_q005", "type": "choice", "prompt": "単相 3 線式で、上下の負荷が平衡（同じ電流）しているとき、中性線に流れる電流はいくらか。", "choices": ["0 A", "負荷電流と同じ", "負荷電流の 2 倍", "負荷電流の半分"], "answer": 0, "hint": "上下の電流が中性線で打ち消し合う。", "explanation": "平衡していれば中性線の電流は 0。電圧降下も中性線分がなく、外線 1 本分 Ir だけ。"},
+    {"id": "u13_distribution_q006", "type": "number", "prompt": "単相 3 線式で上下の負荷が平衡し、外線に 10 A 流れている。電線 1 本の抵抗 0.2 Ω のとき、各負荷にかかる電圧降下 [V] を整数で答えよ。", "answer": 2, "unit": "V", "hint": "平衡時は e = I r（中性線には電流が流れない）。", "explanation": "e = 10 × 0.2 = 2 V。中性線の降下は 0。"},
+    {"id": "u13_distribution_q007", "type": "number", "prompt": "単相 3 線式で、上側の負荷に 15 A、下側の負荷に 10 A 流れている。中性線に流れる電流 [A] を整数で答えよ。", "answer": 5, "unit": "A", "hint": "中性線の電流は差。", "explanation": "中性線には 15 − 10 = 5 A が流れる。"},
+    {"id": "u13_distribution_q008", "type": "choice", "prompt": "単相 3 線式で中性線が断線するとどうなるか。", "choices": ["負荷が直列になり、軽い負荷側に高い電圧がかかって機器が壊れるおそれがある", "両方の負荷が止まる", "何も変わらない", "電流が 2 倍になる"], "answer": 0, "hint": "200 V が 2 つの負荷に分圧される。", "explanation": "中性線が切れると 100 V 負荷 2 つが直列に 200 V にかかり、抵抗の大きい（軽い）負荷側に 100 V 以上がかかる。だから中性線にはヒューズを入れない。"},
+    {"id": "u13_distribution_q009", "type": "truefalse", "prompt": "単相 3 線式の中性線には、過電流遮断器（ヒューズ）を施設してはならない。", "answer": true, "explanation": "中性線が先に切れると異常電圧が発生するので、中性線には遮断器やヒューズを入れない。"},
+    {"id": "u13_distribution_q010", "type": "number", "prompt": "単相 3 線式 100/200 V で、上下の負荷が平衡し外線に 10 A、電線 1 本の抵抗 0.1 Ω。電線全体の電力損失 [W] を整数で答えよ。", "answer": 20, "unit": "W", "hint": "外線 2 本分だけ。中性線は 0 A。", "explanation": "外線 2 本: 2 × 10² × 0.1 = 20 W。中性線は電流 0 で損失なし。"},
+    {"id": "u13_distribution_q011", "type": "choice", "prompt": "三相 3 線式で、電線 1 本の抵抗 r、線電流 I のときの線間の電圧降下はどれか。", "choices": ["√3 I r", "2 I r", "I r", "3 I r"], "answer": 0, "hint": "三相は √3。", "explanation": "三相 3 線式の線間電圧降下 e = √3 Ir。"},
+    {"id": "u13_distribution_q012", "type": "number", "prompt": "三相 3 線式で、電線 1 本の抵抗 0.1 Ω、線電流 20 A のときの電圧降下 [V] を小数第 1 位まで答えよ（√3 = 1.73）。", "answer": 3.5, "unit": "V", "tolerance": 0.1, "explanation": "e = 1.73 × 20 × 0.1 = 3.46 ≒ 3.5 V。"},
+    {"id": "u13_distribution_q013", "type": "number", "prompt": "三相 3 線式で、電線 1 本の抵抗 0.1 Ω、線電流 20 A のときの電線の電力損失 [W] を整数で答えよ。", "answer": 120, "unit": "W", "hint": "損失 = 3 I² r", "explanation": "3 × 20² × 0.1 = 3 × 400 × 0.1 = 120 W。"},
+    {"id": "u13_distribution_q014", "type": "choice", "prompt": "同じ電力を送るとき、電圧を 2 倍にすると電線の電力損失は何倍になるか。", "choices": ["1/4 倍", "1/2 倍", "2 倍", "4 倍"], "answer": 0, "hint": "電流が 1/2 → 損失は I² に比例。", "explanation": "電圧 2 倍で電流は 1/2、損失 I²r は 1/4。だから高電圧で送電する。"},
+    {"id": "u13_distribution_q015", "type": "choice", "prompt": "単相 2 線式 100 V と単相 3 線式 100/200 V を比べたとき、単相 3 線式の利点はどれか。", "choices": ["同じ電力を送るときの電圧降下と電線損失が小さく、200 V も使える", "電線が 1 本で済む", "中性線が不要", "接地が不要"], "answer": 0, "explanation": "単相 3 線式は平衡時に中性線に電流が流れず、200 V 機器も使える。住宅への引込の主流。"},
+    {"id": "u13_distribution_q016", "type": "number", "prompt": "電源電圧 210 V、負荷の電圧 200 V、負荷電流 25 A の単相 2 線式線路。電線 1 本の抵抗 [Ω] を小数第 1 位まで答えよ。", "answer": 0.2, "unit": "Ω", "tolerance": 0.01, "hint": "降下 10 V = 2 × I × r", "explanation": "10 = 2 × 25 × r → r = 0.2 Ω。"},
+    {"id": "u13_distribution_q017", "type": "truefalse", "prompt": "単相 3 線式では、中性線は B 種接地工事によって接地されている。", "answer": true, "explanation": "柱上変圧器の二次側中性点に B 種接地を施す。だから対地電圧は 100 V。"},
+    {"id": "u13_distribution_q018", "type": "choice", "prompt": "配線の電圧降下を小さくする方法として誤っているものはどれか。", "choices": ["電線を細くする", "電線を太くする", "配線の長さを短くする", "使用電圧を高くする"], "answer": 0, "explanation": "細い電線は抵抗が大きく電圧降下が増える。太く・短く・高電圧が電圧降下対策。"}
+  ],
+  "boss": {"questionCount": 10, "timeLimitSeconds": 150}
+}

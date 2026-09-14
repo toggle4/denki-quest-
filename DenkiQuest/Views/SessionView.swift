@@ -96,6 +96,8 @@ private struct QuestionView: View {
     @State private var shakeOffset: CGFloat = 0
     @State private var correctScale: CGFloat = 1.0
     @State private var comboScale: CGFloat = 1.0
+    @State private var numberText = ""
+    @FocusState private var numberFocused: Bool
 
     private let choiceLabels = ["ア", "イ", "ウ", "エ", "オ", "カ"]
 
@@ -103,18 +105,23 @@ private struct QuestionView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 header
-                Text(item.question.prompt)
-                    .font(.title3.weight(.semibold))
-                    .foregroundStyle(Theme.textPrimary)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .padding(16)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .gameCard()
+                promptCard
 
-                VStack(spacing: 10) {
-                    ForEach(Array(item.choices.enumerated()), id: \.offset) { index, choice in
-                        choiceButton(index: index, choice: choice)
+                switch item.question.type {
+                case .choice:
+                    VStack(spacing: 10) {
+                        ForEach(Array(item.choices.enumerated()), id: \.offset) { index, choice in
+                            choiceButton(index: index, choice: choice)
+                        }
                     }
+                case .truefalse:
+                    trueFalseButtons
+                case .number:
+                    numberInput
+                }
+
+                if !session.hasAnswered && item.question.hint != nil {
+                    hintArea
                 }
 
                 if session.hasAnswered {
@@ -124,7 +131,9 @@ private struct QuestionView: View {
             }
             .padding()
         }
+        .scrollDismissesKeyboard(.interactively)
         .animation(.spring(response: 0.35, dampingFraction: 0.7), value: session.hasAnswered)
+        .animation(.spring(response: 0.35, dampingFraction: 0.7), value: session.hintUsed)
         .safeAreaInset(edge: .bottom) {
             if session.hasAnswered {
                 Button {
@@ -140,6 +149,8 @@ private struct QuestionView: View {
             }
         }
     }
+
+    // MARK: - ヘッダー
 
     private var header: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -174,9 +185,35 @@ private struct QuestionView: View {
         .animation(.spring(response: 0.3, dampingFraction: 0.6), value: session.combo)
     }
 
+    private var typeBadge: (label: String, icon: String) {
+        switch item.question.type {
+        case .choice: return ("4 択", "list.bullet")
+        case .truefalse: return ("○×", "circle.circle")
+        case .number: return ("数値入力", "number")
+        }
+    }
+
+    private var promptCard: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Label(typeBadge.label, systemImage: typeBadge.icon)
+                .font(.caption.bold())
+                .foregroundStyle(Theme.volt)
+            Text(item.question.prompt)
+                .font(.title3.weight(.semibold))
+                .foregroundStyle(Theme.textPrimary)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .gameCard()
+    }
+
+    // MARK: - 4 択
+
     private func choiceButton(index: Int, choice: String) -> some View {
         Button {
-            answer(index)
+            session.answerChoice(index)
+            reactToAnswer()
         } label: {
             HStack(alignment: .top, spacing: 12) {
                 Text(choiceLabels[index % choiceLabels.count])
@@ -205,29 +242,6 @@ private struct QuestionView: View {
         .offset(x: session.hasAnswered && index == session.selectedIndex && !session.isCurrentCorrect ? shakeOffset : 0)
     }
 
-    private func answer(_ index: Int) {
-        session.select(index)
-        if session.isCurrentCorrect {
-            GameFeedback.correct(combo: session.combo)
-            withAnimation(.spring(response: 0.25, dampingFraction: 0.4)) {
-                correctScale = 1.06
-                comboScale = 1.25
-            }
-            withAnimation(.spring(response: 0.3, dampingFraction: 0.6).delay(0.15)) {
-                correctScale = 1.0
-                comboScale = 1.0
-            }
-        } else {
-            GameFeedback.wrong()
-            withAnimation(.linear(duration: 0.06).repeatCount(5, autoreverses: true)) {
-                shakeOffset = 8
-            }
-            withAnimation(.linear(duration: 0.06).delay(0.36)) {
-                shakeOffset = 0
-            }
-        }
-    }
-
     private func resultIcon(for index: Int) -> String? {
         guard session.hasAnswered else { return nil }
         if index == item.correctIndex { return "checkmark.circle.fill" }
@@ -251,8 +265,7 @@ private struct QuestionView: View {
 
     private func labelColor(for index: Int) -> Color {
         guard session.hasAnswered else { return Theme.volt }
-        if index == item.correctIndex { return Theme.backgroundBottom }
-        if index == session.selectedIndex { return Theme.backgroundBottom }
+        if index == item.correctIndex || index == session.selectedIndex { return Theme.backgroundBottom }
         return Theme.textSecondary
     }
 
@@ -263,14 +276,221 @@ private struct QuestionView: View {
         return Color.white.opacity(0.08)
     }
 
+    // MARK: - ○×
+
+    private var trueFalseButtons: some View {
+        HStack(spacing: 14) {
+            trueFalseButton(value: true, symbol: "circle", title: "正しい")
+            trueFalseButton(value: false, symbol: "xmark", title: "誤り")
+        }
+    }
+
+    private func trueFalseButton(value: Bool, symbol: String, title: String) -> some View {
+        let isCorrectAnswer = item.question.answerBool == value
+        let isSelected = session.selectedBool == value
+        let tintColor: Color = {
+            guard session.hasAnswered else { return .clear }
+            if isCorrectAnswer { return Theme.correct.opacity(0.18) }
+            if isSelected { return Theme.wrong.opacity(0.18) }
+            return .clear
+        }()
+        let borderColor: Color = {
+            guard session.hasAnswered else { return Theme.cardBorder }
+            if isCorrectAnswer { return Theme.correct }
+            if isSelected { return Theme.wrong }
+            return Theme.cardBorder.opacity(0.5)
+        }()
+        let symbolColor: Color = {
+            guard session.hasAnswered else { return value ? Theme.correct : Theme.wrong }
+            if isCorrectAnswer { return Theme.correct }
+            if isSelected { return Theme.wrong }
+            return Theme.textSecondary
+        }()
+
+        return Button {
+            session.answerBool(value)
+            reactToAnswer()
+        } label: {
+            VStack(spacing: 8) {
+                Image(systemName: symbol)
+                    .font(.system(size: 44, weight: .bold))
+                    .foregroundStyle(symbolColor)
+                Text(title)
+                    .font(.headline)
+                    .foregroundStyle(Theme.textPrimary)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 24)
+            .gameCard(tint: tintColor, border: borderColor)
+        }
+        .buttonStyle(.plain)
+        .disabled(session.hasAnswered)
+        .scaleEffect(session.hasAnswered && isCorrectAnswer ? correctScale : 1.0)
+        .offset(x: session.hasAnswered && isSelected && !session.isCurrentCorrect ? shakeOffset : 0)
+    }
+
+    // MARK: - 数値入力
+
+    private var numberInput: some View {
+        VStack(spacing: 12) {
+            HStack(spacing: 10) {
+                TextField("数値を入力", text: $numberText)
+                    .keyboardType(.decimalPad)
+                    .focused($numberFocused)
+                    .font(.system(size: 28, weight: .bold, design: .rounded))
+                    .foregroundStyle(Theme.textPrimary)
+                    .multilineTextAlignment(.trailing)
+                    .disabled(session.hasAnswered)
+                    .submitLabel(.done)
+                if let unit = item.question.unit {
+                    Text(unit)
+                        .font(.title3.bold())
+                        .foregroundStyle(Theme.textSecondary)
+                }
+            }
+            .padding(16)
+            .gameCard(
+                tint: numberTint,
+                border: numberBorder
+            )
+            .offset(x: session.hasAnswered && !session.isCurrentCorrect ? shakeOffset : 0)
+            .scaleEffect(session.hasAnswered && session.isCurrentCorrect ? correctScale : 1.0)
+
+            if !session.hasAnswered {
+                Button {
+                    submitNumber()
+                } label: {
+                    Text("回答する")
+                }
+                .buttonStyle(VoltButtonStyle())
+                .disabled(parsedNumber == nil)
+                .opacity(parsedNumber == nil ? 0.5 : 1)
+            } else if !session.isCurrentCorrect {
+                Text("正解: \(formatNumber(item.question.answerNumber)) \(item.question.unit ?? "")")
+                    .font(.headline)
+                    .foregroundStyle(Theme.correct)
+            }
+        }
+        .onAppear { numberFocused = true }
+        .onSubmit { submitNumber() }
+    }
+
+    private var parsedNumber: Double? {
+        let normalized = numberText
+            .replacingOccurrences(of: "，", with: ".")
+            .replacingOccurrences(of: "。", with: ".")
+            .replacingOccurrences(of: ",", with: "")
+            .trimmingCharacters(in: .whitespaces)
+        return Double(normalized)
+    }
+
+    private var numberTint: Color {
+        guard session.hasAnswered else { return .clear }
+        return (session.isCurrentCorrect ? Theme.correct : Theme.wrong).opacity(0.18)
+    }
+
+    private var numberBorder: Color {
+        guard session.hasAnswered else { return numberFocused ? Theme.volt : Theme.cardBorder }
+        return session.isCurrentCorrect ? Theme.correct : Theme.wrong
+    }
+
+    private func submitNumber() {
+        guard !session.hasAnswered, let value = parsedNumber else { return }
+        numberFocused = false
+        session.answerNumber(value)
+        reactToAnswer()
+    }
+
+    private func formatNumber(_ value: Double) -> String {
+        if value == value.rounded() {
+            return String(Int(value))
+        }
+        return String(format: "%g", value)
+    }
+
+    // MARK: - ヒント
+
+    private var hintArea: some View {
+        Group {
+            if session.hintUsed, let hint = item.question.hint {
+                HStack(alignment: .top, spacing: 10) {
+                    Image(systemName: "lightbulb.fill")
+                        .foregroundStyle(Theme.volt)
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("ヒント")
+                            .font(.caption.bold())
+                            .foregroundStyle(Theme.volt)
+                        Text(hint)
+                            .font(.subheadline)
+                            .foregroundStyle(Theme.textPrimary)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    Spacer(minLength: 0)
+                }
+                .padding(14)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .gameCard(tint: Theme.volt.opacity(0.08), border: Theme.volt.opacity(0.5))
+                .transition(.scale(scale: 0.9).combined(with: .opacity))
+            } else {
+                Button {
+                    GameFeedback.tap()
+                    session.useHint()
+                } label: {
+                    Label("ヒントを見る（コンボは増えません）", systemImage: "lightbulb")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(Theme.volt)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .strokeBorder(Theme.volt.opacity(0.5), style: StrokeStyle(lineWidth: 1.5, dash: [6, 4]))
+                        )
+                }
+                .buttonStyle(.plain)
+            }
+        }
+    }
+
+    // MARK: - 回答後
+
+    private func reactToAnswer() {
+        if session.isCurrentCorrect {
+            GameFeedback.correct(combo: session.combo)
+            withAnimation(.spring(response: 0.25, dampingFraction: 0.4)) {
+                correctScale = 1.06
+                comboScale = 1.25
+            }
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.6).delay(0.15)) {
+                correctScale = 1.0
+                comboScale = 1.0
+            }
+        } else {
+            GameFeedback.wrong()
+            withAnimation(.linear(duration: 0.06).repeatCount(5, autoreverses: true)) {
+                shakeOffset = 8
+            }
+            withAnimation(.linear(duration: 0.06).delay(0.36)) {
+                shakeOffset = 0
+            }
+        }
+    }
+
     private var feedback: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Label(
-                session.isCurrentCorrect ? "正解！" : "ざんねん…",
-                systemImage: session.isCurrentCorrect ? "checkmark.seal.fill" : "xmark.seal.fill"
-            )
-            .font(.headline)
-            .foregroundStyle(session.isCurrentCorrect ? Theme.correct : Theme.wrong)
+            HStack {
+                Label(
+                    session.isCurrentCorrect ? "正解！" : "ざんねん…",
+                    systemImage: session.isCurrentCorrect ? "checkmark.seal.fill" : "xmark.seal.fill"
+                )
+                .font(.headline)
+                .foregroundStyle(session.isCurrentCorrect ? Theme.correct : Theme.wrong)
+                Spacer()
+                if session.hintUsed {
+                    Label("ヒント使用", systemImage: "lightbulb.fill")
+                        .font(.caption.bold())
+                        .foregroundStyle(Theme.volt)
+                }
+            }
             Text(item.question.explanation)
                 .font(.body)
                 .foregroundStyle(Theme.textPrimary)
@@ -359,9 +579,10 @@ private struct ResultView: View {
                 }
             }
 
-            HStack(spacing: 16) {
+            HStack(spacing: 8) {
                 statBlock(title: "正解", value: "\(session.correctCount) / \(session.items.count)")
                 statBlock(title: "最大コンボ", value: "\(session.maxCombo)")
+                statBlock(title: "ヒント", value: "\(session.hintCount) 回")
                 statBlock(title: "学習時間", value: "+" + StudyFormat.duration(studySeconds))
             }
             .padding(16)

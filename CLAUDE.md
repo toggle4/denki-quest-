@@ -20,6 +20,7 @@
 - 1 回の依頼で 1 機能だけ実装する
 - 変更後は必ず xcodebuild でビルドが通ることを確認する
 - 新しい出題形式を追加するときは `content/schema.md` も更新する
+- 教材 JSON を追加・変更したら `python3 tools/validate_content.py` を通す
 
 ## ビルド確認コマンド
 ```sh
@@ -35,7 +36,7 @@ xcodebuild -project DenkiQuest.xcodeproj -scheme DenkiQuest \
   - `Views/` … SwiftUI 画面
   - `Sounds/` … 効果音 WAV（`tools/gen_sounds.py` で自作合成。外部素材は使わない）
   - `Assets.xcassets/Mascot.imageset` … マスコット SVG（自作）
-- `tools/` … 効果音・アプリアイコンの生成スクリプト（Python 標準ライブラリのみ）
+- `tools/` … 効果音・アプリアイコンの生成スクリプト、教材 JSON の検証 `validate_content.py`（Python 標準ライブラリのみ）
 - `content/units/` … 単元ごとの教材 JSON（フォルダ参照としてアプリにバンドルされる）
 - `content/schema.md` … 教材 JSON の形式
 - `docs/curriculum.md` … 単元の順序と学習時間の配分

@@ -1,0 +1,33 @@
+{
+  "id": "u10_power_energy",
+  "title": "電力・電力量・発熱量",
+  "order": 10,
+  "stage": "calculate",
+  "description": "P = VI = I²R = V²/R の使い分け、電力量 kWh、ジュール熱の計算をできるようにする。",
+  "questions": [
+    {"id": "u10_power_energy_q001", "type": "number", "prompt": "100 V で 5 A 流れる電気器具の消費電力 [W] を整数で答えよ。", "answer": 500, "unit": "W", "hint": "P = V × I", "explanation": "P = 100 × 5 = 500 W。"},
+    {"id": "u10_power_energy_q002", "type": "number", "prompt": "20 Ω の抵抗に 3 A 流れている。消費電力 [W] を整数で答えよ。", "answer": 180, "unit": "W", "hint": "P = I² × R", "explanation": "P = 3² × 20 = 9 × 20 = 180 W。"},
+    {"id": "u10_power_energy_q003", "type": "number", "prompt": "50 Ω の抵抗に 100 V を加えた。消費電力 [W] を整数で答えよ。", "answer": 200, "unit": "W", "hint": "P = V² ÷ R", "explanation": "P = 100² ÷ 50 = 10000 ÷ 50 = 200 W。"},
+    {"id": "u10_power_energy_q004", "type": "number", "prompt": "1 kW の電気ストーブを 3 時間使った。電力量 [kWh] を整数で答えよ。", "answer": 3, "unit": "kWh", "hint": "電力量 = 電力 × 時間", "explanation": "1 kW × 3 h = 3 kWh。"},
+    {"id": "u10_power_energy_q005", "type": "number", "prompt": "600 W の電子レンジを 10 分使った。電力量 [Wh] を整数で答えよ。", "answer": 100, "unit": "Wh", "hint": "10 分 = 1/6 時間。", "explanation": "600 W × (10 ÷ 60) h = 100 Wh。"},
+    {"id": "u10_power_energy_q006", "type": "number", "prompt": "1 kWh は何 kJ か。整数で答えよ。", "answer": 3600, "unit": "kJ", "hint": "1 W = 1 J/s、1 時間 = 3600 秒。", "explanation": "1 kWh = 1000 W × 3600 s = 3,600,000 J = 3600 kJ。"},
+    {"id": "u10_power_energy_q007", "type": "number", "prompt": "500 W の電熱器を 2 分間使ったときの発熱量 [kJ] を整数で答えよ。", "answer": 60, "unit": "kJ", "hint": "Q = P × t（秒）", "explanation": "Q = 500 W × 120 s = 60,000 J = 60 kJ。"},
+    {"id": "u10_power_energy_q008", "type": "choice", "prompt": "1 kWh の電力量を熱量に換算すると約何 kcal か。", "choices": ["約 860 kcal", "約 3600 kcal", "約 240 kcal", "約 1000 kcal"], "answer": 0, "hint": "1 cal ≒ 4.19 J。3600 kJ ÷ 4.19。", "explanation": "1 kWh = 3600 kJ、1 kcal = 4.19 kJ なので 3600 ÷ 4.19 ≒ 860 kcal。"},
+    {"id": "u10_power_energy_q009", "type": "number", "prompt": "100 V 用 500 W の電熱器の抵抗 [Ω] を整数で答えよ。", "answer": 20, "unit": "Ω", "hint": "R = V² ÷ P", "explanation": "R = 100² ÷ 500 = 10000 ÷ 500 = 20 Ω。"},
+    {"id": "u10_power_energy_q010", "type": "number", "prompt": "100 V 用 500 W の電熱器を 90 V で使うと消費電力 [W] はいくらか。整数で答えよ。", "answer": 405, "unit": "W", "hint": "抵抗 20 Ω は変わらない。P = V² ÷ R。", "explanation": "抵抗 20 Ω。P = 90² ÷ 20 = 8100 ÷ 20 = 405 W。電圧が 0.9 倍なら電力は 0.81 倍。"},
+    {"id": "u10_power_energy_q011", "type": "choice", "prompt": "抵抗が一定のとき、電圧を 2 倍にすると消費電力は何倍になるか。", "choices": ["4 倍", "2 倍", "8 倍", "変わらない"], "answer": 0, "hint": "P = V² ÷ R", "explanation": "電力は電圧の 2 乗に比例するので 4 倍。"},
+    {"id": "u10_power_energy_q012", "type": "choice", "prompt": "抵抗が一定のとき、電流を 3 倍にすると発熱量は何倍になるか。", "choices": ["9 倍", "3 倍", "6 倍", "1/3 倍"], "answer": 0, "hint": "P = I² × R", "explanation": "発熱量（電力）は電流の 2 乗に比例するので 9 倍。"},
+    {"id": "u10_power_energy_q013", "type": "number", "prompt": "抵抗 0.2 Ω の電線に 10 A 流れている。電線での電力損失 [W] を整数で答えよ。", "answer": 20, "unit": "W", "hint": "P = I² × R", "explanation": "P = 10² × 0.2 = 100 × 0.2 = 20 W。電線が熱くなる分。"},
+    {"id": "u10_power_energy_q014", "type": "number", "prompt": "消費電力 1.2 kW の器具を 100 V で使うと流れる電流 [A] を整数で答えよ。", "answer": 12, "unit": "A", "hint": "I = P ÷ V", "explanation": "I = 1200 ÷ 100 = 12 A。"},
+    {"id": "u10_power_energy_q015", "type": "number", "prompt": "1 日 8 時間、30 日間、400 W の照明を使った。電力量 [kWh] を整数で答えよ。", "answer": 96, "unit": "kWh", "hint": "0.4 kW × 8 h × 30 日", "explanation": "0.4 × 8 × 30 = 96 kWh。"},
+    {"id": "u10_power_energy_q016", "type": "number", "prompt": "電力量 96 kWh を 1 kWh あたり 30 円で計算すると電気料金は何円か。整数で答えよ。", "answer": 2880, "unit": "円", "explanation": "96 × 30 = 2880 円。"},
+    {"id": "u10_power_energy_q017", "type": "choice", "prompt": "「電力」と「電力量」のちがいはどれか。", "choices": ["電力は 1 秒あたりのエネルギー、電力量はそれを時間で積算したもの", "電力は交流用、電力量は直流用", "同じもの", "電力量は電圧のこと"], "answer": 0, "explanation": "電力 [W] は瞬間の仕事率、電力量 [Wh] は使ったエネルギーの合計。"},
+    {"id": "u10_power_energy_q018", "type": "number", "prompt": "5 Ω の抵抗に 2 A を 10 秒間流した。発生する熱量 [J] を整数で答えよ。", "answer": 200, "unit": "J", "hint": "Q = I² R t", "explanation": "Q = 2² × 5 × 10 = 200 J。"},
+    {"id": "u10_power_energy_q019", "type": "number", "prompt": "20 Ω と 30 Ω を直列につなぎ 100 V を加えた。20 Ω の消費電力 [W] を整数で答えよ。", "answer": 80, "unit": "W", "hint": "まず電流 2 A。", "explanation": "電流 = 100 ÷ 50 = 2 A。P = 2² × 20 = 80 W。"},
+    {"id": "u10_power_energy_q020", "type": "number", "prompt": "20 Ω と 30 Ω を並列につなぎ 60 V を加えた。30 Ω の消費電力 [W] を整数で答えよ。", "answer": 120, "unit": "W", "hint": "並列は各枝に 60 V。P = V² ÷ R。", "explanation": "P = 60² ÷ 30 = 3600 ÷ 30 = 120 W。"},
+    {"id": "u10_power_energy_q021", "type": "truefalse", "prompt": "1 W は 1 秒間に 1 J の仕事をする割合である。", "answer": true, "explanation": "W = J/s。1 W の電力を 1 秒使えば 1 J。"},
+    {"id": "u10_power_energy_q022", "type": "choice", "prompt": "電熱器で水を温めるとき、水の温度上昇を 2 倍にするには（時間は同じ）どうすればよいか。", "choices": ["電力を 2 倍にする", "電圧を 2 倍にする", "抵抗を 2 倍にする", "電流を 4 倍にする"], "answer": 0, "hint": "熱量は電力 × 時間に比例。電圧 2 倍だと電力は 4 倍。", "explanation": "発熱量 = 電力 × 時間。電力 2 倍で熱量 2 倍。電圧 2 倍だと電力は 4 倍になりすぎる。"},
+    {"id": "u10_power_energy_q023", "type": "number", "prompt": "200 V で 2 kW の器具に流れる電流 [A] を整数で答えよ。", "answer": 10, "unit": "A", "explanation": "I = 2000 ÷ 200 = 10 A。同じ電力なら 200 V のほうが電流が半分で済む。"}
+  ],
+  "boss": {"questionCount": 10, "timeLimitSeconds": 150}
+}
