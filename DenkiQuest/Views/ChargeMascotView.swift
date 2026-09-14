@@ -79,7 +79,14 @@ struct ChargeMascotView: View {
         default: amount = 0
         }
         guard amount > 0 else { return .zero }
-        return CGSize(width: sin(time * 71) * amount, height: cos(time * 53) * amount)
+        let dx: Double = sin(time * 71) * amount
+        let dy: Double = cos(time * 53) * amount
+        return CGSize(width: dx, height: dy)
+    }
+
+    private func smokeOffsetY(time: Double) -> CGFloat {
+        let bob: Double = sin(time * 2) * 6
+        return -size * 0.15 - CGFloat(bob)
     }
 
     private func glow(charge: Double, phase: ChargeController.Phase) -> some View {
@@ -140,7 +147,7 @@ struct ChargeMascotView: View {
                     Image(systemName: "smoke.fill")
                         .font(.system(size: size * 0.32))
                         .foregroundStyle(Color.white.opacity(0.6))
-                        .offset(x: size * 0.15, y: -size * 0.15 - CGFloat(sin(time * 2) * 6))
+                        .offset(x: size * 0.15, y: smokeOffsetY(time: time))
                         .transition(.opacity)
                 }
             }
@@ -149,40 +156,26 @@ struct ChargeMascotView: View {
     /// 充電中に周囲に走る稲妻。時間で種を変えてチラつかせる。
     private func arcs(charge: Double, phase: ChargeController.Phase, time: Double) -> some View {
         Canvas { context, canvasSize in
-            let count: Int
-            switch phase {
-            case .charging: count = Int(charge * 7)
-            case .shorted: count = 12
-            default: count = 0
-            }
+            let count = Self.arcCount(charge: charge, phase: phase)
             guard count > 0 else { return }
 
-            let center = CGPoint(x: canvasSize.width / 2, y: canvasSize.height / 2)
-            var rng = SeededGenerator(seed: UInt64(max(0, time) * 18))
-            let heat = phase == .shorted ? 1.0 : charge
+            let heat: Double = phase == .shorted ? 1.0 : charge
+            let centerX = Double(canvasSize.width) / 2
+            let centerY = Double(canvasSize.height) / 2
             let s = Double(size)
             let baseRadius = s * 0.5 * (1.0 + 0.6 * heat)
+            var rng = SeededGenerator(seed: UInt64(max(0, time) * 18))
+            let color: Color = heat > 0.75 ? .white : Theme.volt
 
             for _ in 0..<count {
-                let angle = Double.random(in: 0..<(2 * .pi), using: &rng)
-                let length = Double.random(in: (s * 0.25)...(s * 0.7), using: &rng) * (0.5 + heat)
-                var path = Path()
-                var point = CGPoint(
-                    x: center.x + cos(angle) * baseRadius,
-                    y: center.y + sin(angle) * baseRadius
+                let path = Self.lightningPath(
+                    centerX: centerX,
+                    centerY: centerY,
+                    baseRadius: baseRadius,
+                    size: s,
+                    heat: heat,
+                    rng: &rng
                 )
-                path.move(to: point)
-                let segments = 5
-                for i in 1...segments {
-                    let progress = Double(i) / Double(segments)
-                    let wobble = Double.random(in: -12...12, using: &rng)
-                    point = CGPoint(
-                        x: center.x + cos(angle) * (baseRadius + length * progress) + cos(angle + .pi / 2) * wobble,
-                        y: center.y + sin(angle) * (baseRadius + length * progress) + sin(angle + .pi / 2) * wobble
-                    )
-                    path.addLine(to: point)
-                }
-                let color: Color = heat > 0.75 ? .white : Theme.volt
                 context.stroke(path, with: .color(color.opacity(0.85)), lineWidth: 2)
                 context.stroke(path, with: .color(color.opacity(0.35)), lineWidth: 6)
             }
@@ -190,32 +183,87 @@ struct ChargeMascotView: View {
         .allowsHitTesting(false)
     }
 
+    private static func arcCount(charge: Double, phase: ChargeController.Phase) -> Int {
+        switch phase {
+        case .charging: return Int(charge * 7)
+        case .shorted: return 12
+        default: return 0
+        }
+    }
+
+    /// 中心から外へ向かうジグザグ線を 1 本作る。
+    private static func lightningPath(
+        centerX: Double,
+        centerY: Double,
+        baseRadius: Double,
+        size s: Double,
+        heat: Double,
+        rng: inout SeededGenerator
+    ) -> Path {
+        let twoPi: Double = 2 * Double.pi
+        let angle: Double = Double.random(in: 0..<twoPi, using: &rng)
+        let minLength: Double = s * 0.25
+        let maxLength: Double = s * 0.7
+        let length: Double = Double.random(in: minLength...maxLength, using: &rng) * (0.5 + heat)
+        let dirX: Double = cos(angle)
+        let dirY: Double = sin(angle)
+        let sideX: Double = cos(angle + Double.pi / 2)
+        let sideY: Double = sin(angle + Double.pi / 2)
+
+        var path = Path()
+        let startX: Double = centerX + dirX * baseRadius
+        let startY: Double = centerY + dirY * baseRadius
+        path.move(to: CGPoint(x: startX, y: startY))
+
+        let segments = 5
+        for i in 1...segments {
+            let progress: Double = Double(i) / Double(segments)
+            let wobble: Double = Double.random(in: -12...12, using: &rng)
+            let radial: Double = baseRadius + length * progress
+            let x: Double = centerX + dirX * radial + sideX * wobble
+            let y: Double = centerY + dirY * radial + sideY * wobble
+            path.addLine(to: CGPoint(x: x, y: y))
+        }
+        return path
+    }
+
     /// ショート時に飛び散る火花。
     private func sparks(phase: ChargeController.Phase, now: Date) -> some View {
         Canvas { context, canvasSize in
             guard phase == .shorted, let shortedAt = controller.shortedAt else { return }
-            let age = now.timeIntervalSince(shortedAt)
+            let age: Double = now.timeIntervalSince(shortedAt)
             guard age < 0.9 else { return }
-            let center = CGPoint(x: canvasSize.width / 2, y: canvasSize.height / 2)
+
+            let centerX = Double(canvasSize.width) / 2
+            let centerY = Double(canvasSize.height) / 2
             var rng = SeededGenerator(seed: 12345)
+            let twoPi: Double = 2 * Double.pi
+
             for i in 0..<28 {
-                let angle = Double.random(in: 0..<(2 * .pi), using: &rng)
-                let speed = Double.random(in: 120...340, using: &rng)
-                let delay = Double(i % 4) * 0.03
-                let life = max(0, age - delay)
-                let distance = speed * life - 180 * life * life
-                let position = CGPoint(
-                    x: center.x + cos(angle) * distance,
-                    y: center.y + sin(angle) * distance + 220 * life * life
-                )
-                let alpha = max(0, 1 - life / 0.8)
-                let radius = 2.0 + Double.random(in: 0...2.5, using: &rng)
-                let rect = CGRect(x: position.x - radius, y: position.y - radius, width: radius * 2, height: radius * 2)
-                let color: Color = i % 3 == 0 ? .white : (i % 3 == 1 ? Theme.volt : Color(red: 1.0, green: 0.55, blue: 0.2))
+                let angle: Double = Double.random(in: 0..<twoPi, using: &rng)
+                let speed: Double = Double.random(in: 120...340, using: &rng)
+                let radius: Double = 2.0 + Double.random(in: 0...2.5, using: &rng)
+                let delay: Double = Double(i % 4) * 0.03
+                let life: Double = max(0, age - delay)
+                let distance: Double = speed * life - 180 * life * life
+                let gravity: Double = 220 * life * life
+                let x: Double = centerX + cos(angle) * distance
+                let y: Double = centerY + sin(angle) * distance + gravity
+                let alpha: Double = max(0, 1 - life / 0.8)
+                let rect = CGRect(x: x - radius, y: y - radius, width: radius * 2, height: radius * 2)
+                let color = Self.sparkColor(index: i)
                 context.fill(Path(ellipseIn: rect), with: .color(color.opacity(alpha)))
             }
         }
         .allowsHitTesting(false)
+    }
+
+    private static func sparkColor(index: Int) -> Color {
+        switch index % 3 {
+        case 0: return .white
+        case 1: return Theme.volt
+        default: return Color(red: 1.0, green: 0.55, blue: 0.2)
+        }
     }
 
     private func caption(charge: Double, phase: ChargeController.Phase) -> some View {
