@@ -98,3 +98,48 @@ perfect = mix(perfect, tone(G6, 1.2, volume=0.55, decay=0.9), 0.5)
 perfect = mix(perfect, tone(C6, 1.2, volume=0.35, decay=0.9), 0.5)
 perfect = mix(perfect, tone(E6, 1.2, volume=0.3, decay=0.9), 0.5)
 write("perfect.wav", perfect)
+
+# ---- 充電・ショート演出用 ----
+import random
+
+def noise(seconds, volume=0.5, decay=None, seed=1):
+    rng = random.Random(seed)
+    n = int(RATE * seconds)
+    decay = seconds if decay is None else decay
+    return [volume * math.exp(-3.0 * (i / RATE) / decay) * (rng.random() * 2 - 1) for i in range(n)]
+
+
+def sweep(f0, f1, seconds, volume=0.5, buzz_hz=50.0):
+    """周波数が f0 → f1 に上がる、ブーンというハム音。音量も徐々に上がる。"""
+    n = int(RATE * seconds)
+    out = []
+    phase = 0.0
+    for i in range(n):
+        t = i / RATE
+        p = t / seconds
+        f = f0 + (f1 - f0) * p * p
+        phase += 2 * math.pi * f / RATE
+        s = math.sin(phase) + 0.4 * math.sin(2 * phase) + 0.2 * (1.0 if math.sin(3 * phase) >= 0 else -1.0)
+        am = 0.7 + 0.3 * math.sin(2 * math.pi * buzz_hz * t)
+        env = 0.25 + 0.75 * p
+        out.append(volume * env * am * s / 1.6)
+    return out
+
+# charge: 6 秒かけて音程と音量が上がる充電音
+write("charge.wav", sweep(70, 720, 6.2, volume=0.45))
+
+# zap: 途中で離したときの放電音（短いパチッ）
+zap = noise(0.12, volume=0.6, decay=0.05, seed=7)
+zap = mix(zap, tone(2400, 0.08, volume=0.3, attack=0.001, decay=0.04, harmonics=(1.0,)), 0.0)
+write("zap.wav", zap)
+
+# short: ショート音。バチバチ + 低いドン + ジジジ…
+short = []
+rng = random.Random(42)
+for i in range(14):
+    burst = noise(0.05, volume=0.8, decay=0.03, seed=100 + i)
+    short = mix(short, burst, i * 0.045 + rng.random() * 0.02)
+short = mix(short, tone(55, 0.6, volume=0.9, attack=0.002, decay=0.35, harmonics=(1.0, 0.5)), 0.05)
+fizz = noise(0.7, volume=0.25, decay=0.5, seed=9)
+short = mix(short, fizz, 0.55)
+write("short.wav", short)

@@ -12,6 +12,9 @@ final class SoundPlayer {
         case combo
         case clear
         case perfect
+        case charge
+        case zap
+        case short
     }
 
     private var players: [Sound: AVAudioPlayer] = [:]
@@ -38,5 +41,11 @@ final class SoundPlayer {
         guard isEnabled, let player = players[sound] else { return }
         player.currentTime = 0
         player.play()
+    }
+
+    func stop(_ sound: Sound) {
+        guard let player = players[sound], player.isPlaying else { return }
+        player.stop()
+        player.currentTime = 0
     }
 }

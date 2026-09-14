@@ -34,7 +34,7 @@ xcodebuild -project DenkiQuest.xcodeproj -scheme DenkiQuest \
   - `Services/` … 教材の読み込み、効果音（`SoundPlayer`）、触覚（`Haptics`）、両方をまとめた `GameFeedback`
   - `Theme/` … 配色・カード・ボタンなど共通スタイル
   - `Views/` … SwiftUI 画面
-  - `Sounds/` … 効果音 WAV（`tools/gen_sounds.py` で自作合成。外部素材は使わない）
+  - `Sounds/` … 効果音 WAV（`tools/gen_sounds.py` で自作合成。外部素材は使わない）。tap/correct/wrong/combo/clear/perfect/charge/zap/short
   - `Assets.xcassets/Mascot.imageset` … マスコット SVG（自作）
 - `tools/` … 効果音・アプリアイコンの生成スクリプト、教材 JSON の検証 `validate_content.py`（Python 標準ライブラリのみ）
 - `content/units/` … 単元ごとの教材 JSON（フォルダ参照としてアプリにバンドルされる）

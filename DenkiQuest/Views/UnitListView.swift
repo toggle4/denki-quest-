@@ -9,6 +9,8 @@ struct UnitListView: View {
     @AppStorage(Haptics.enabledKey) private var hapticsEnabled = true
     @Query(sort: \StudyRecord.startedAt, order: .reverse) private var records: [StudyRecord]
     @State private var showStudyLog = false
+    @State private var flash: Double = 0
+    @State private var screenShake: CGSize = .zero
 
     private var stats: StudyStats { StudyStats(records: records) }
 
@@ -70,22 +72,44 @@ struct UnitListView: View {
             .sheet(isPresented: $showStudyLog) {
                 StudyLogView(stats: stats, records: records, units: units)
             }
+            .offset(screenShake)
+            .overlay {
+                Color.white
+                    .opacity(flash)
+                    .ignoresSafeArea()
+                    .allowsHitTesting(false)
+            }
         }
         .task { load() }
     }
 
     private var header: some View {
         VStack(spacing: 8) {
-            Image("Mascot")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 96, height: 96)
-                .shadow(color: Theme.volt.opacity(0.5), radius: 20)
+            ChargeMascotView(size: 96, onShortCircuit: shortCircuitEffect)
             Text("1 クエスト = 10 問・約 5 分")
                 .font(.subheadline)
                 .foregroundStyle(Theme.textSecondary)
         }
         .padding(.top, 4)
+    }
+
+    /// ショート時: 画面全体を白くフラッシュさせ、ガタガタ揺らす。
+    private func shortCircuitEffect() {
+        flash = 0.95
+        withAnimation(.easeOut(duration: 0.6)) {
+            flash = 0
+        }
+        let offsets: [CGSize] = [
+            CGSize(width: 10, height: -6), CGSize(width: -9, height: 7), CGSize(width: 7, height: 5),
+            CGSize(width: -6, height: -4), CGSize(width: 4, height: 3), CGSize(width: -2, height: -2), .zero,
+        ]
+        for (i, offset) in offsets.enumerated() {
+            DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 0.05) {
+                withAnimation(.linear(duration: 0.05)) {
+                    screenShake = offset
+                }
+            }
+        }
     }
 
     private func load() {
