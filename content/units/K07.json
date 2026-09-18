@@ -7,7 +7,8 @@
     "title": "検査（絶縁抵抗・接地抵抗・計器の使い方）",
     "lessonFile": null,
     "prerequisites": [],
-    "masteryThreshold": 0.9
+    "masteryThreshold": 0.9,
+    "legacyUnit": "u07_inspection"
   },
   "questions": [
     {

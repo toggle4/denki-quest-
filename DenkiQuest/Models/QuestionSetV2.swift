@@ -10,6 +10,8 @@ struct UnitFileV2: Decodable {
         let lessonFile: String?
         let prerequisites: [String]?
         let masteryThreshold: Double?
+        /// 教材のないファイル（試験型ドリル）を、ホームでこの旧単元の直後に並べる
+        let legacyUnit: String?
     }
 
     struct Boss: Decodable {

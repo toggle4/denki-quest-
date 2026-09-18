@@ -7,7 +7,8 @@
     "title": "遮断器・保護装置",
     "lessonFile": null,
     "prerequisites": [],
-    "masteryThreshold": 0.9
+    "masteryThreshold": 0.9,
+    "legacyUnit": "u05_devices"
   },
   "questions": [
     {

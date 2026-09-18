@@ -7,7 +7,8 @@
     "title": "単相 2 線式・3 線式の電圧降下と電力損失",
     "lessonFile": null,
     "prerequisites": [],
-    "masteryThreshold": 0.9
+    "masteryThreshold": 0.9,
+    "legacyUnit": "u13_distribution"
   },
   "questions": [
     {

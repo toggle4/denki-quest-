@@ -7,7 +7,8 @@
     "title": "接地工事（種類・接地抵抗値・省略条件）",
     "lessonFile": null,
     "prerequisites": [],
-    "masteryThreshold": 0.9
+    "masteryThreshold": 0.9,
+    "legacyUnit": "u06_installation"
   },
   "questions": [
     {

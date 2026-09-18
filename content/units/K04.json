@@ -7,7 +7,8 @@
     "title": "電線管工事（金属管・合成樹脂管・可とう管）",
     "lessonFile": null,
     "prerequisites": [],
-    "masteryThreshold": 0.9
+    "masteryThreshold": 0.9,
+    "legacyUnit": "u06_installation"
   },
   "questions": [
     {

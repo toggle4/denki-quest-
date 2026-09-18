@@ -3,11 +3,12 @@
   "unit": {
     "id": "E01",
     "stage": 0,
-    "order": 90,
-    "title": "電気理論　試験型ドリル",
+    "order": 91,
+    "title": "電気理論 試験型（直並列・電線の抵抗）",
     "lessonFile": null,
     "prerequisites": [],
-    "masteryThreshold": 0.9
+    "masteryThreshold": 0.9,
+    "legacyUnit": "u09_ohm_circuits"
   },
   "questions": [
     {
@@ -118,147 +119,6 @@
       "id": "E01-t04",
       "type": "template",
       "difficulty": 2,
-      "prompt": "{V} V の電熱器を {h} 時間使ったところ、電力量は {kWh} kW·h だった。流れた電流は何 A か。",
-      "variables": {
-        "V": {
-          "min": 100,
-          "max": 200,
-          "step": 100
-        },
-        "h": {
-          "min": 1,
-          "max": 4,
-          "step": 1
-        },
-        "kWh": {
-          "min": 1,
-          "max": 8,
-          "step": 1
-        }
-      },
-      "answerFormula": "kWh * 1000 / (V * h)",
-      "answerType": "choice",
-      "unitLabel": "A",
-      "roundTo": 0,
-      "explanation": "電力 P = 電力量 ÷ 時間 = {kWh}×1000 ÷ {h} W。I = P ÷ V = {answer} A。",
-      "tags": [
-        "計算",
-        "電力量"
-      ],
-      "srsWeight": 1.2,
-      "constraints": [
-        "(kWh * 1000) % (V * h) == 0"
-      ],
-      "distractors": [
-        "kWh * 1000 / (V * h) * 2",
-        "kWh * 1000 / (V * h) / 2",
-        "kWh * 100 / (V * h)"
-      ]
-    },
-    {
-      "id": "E01-t05",
-      "type": "template",
-      "difficulty": 2,
-      "prompt": "電線の接続点の接触抵抗が {r} Ω で、{I} A の電流が 1 時間流れた。この接続点で発生する熱量は何 kJ か。",
-      "variables": {
-        "r": {
-          "min": 0.1,
-          "max": 0.5,
-          "step": 0.1
-        },
-        "I": {
-          "min": 5,
-          "max": 20,
-          "step": 5
-        }
-      },
-      "answerFormula": "3.6 * I * I * r",
-      "answerType": "choice",
-      "unitLabel": "kJ",
-      "roundTo": 0,
-      "explanation": "Q = I²rt = {I}² × {r} × 3600 J。1000 で割って kJ にすると {answer} kJ。接触抵抗が大きいと接続点が発熱して危険。",
-      "tags": [
-        "計算",
-        "発熱量"
-      ],
-      "srsWeight": 1.2,
-      "distractors": [
-        "I * I * r",
-        "3.6 * I * r",
-        "I * I * r * 60"
-      ]
-    },
-    {
-      "id": "E01-t06",
-      "type": "template",
-      "difficulty": 2,
-      "prompt": "消費電力 {P} W の電熱器を {t} 分間使用したときの発熱量は何 kJ か。",
-      "variables": {
-        "P": {
-          "min": 200,
-          "max": 1000,
-          "step": 100
-        },
-        "t": {
-          "min": 10,
-          "max": 120,
-          "step": 10
-        }
-      },
-      "answerFormula": "0.06 * P * t",
-      "answerType": "choice",
-      "unitLabel": "kJ",
-      "roundTo": 0,
-      "explanation": "熱量 = 電力 × 時間（秒）= {P} × {t} × 60 J = {answer} kJ。",
-      "tags": [
-        "計算",
-        "発熱量"
-      ],
-      "srsWeight": 1.2,
-      "distractors": [
-        "P * t / 1000",
-        "P * t * 60",
-        "P * t / 60"
-      ]
-    },
-    {
-      "id": "E01-t07",
-      "type": "template",
-      "difficulty": 2,
-      "prompt": "{m} kg の水を {dT} K 温めるのに必要な電力量は何 kW·h か。水の比熱を 4.2 kJ/(kg·K)、効率を 100 % とする。",
-      "variables": {
-        "m": {
-          "min": 10,
-          "max": 100,
-          "step": 10
-        },
-        "dT": {
-          "min": 10,
-          "max": 40,
-          "step": 10
-        }
-      },
-      "answerFormula": "m * dT * 4.2 / 3600",
-      "answerType": "choice",
-      "unitLabel": "kW·h",
-      "roundTo": 2,
-      "explanation": "熱量 = {m} × {dT} × 4.2 kJ。1 kW·h = 3600 kJ なので、割って {answer} kW·h。",
-      "tags": [
-        "計算",
-        "電力量",
-        "熱量"
-      ],
-      "srsWeight": 1.2,
-      "distractors": [
-        "m * dT * 4.2 / 1000",
-        "m * dT / 3600",
-        "m * dT * 4.2 / 360"
-      ]
-    },
-    {
-      "id": "E01-t08",
-      "type": "template",
-      "difficulty": 2,
       "prompt": "直径 1.6 mm・長さ {L1} m の銅線 A と、直径 3.2 mm・長さ {L2} m の銅線 B がある。A の抵抗は B の抵抗の何倍か。",
       "variables": {
         "L1": {
@@ -292,7 +152,7 @@
       ]
     },
     {
-      "id": "E01-t09",
+      "id": "E01-t05",
       "type": "template",
       "difficulty": 2,
       "prompt": "直径 {D} mm・長さ {L} m の軟銅線と同じ抵抗値になる、長さが {n} 倍（{L} m の {n} 倍）の軟銅線の直径は何 mm か。",
@@ -330,7 +190,7 @@
       ]
     },
     {
-      "id": "E01-q10",
+      "id": "E01-q01",
       "type": "multipleChoice",
       "difficulty": 2,
       "prompt": "抵抗率 ρ [Ω·m]、直径 D [mm]、長さ L [m] の導線の抵抗 R [Ω] を表す式はどれか。",
@@ -351,7 +211,7 @@
       "tip": "銅の抵抗率は約 1.7×10⁻⁸ Ω·m。アルミは約 1.6 倍で、同じ電流には太い線が要る。"
     },
     {
-      "id": "E01-q11",
+      "id": "E01-q02",
       "type": "multipleChoice",
       "difficulty": 2,
       "prompt": "軟銅線の抵抗についての記述で誤っているものはどれか。",
@@ -369,359 +229,7 @@
       "srsWeight": 1.0
     },
     {
-      "id": "E01-t12",
-      "type": "template",
-      "difficulty": 2,
-      "prompt": "単相交流 {V} V の回路に {I} A の電流が流れ、力率は {pf} % である。負荷の消費電力は何 W か。",
-      "variables": {
-        "V": {
-          "min": 100,
-          "max": 200,
-          "step": 100
-        },
-        "I": {
-          "min": 5,
-          "max": 20,
-          "step": 5
-        },
-        "pf": {
-          "min": 60,
-          "max": 90,
-          "step": 10
-        }
-      },
-      "answerFormula": "V * I * pf / 100",
-      "answerType": "choice",
-      "unitLabel": "W",
-      "roundTo": 0,
-      "explanation": "有効電力 P = V I cosθ = {V} × {I} × {pf}÷100 = {answer} W。",
-      "tags": [
-        "計算",
-        "力率"
-      ],
-      "srsWeight": 1.2,
-      "distractors": [
-        "V * I",
-        "V * I * (100 - pf) / 100",
-        "V * I * pf / 100 * SQRT3"
-      ]
-    },
-    {
-      "id": "E01-t13",
-      "type": "template",
-      "difficulty": 2,
-      "prompt": "抵抗 {R} Ω と誘導性リアクタンス {X} Ω を直列につなぎ、{V} V の交流を加えた。回路の消費電力は何 W か。整数で答えよ。",
-      "variables": {
-        "R": {
-          "min": 6,
-          "max": 8,
-          "step": 2
-        },
-        "X": {
-          "min": 6,
-          "max": 8,
-          "step": 2
-        },
-        "V": {
-          "min": 100,
-          "max": 200,
-          "step": 100
-        }
-      },
-      "answerFormula": "pow(V / sqrt(R * R + X * X), 2) * R",
-      "answerType": "numeric",
-      "unitLabel": "W",
-      "roundTo": 0,
-      "explanation": "Z = √({R}² + {X}²)。I = V ÷ Z。消費電力は抵抗分だけ: P = I² × {R} = {answer} W。",
-      "tags": [
-        "計算",
-        "インピーダンス"
-      ],
-      "srsWeight": 1.2
-    },
-    {
-      "id": "E01-t14",
-      "type": "template",
-      "difficulty": 2,
-      "prompt": "抵抗とコイルの直列回路に {V} V を加えたとき、抵抗の両端の電圧は {VR} V だった。この回路の力率は何 % か。",
-      "variables": {
-        "V": {
-          "min": 100,
-          "max": 120,
-          "step": 10
-        },
-        "VR": {
-          "min": 60,
-          "max": 100,
-          "step": 10
-        }
-      },
-      "answerFormula": "VR / V * 100",
-      "answerType": "choice",
-      "unitLabel": "%",
-      "roundTo": 0,
-      "explanation": "力率 cosθ = V_R ÷ V = {VR} ÷ {V} = {answer} %。コイルの電圧は使わない。",
-      "tags": [
-        "計算",
-        "力率"
-      ],
-      "srsWeight": 1.2,
-      "constraints": [
-        "VR < V"
-      ],
-      "distractors": [
-        "sqrt(V * V - VR * VR) / V * 100",
-        "VR / V * 50",
-        "100 - VR / V * 100"
-      ]
-    },
-    {
-      "id": "E01-t15",
-      "type": "template",
-      "difficulty": 2,
-      "prompt": "{V} V の交流電源に、抵抗とリアクタンスを並列につないだ。抵抗に {IR} A、リアクタンスに {IX} A 流れている。回路の消費電力は何 W か。",
-      "variables": {
-        "V": {
-          "min": 100,
-          "max": 200,
-          "step": 100
-        },
-        "IR": {
-          "min": 2,
-          "max": 8,
-          "step": 2
-        },
-        "IX": {
-          "min": 3,
-          "max": 6,
-          "step": 3
-        }
-      },
-      "answerFormula": "V * IR",
-      "answerType": "choice",
-      "unitLabel": "W",
-      "roundTo": 0,
-      "explanation": "消費電力（有効電力）は抵抗に流れる電流だけで決まる。P = V × I_R = {V} × {IR} = {answer} W。",
-      "tags": [
-        "計算",
-        "力率"
-      ],
-      "srsWeight": 1.2,
-      "distractors": [
-        "V * IX",
-        "V * sqrt(IR * IR + IX * IX)",
-        "V * (IR + IX)"
-      ]
-    },
-    {
-      "id": "E01-t16",
-      "type": "template",
-      "difficulty": 2,
-      "prompt": "線間電圧 {V} V の三相電源に、各相 {R} Ω の抵抗を Y 結線でつないだ。線電流は何 A か。√3 = 1.73 とする。",
-      "variables": {
-        "V": {
-          "min": 200,
-          "max": 200,
-          "step": 1
-        },
-        "R": {
-          "min": 5,
-          "max": 20,
-          "step": 5
-        }
-      },
-      "answerFormula": "V / (SQRT3 * R)",
-      "answerType": "choice",
-      "unitLabel": "A",
-      "roundTo": 1,
-      "explanation": "Y 結線の相電圧 = 線間電圧 ÷ √3 = {V} ÷ 1.73。線電流 = 相電流 = 相電圧 ÷ {R} = {answer} A。",
-      "tags": [
-        "計算",
-        "三相"
-      ],
-      "srsWeight": 1.2,
-      "distractors": [
-        "V / R",
-        "SQRT3 * V / R",
-        "V / (3 * R)"
-      ]
-    },
-    {
-      "id": "E01-t17",
-      "type": "template",
-      "difficulty": 2,
-      "prompt": "各相 {R} Ω の抵抗を Y 結線した三相負荷に、線電流 {I} A が流れている。電源の線間電圧は何 V か。√3 = 1.73 とする。",
-      "variables": {
-        "R": {
-          "min": 4,
-          "max": 8,
-          "step": 2
-        },
-        "I": {
-          "min": 10,
-          "max": 20,
-          "step": 5
-        }
-      },
-      "answerFormula": "SQRT3 * I * R",
-      "answerType": "choice",
-      "unitLabel": "V",
-      "roundTo": 0,
-      "explanation": "相電圧 = I × R = {I} × {R} V。線間電圧 = √3 × 相電圧 = {answer} V。",
-      "tags": [
-        "計算",
-        "三相"
-      ],
-      "srsWeight": 1.2,
-      "distractors": [
-        "I * R",
-        "3 * I * R",
-        "I * R / SQRT3"
-      ]
-    },
-    {
-      "id": "E01-t18",
-      "type": "template",
-      "difficulty": 2,
-      "prompt": "線間電圧 {V} V の三相電源に、各相が抵抗 {R} Ω とリアクタンス {X} Ω の直列の負荷を Δ 結線でつないだ。三相全体の消費電力は何 W か。整数で答えよ。",
-      "variables": {
-        "V": {
-          "min": 200,
-          "max": 200,
-          "step": 1
-        },
-        "R": {
-          "min": 6,
-          "max": 8,
-          "step": 2
-        },
-        "X": {
-          "min": 6,
-          "max": 8,
-          "step": 2
-        }
-      },
-      "answerFormula": "3 * pow(V / sqrt(R * R + X * X), 2) * R",
-      "answerType": "numeric",
-      "unitLabel": "W",
-      "roundTo": 0,
-      "explanation": "Δ では各相に線間電圧 {V} V がかかる。Z = √({R}² + {X}²)、相電流 = {V} ÷ Z。1 相の電力 = 相電流² × {R}、3 倍して {answer} W。",
-      "tags": [
-        "計算",
-        "三相"
-      ],
-      "srsWeight": 1.2
-    },
-    {
-      "id": "E01-t19",
-      "type": "template",
-      "difficulty": 2,
-      "prompt": "線間電圧 {V} V の三相電源に、各相 {R} Ω の抵抗を Δ 結線でつないだ。電源側の 1 線が断線したとき、負荷全体の消費電力は何 W か。",
-      "variables": {
-        "V": {
-          "min": 200,
-          "max": 200,
-          "step": 1
-        },
-        "R": {
-          "min": 10,
-          "max": 40,
-          "step": 10
-        }
-      },
-      "answerFormula": "1.5 * V * V / R",
-      "answerType": "choice",
-      "unitLabel": "W",
-      "roundTo": 0,
-      "explanation": "断線後は残り 2 線間に、R と (R+R) の並列 = 2R/3 がつながる。P = V² ÷ (2R/3) = 1.5 × V² ÷ R = {answer} W（断線前の半分）。",
-      "tags": [
-        "計算",
-        "三相",
-        "断線"
-      ],
-      "srsWeight": 1.2,
-      "distractors": [
-        "3 * V * V / R",
-        "V * V / R",
-        "2 * V * V / R"
-      ]
-    },
-    {
-      "id": "E01-t20",
-      "type": "template",
-      "difficulty": 2,
-      "prompt": "線間電圧 {V} V の三相電源に Y 結線の抵抗負荷をつないだ。1 相の負荷が断線したとき、残った 1 相の負荷にかかる電圧は何 V か。",
-      "variables": {
-        "V": {
-          "min": 200,
-          "max": 400,
-          "step": 200
-        }
-      },
-      "answerFormula": "V / 2",
-      "answerType": "choice",
-      "unitLabel": "V",
-      "roundTo": 0,
-      "explanation": "断線後は残り 2 相の抵抗が直列になって線間電圧 {V} V にかかるので、1 相あたり {V} ÷ 2 = {answer} V（断線前は V ÷ √3）。",
-      "tags": [
-        "計算",
-        "三相",
-        "断線"
-      ],
-      "srsWeight": 1.2,
-      "distractors": [
-        "V / SQRT3",
-        "V",
-        "V / 3"
-      ]
-    },
-    {
-      "id": "E01-q21",
-      "type": "multipleChoice",
-      "difficulty": 2,
-      "prompt": "三相誘導電動機の定格電圧 V [V]、定格電流 I [A]、定格出力時の消費電力 P [kW] から力率 [%] を求める式はどれか。",
-      "choices": [
-        "P ÷ (√3 V I) × 10⁵",
-        "P ÷ (V I) × 10⁵",
-        "√3 V I ÷ P × 10⁵",
-        "P ÷ (3 V I) × 10⁵"
-      ],
-      "answerIndex": 0,
-      "explanation": "三相電力 P[W] = √3 V I cosθ。cosθ = P ÷ (√3 V I)。P が kW なので ×10³、% にするので ×10²、合わせて ×10⁵。",
-      "tags": [
-        "公式",
-        "三相"
-      ],
-      "srsWeight": 1.0
-    },
-    {
-      "id": "E01-q22",
-      "type": "trueFalse",
-      "difficulty": 1,
-      "prompt": "コンデンサだけの交流回路では、電流は電圧より 90° 進む。",
-      "answer": true,
-      "explanation": "コンデンサは電流が進み、コイルは電流が遅れる。「コンデンサは進み、コイルは遅れ」と覚える。",
-      "tags": [
-        "交流",
-        "位相"
-      ],
-      "srsWeight": 1.0
-    },
-    {
-      "id": "E01-q23",
-      "type": "trueFalse",
-      "difficulty": 1,
-      "prompt": "誘導性負荷に並列にコンデンサをつないで力率を 100 % に改善すると、電源側の線電流は増加する。",
-      "answer": false,
-      "explanation": "力率改善で無効電流が打ち消され、電源側の線電流は減少する。負荷の消費電力は変わらない。",
-      "tags": [
-        "交流",
-        "力率改善"
-      ],
-      "srsWeight": 1.0
-    },
-    {
-      "id": "E01-q24",
+      "id": "E01-q03",
       "type": "multipleChoice",
       "difficulty": 2,
       "prompt": "抵抗 R、電圧 V、電流 I、電力 P の関係で、R を表す式として誤っているものはどれか。",
@@ -743,32 +251,16 @@
   "boss": {
     "id": "E01-boss",
     "title": "試験型ボス",
-    "description": "制限時間内に5問連続正解でクリア。",
+    "description": "制限時間内に 5 問連続正解でクリア。",
     "questionIds": [
       "E01-t01",
       "E01-t02",
       "E01-t03",
       "E01-t04",
       "E01-t05",
-      "E01-t06",
-      "E01-t07",
-      "E01-t08",
-      "E01-t09",
-      "E01-q10",
-      "E01-q11",
-      "E01-t12",
-      "E01-t13",
-      "E01-t14",
-      "E01-t15",
-      "E01-t16",
-      "E01-t17",
-      "E01-t18",
-      "E01-t19",
-      "E01-t20",
-      "E01-q21",
-      "E01-q22",
-      "E01-q23",
-      "E01-q24"
+      "E01-q01",
+      "E01-q02",
+      "E01-q03"
     ],
     "pick": 5,
     "timeLimitSeconds": 150

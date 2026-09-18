@@ -111,6 +111,7 @@
 `unit.lessonFile` が null で、対応する `content/lessons/<id>.md` がない新形式ファイルは、ホームの「試験型ドリル」に並ぶ。
 template 問題は 1 セッションごとに数値が変わる。docs/exam-patterns.md の型から作成している（E01, D01〜D06, K02〜K09, S08, G03）。
 ID の付け方: 固定問題は `<単元>-q01`、template は `<単元>-t01`。
+`unit.legacyUnit` に旧単元の id（例: `u09_ohm_circuits`）を書くと、ホームではその旧単元ドリルの直後に並ぶ。書かなければ末尾の「その他」。
 
 ## アプリ側の対応状況
 | type | 状態 |

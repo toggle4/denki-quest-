@@ -1,0 +1,169 @@
+{
+  "schemaVersion": 2,
+  "unit": {
+    "id": "E02",
+    "stage": 0,
+    "order": 92,
+    "title": "電気理論 試験型（電力・電力量・発熱）",
+    "lessonFile": null,
+    "prerequisites": [],
+    "masteryThreshold": 0.9,
+    "legacyUnit": "u10_power_energy"
+  },
+  "questions": [
+    {
+      "id": "E02-t01",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "{V} V の電熱器を {h} 時間使ったところ、電力量は {kWh} kW·h だった。流れた電流は何 A か。",
+      "variables": {
+        "V": {
+          "min": 100,
+          "max": 200,
+          "step": 100
+        },
+        "h": {
+          "min": 1,
+          "max": 4,
+          "step": 1
+        },
+        "kWh": {
+          "min": 1,
+          "max": 8,
+          "step": 1
+        }
+      },
+      "answerFormula": "kWh * 1000 / (V * h)",
+      "answerType": "choice",
+      "unitLabel": "A",
+      "roundTo": 0,
+      "explanation": "電力 P = 電力量 ÷ 時間 = {kWh}×1000 ÷ {h} W。I = P ÷ V = {answer} A。",
+      "tags": [
+        "計算",
+        "電力量"
+      ],
+      "srsWeight": 1.2,
+      "constraints": [
+        "(kWh * 1000) % (V * h) == 0"
+      ],
+      "distractors": [
+        "kWh * 1000 / (V * h) * 2",
+        "kWh * 1000 / (V * h) / 2",
+        "kWh * 100 / (V * h)"
+      ]
+    },
+    {
+      "id": "E02-t02",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "電線の接続点の接触抵抗が {r} Ω で、{I} A の電流が 1 時間流れた。この接続点で発生する熱量は何 kJ か。",
+      "variables": {
+        "r": {
+          "min": 0.1,
+          "max": 0.5,
+          "step": 0.1
+        },
+        "I": {
+          "min": 5,
+          "max": 20,
+          "step": 5
+        }
+      },
+      "answerFormula": "3.6 * I * I * r",
+      "answerType": "choice",
+      "unitLabel": "kJ",
+      "roundTo": 0,
+      "explanation": "Q = I²rt = {I}² × {r} × 3600 J。1000 で割って kJ にすると {answer} kJ。接触抵抗が大きいと接続点が発熱して危険。",
+      "tags": [
+        "計算",
+        "発熱量"
+      ],
+      "srsWeight": 1.2,
+      "distractors": [
+        "I * I * r",
+        "3.6 * I * r",
+        "I * I * r * 60"
+      ]
+    },
+    {
+      "id": "E02-t03",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "消費電力 {P} W の電熱器を {t} 分間使用したときの発熱量は何 kJ か。",
+      "variables": {
+        "P": {
+          "min": 200,
+          "max": 1000,
+          "step": 100
+        },
+        "t": {
+          "min": 10,
+          "max": 120,
+          "step": 10
+        }
+      },
+      "answerFormula": "0.06 * P * t",
+      "answerType": "choice",
+      "unitLabel": "kJ",
+      "roundTo": 0,
+      "explanation": "熱量 = 電力 × 時間（秒）= {P} × {t} × 60 J = {answer} kJ。",
+      "tags": [
+        "計算",
+        "発熱量"
+      ],
+      "srsWeight": 1.2,
+      "distractors": [
+        "P * t / 1000",
+        "P * t * 60",
+        "P * t / 60"
+      ]
+    },
+    {
+      "id": "E02-t04",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "{m} kg の水を {dT} K 温めるのに必要な電力量は何 kW·h か。水の比熱を 4.2 kJ/(kg·K)、効率を 100 % とする。",
+      "variables": {
+        "m": {
+          "min": 10,
+          "max": 100,
+          "step": 10
+        },
+        "dT": {
+          "min": 10,
+          "max": 40,
+          "step": 10
+        }
+      },
+      "answerFormula": "m * dT * 4.2 / 3600",
+      "answerType": "choice",
+      "unitLabel": "kW·h",
+      "roundTo": 2,
+      "explanation": "熱量 = {m} × {dT} × 4.2 kJ。1 kW·h = 3600 kJ なので、割って {answer} kW·h。",
+      "tags": [
+        "計算",
+        "電力量",
+        "熱量"
+      ],
+      "srsWeight": 1.2,
+      "distractors": [
+        "m * dT * 4.2 / 1000",
+        "m * dT / 3600",
+        "m * dT * 4.2 / 360"
+      ]
+    }
+  ],
+  "boss": {
+    "id": "E02-boss",
+    "title": "試験型ボス",
+    "description": "制限時間内に 5 問連続正解でクリア。",
+    "questionIds": [
+      "E02-t01",
+      "E02-t02",
+      "E02-t03",
+      "E02-t04"
+    ],
+    "pick": 4,
+    "timeLimitSeconds": 150
+  }
+}

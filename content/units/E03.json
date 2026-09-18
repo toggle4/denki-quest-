@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 2,
+  "unit": {
+    "id": "E03",
+    "stage": 0,
+    "order": 93,
+    "title": "電気理論 試験型（交流回路・力率）",
+    "lessonFile": null,
+    "prerequisites": [],
+    "masteryThreshold": 0.9,
+    "legacyUnit": "u11_ac_basics"
+  },
+  "questions": [
+    {
+      "id": "E03-t01",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "単相交流 {V} V の回路に {I} A の電流が流れ、力率は {pf} % である。負荷の消費電力は何 W か。",
+      "variables": {
+        "V": {
+          "min": 100,
+          "max": 200,
+          "step": 100
+        },
+        "I": {
+          "min": 5,
+          "max": 20,
+          "step": 5
+        },
+        "pf": {
+          "min": 60,
+          "max": 90,
+          "step": 10
+        }
+      },
+      "answerFormula": "V * I * pf / 100",
+      "answerType": "choice",
+      "unitLabel": "W",
+      "roundTo": 0,
+      "explanation": "有効電力 P = V I cosθ = {V} × {I} × {pf}÷100 = {answer} W。",
+      "tags": [
+        "計算",
+        "力率"
+      ],
+      "srsWeight": 1.2,
+      "distractors": [
+        "V * I",
+        "V * I * (100 - pf) / 100",
+        "V * I * pf / 100 * SQRT3"
+      ]
+    },
+    {
+      "id": "E03-t02",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "抵抗 {R} Ω と誘導性リアクタンス {X} Ω を直列につなぎ、{V} V の交流を加えた。回路の消費電力は何 W か。整数で答えよ。",
+      "variables": {
+        "R": {
+          "min": 6,
+          "max": 8,
+          "step": 2
+        },
+        "X": {
+          "min": 6,
+          "max": 8,
+          "step": 2
+        },
+        "V": {
+          "min": 100,
+          "max": 200,
+          "step": 100
+        }
+      },
+      "answerFormula": "pow(V / sqrt(R * R + X * X), 2) * R",
+      "answerType": "numeric",
+      "unitLabel": "W",
+      "roundTo": 0,
+      "explanation": "Z = √({R}² + {X}²)。I = V ÷ Z。消費電力は抵抗分だけ: P = I² × {R} = {answer} W。",
+      "tags": [
+        "計算",
+        "インピーダンス"
+      ],
+      "srsWeight": 1.2
+    },
+    {
+      "id": "E03-t03",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "抵抗とコイルの直列回路に {V} V を加えたとき、抵抗の両端の電圧は {VR} V だった。この回路の力率は何 % か。",
+      "variables": {
+        "V": {
+          "min": 100,
+          "max": 120,
+          "step": 10
+        },
+        "VR": {
+          "min": 60,
+          "max": 100,
+          "step": 10
+        }
+      },
+      "answerFormula": "VR / V * 100",
+      "answerType": "choice",
+      "unitLabel": "%",
+      "roundTo": 0,
+      "explanation": "力率 cosθ = V_R ÷ V = {VR} ÷ {V} = {answer} %。コイルの電圧は使わない。",
+      "tags": [
+        "計算",
+        "力率"
+      ],
+      "srsWeight": 1.2,
+      "constraints": [
+        "VR < V"
+      ],
+      "distractors": [
+        "sqrt(V * V - VR * VR) / V * 100",
+        "VR / V * 50",
+        "100 - VR / V * 100"
+      ]
+    },
+    {
+      "id": "E03-t04",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "{V} V の交流電源に、抵抗とリアクタンスを並列につないだ。抵抗に {IR} A、リアクタンスに {IX} A 流れている。回路の消費電力は何 W か。",
+      "variables": {
+        "V": {
+          "min": 100,
+          "max": 200,
+          "step": 100
+        },
+        "IR": {
+          "min": 2,
+          "max": 8,
+          "step": 2
+        },
+        "IX": {
+          "min": 3,
+          "max": 6,
+          "step": 3
+        }
+      },
+      "answerFormula": "V * IR",
+      "answerType": "choice",
+      "unitLabel": "W",
+      "roundTo": 0,
+      "explanation": "消費電力（有効電力）は抵抗に流れる電流だけで決まる。P = V × I_R = {V} × {IR} = {answer} W。",
+      "tags": [
+        "計算",
+        "力率"
+      ],
+      "srsWeight": 1.2,
+      "distractors": [
+        "V * IX",
+        "V * sqrt(IR * IR + IX * IX)",
+        "V * (IR + IX)"
+      ]
+    },
+    {
+      "id": "E03-q01",
+      "type": "trueFalse",
+      "difficulty": 1,
+      "prompt": "コンデンサだけの交流回路では、電流は電圧より 90° 進む。",
+      "answer": true,
+      "explanation": "コンデンサは電流が進み、コイルは電流が遅れる。「コンデンサは進み、コイルは遅れ」と覚える。",
+      "tags": [
+        "交流",
+        "位相"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "E03-q02",
+      "type": "trueFalse",
+      "difficulty": 1,
+      "prompt": "誘導性負荷に並列にコンデンサをつないで力率を 100 % に改善すると、電源側の線電流は増加する。",
+      "answer": false,
+      "explanation": "力率改善で無効電流が打ち消され、電源側の線電流は減少する。負荷の消費電力は変わらない。",
+      "tags": [
+        "交流",
+        "力率改善"
+      ],
+      "srsWeight": 1.0
+    }
+  ],
+  "boss": {
+    "id": "E03-boss",
+    "title": "試験型ボス",
+    "description": "制限時間内に 5 問連続正解でクリア。",
+    "questionIds": [
+      "E03-t01",
+      "E03-t02",
+      "E03-t03",
+      "E03-t04",
+      "E03-q01",
+      "E03-q02"
+    ],
+    "pick": 5,
+    "timeLimitSeconds": 150
+  }
+}

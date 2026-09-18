@@ -7,7 +7,8 @@
     "title": "幹線の太さと過電流遮断器の選定",
     "lessonFile": null,
     "prerequisites": [],
-    "masteryThreshold": 0.9
+    "masteryThreshold": 0.9,
+    "legacyUnit": "u14_wiring_design"
   },
   "questions": [
     {

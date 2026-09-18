@@ -7,7 +7,8 @@
     "title": "単相 3 線式の中性線断線と負荷電圧",
     "lessonFile": null,
     "prerequisites": [],
-    "masteryThreshold": 0.9
+    "masteryThreshold": 0.9,
+    "legacyUnit": "u13_distribution"
   },
   "questions": [
     {

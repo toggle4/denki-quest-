@@ -7,7 +7,8 @@
     "title": "分岐回路の設計（遮断器・電線・コンセント）",
     "lessonFile": null,
     "prerequisites": [],
-    "masteryThreshold": 0.9
+    "masteryThreshold": 0.9,
+    "legacyUnit": "u14_wiring_design"
   },
   "questions": [
     {

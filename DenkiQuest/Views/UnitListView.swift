@@ -37,7 +37,6 @@ struct UnitListView: View {
                         RecapCardView(lessons: lessonSections.flatMap(\.lessons), stats: stats)
 
                         lessonList
-                        examDrillList
                         drillList
                     }
                     .padding()
@@ -124,26 +123,11 @@ struct UnitListView: View {
         }
     }
 
-    // MARK: - 試験型ドリル（新形式・教材なし）
+    // MARK: - ドリル（旧単元 + その直後に対応する試験型ドリル）
 
-    @ViewBuilder
-    private var examDrillList: some View {
-        let grouped = Dictionary(grouping: examDrills, by: { $0.unit.stage ?? 99 })
-        ForEach(grouped.keys.sorted(), id: \.self) { stage in
-            if let files = grouped[stage] {
-                sectionHeader("試験型ドリル：" + QuestionBank.stageTitle(stage), subtitle: "数値が毎回変わる")
-                ForEach(files, id: \.unit.id) { file in
-                    NavigationLink(value: QuestionBank.shared.makeDrillUnit(from: file)) {
-                        ExamDrillRow(file: file)
-                    }
-                    .buttonStyle(.plain)
-                    .simultaneousGesture(TapGesture().onEnded { GameFeedback.tap() })
-                }
-            }
-        }
+    private var examDrillsByLegacy: [String: [UnitFileV2]] {
+        Dictionary(grouping: examDrills, by: { $0.unit.legacyUnit ?? "" })
     }
-
-    // MARK: - ドリル（旧単元）
 
     @ViewBuilder
     private var drillList: some View {
@@ -151,18 +135,41 @@ struct UnitListView: View {
             errorCard(drillError)
         }
         let grouped = Dictionary(grouping: units, by: { $0.stage })
+        let byLegacy = examDrillsByLegacy
         ForEach(drillStageOrder, id: \.self) { stage in
             if let group = grouped[stage] {
-                sectionHeader("ドリル：\(stage.label)", subtitle: "10 問ランダム")
+                sectionHeader("ドリル：\(stage.label)", subtitle: "10 問ランダム・試験型は数値が変わる")
                 ForEach(group.sorted { $0.order < $1.order }) { unit in
                     NavigationLink(value: unit) {
                         UnitRow(unit: unit)
                     }
                     .buttonStyle(.plain)
                     .simultaneousGesture(TapGesture().onEnded { GameFeedback.tap() })
+
+                    if let files = byLegacy[unit.id] {
+                        ForEach(files, id: \.unit.id) { file in
+                            examDrillLink(file)
+                        }
+                    }
                 }
             }
         }
+        // 旧単元に対応づけられていない試験型ドリル
+        if let rest = byLegacy[""] {
+            sectionHeader("試験型ドリル：その他", subtitle: "数値が毎回変わる")
+            ForEach(rest, id: \.unit.id) { file in
+                examDrillLink(file)
+            }
+        }
+    }
+
+    private func examDrillLink(_ file: UnitFileV2) -> some View {
+        NavigationLink(value: QuestionBank.shared.makeDrillUnit(from: file)) {
+            ExamDrillRow(file: file)
+        }
+        .buttonStyle(.plain)
+        .padding(.leading, 16)
+        .simultaneousGesture(TapGesture().onEnded { GameFeedback.tap() })
     }
 
     private func errorCard(_ message: String) -> some View {
@@ -276,9 +283,18 @@ private struct ExamDrillRow: View {
                 .padding(.vertical, 6)
                 .background(Color(red: 1.0, green: 0.62, blue: 0.30), in: RoundedRectangle(cornerRadius: 8))
             VStack(alignment: .leading, spacing: 4) {
-                Text(file.unit.title)
-                    .font(.headline)
-                    .foregroundStyle(Theme.textPrimary)
+                HStack(spacing: 6) {
+                    Text("試験型")
+                        .font(.caption2.bold())
+                        .foregroundStyle(Theme.backgroundBottom)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
+                        .background(Color(red: 1.0, green: 0.62, blue: 0.30), in: Capsule())
+                    Text(file.unit.title)
+                        .font(.headline)
+                        .foregroundStyle(Theme.textPrimary)
+                        .lineLimit(2)
+                }
                 HStack(spacing: 8) {
                     Text("\(file.questions.count) 型")
                         .font(.caption)
