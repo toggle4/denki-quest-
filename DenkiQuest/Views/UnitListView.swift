@@ -11,6 +11,7 @@ struct UnitListView: View {
     @AppStorage(SoundPlayer.enabledKey) private var soundEnabled = true
     @AppStorage(Haptics.enabledKey) private var hapticsEnabled = true
     @Query(sort: \StudyRecord.startedAt, order: .reverse) private var records: [StudyRecord]
+    @Query(sort: \ReviewItem.dueAt) private var reviewItems: [ReviewItem]
     @State private var showStudyLog = false
     @State private var flash: Double = 0
     @State private var screenShake: CGSize = .zero
@@ -35,6 +36,7 @@ struct UnitListView: View {
                         .buttonStyle(.plain)
 
                         RecapCardView(lessons: lessonSections.flatMap(\.lessons), stats: stats)
+                        ReviewCardView(items: reviewItems, units: units)
 
                         lessonList
                         drillList
@@ -57,7 +59,10 @@ struct UnitListView: View {
                 }
             }
             .navigationDestination(for: LearningUnit.self) { unit in
-                SessionView(unit: unit)
+                SessionView(
+                    unit: unit,
+                    priority: unit.id == "review" ? [] : ReviewSessionBuilder.dueQuestions(reviewItems, units: units, unitId: unit.id, limit: 3)
+                )
             }
             .navigationDestination(for: Lesson.self) { lesson in
                 LessonUnitView(lesson: lesson)

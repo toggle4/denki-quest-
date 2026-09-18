@@ -11,8 +11,20 @@ struct SessionView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.scenePhase) private var scenePhase
 
-    init(unit: LearningUnit) {
-        _session = State(initialValue: QuizSession(unit: unit))
+    /// 復習待ちの問題（先頭に混ぜる）
+    private let priority: [Question]
+
+    init(unit: LearningUnit, priority: [Question] = []) {
+        self.priority = priority
+        _session = State(initialValue: QuizSession(unit: unit, priority: priority))
+    }
+
+    private func attachScheduler() {
+        let scheduler = ReviewScheduler(context: modelContext)
+        let unitId = session.unit.id
+        session.onAnswered = { question, correct in
+            scheduler.record(question: question, unitId: unitId, correct: correct)
+        }
     }
 
     var body: some View {
@@ -27,7 +39,8 @@ struct SessionView: View {
                         savedThisRun = false
                         savedSeconds = 0
                         timer.reset()
-                        session = QuizSession(unit: session.unit)
+                        session = QuizSession(unit: session.unit, priority: priority)
+                        attachScheduler()
                     },
                     finish: {
                         GameFeedback.tap()
@@ -51,7 +64,10 @@ struct SessionView: View {
         .navigationTitle(session.unit.title)
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(.hidden, for: .navigationBar)
-        .onAppear { timer.start() }
+        .onAppear {
+            timer.start()
+            attachScheduler()
+        }
         .onDisappear { saveIfNeeded() }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active {

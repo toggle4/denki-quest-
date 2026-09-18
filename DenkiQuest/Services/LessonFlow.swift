@@ -95,6 +95,8 @@ final class LessonFlow {
     var pageIndex = 0
 
     private(set) var quizSession: QuizSession?
+    /// 回答のたびに呼ばれる（間隔反復の記録用）
+    var onAnswered: ((Question, Bool) -> Void)?
     private(set) var questionIds: [String] = []
     private(set) var questionCursor = 0
     /// 1 = 初回、2 = 不正解後のやり直し
@@ -230,7 +232,9 @@ final class LessonFlow {
     private func startQuestion() {
         while questionCursor < questionIds.count {
             if let question = QuestionBank.shared.instantiate(id: questionIds[questionCursor]) {
-                quizSession = QuizSession(unit: quizUnit, questions: [question])
+                let session = QuizSession(unit: quizUnit, questions: [question])
+                session.onAnswered = onAnswered
+                quizSession = session
                 return
             }
             questionCursor += 1

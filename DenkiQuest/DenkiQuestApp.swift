@@ -16,6 +16,6 @@ struct DenkiQuestApp: App {
                 .preferredColorScheme(.dark)
                 .tint(Theme.volt)
         }
-        .modelContainer(for: StudyRecord.self)
+        .modelContainer(for: [StudyRecord.self, ReviewItem.self])
     }
 }

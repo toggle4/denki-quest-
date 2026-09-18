@@ -77,6 +77,8 @@ final class BossEngine {
     private(set) var counterToken = 0
 
     private(set) var current: QuizSession.Item?
+    /// 回答のたびに呼ばれる（間隔反復の記録用）
+    var onAnswered: ((Question, Bool) -> Void)?
     /// 回答直後の表示用
     private(set) var selectedIndex: Int?
     private(set) var selectedBool: Bool?
@@ -167,6 +169,7 @@ final class BossEngine {
         lastAnswerSeconds = seconds
         lastCorrect = correct
         answered += 1
+        onAnswered?(current!.question, correct)
 
         if correct {
             correctCount += 1

@@ -17,6 +17,8 @@ final class QuizSession {
 
     let unit: LearningUnit
     let items: [Item]
+    /// 回答のたびに呼ばれる（間隔反復の記録用）
+    var onAnswered: ((Question, Bool) -> Void)?
 
     private(set) var currentIndex = 0
     /// nil = 未回答、true/false = 正誤
@@ -35,8 +37,14 @@ final class QuizSession {
     private(set) var maxCombo = 0
 
     /// 単元からランダムに questionCount 問を選ぶ（ドリル用）。
-    convenience init(unit: LearningUnit, questionCount: Int = QuizSession.questionsPerSession) {
-        self.init(unit: unit, questions: Array(unit.questions.shuffled().prefix(questionCount)))
+    /// priority（復習待ちの問題）があれば先頭に置き、残りをランダムに埋める。
+    convenience init(unit: LearningUnit, priority: [Question] = [], questionCount: Int = QuizSession.questionsPerSession) {
+        let priorityIds = Set(priority.map { ReviewScheduler.normalize($0.id) })
+        let rest = unit.questions
+            .filter { !priorityIds.contains(ReviewScheduler.normalize($0.id)) }
+            .shuffled()
+        let picked = Array(priority.prefix(questionCount)) + Array(rest.prefix(max(0, questionCount - priority.count)))
+        self.init(unit: unit, questions: picked)
     }
 
     /// 指定した問題をその順で出す（教材の差し込み問題用）。
@@ -98,6 +106,9 @@ final class QuizSession {
 
     private func record(correct: Bool) {
         lastResult = correct
+        if let current {
+            onAnswered?(current.question, correct)
+        }
         if correct {
             correctCount += 1
             if !hintUsed {

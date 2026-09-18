@@ -44,7 +44,10 @@ struct BossBattleView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(.hidden, for: .navigationBar)
         .navigationBarBackButtonHidden(engine.phase == .fighting)
-        .onAppear { timer.start() }
+        .onAppear {
+            timer.start()
+            attachScheduler()
+        }
         .onDisappear {
             engine.stop()
             saveIfNeeded()
@@ -201,6 +204,7 @@ struct BossBattleView: View {
                     saved = false
                     timer.reset()
                     engine = BossEngine(unit: route.unit)
+                    attachScheduler()
                     timer.start()
                 }
                 .buttonStyle(VoltButtonStyle())
@@ -235,6 +239,14 @@ struct BossBattleView: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + Double(i) * 0.05) {
                 withAnimation(.linear(duration: 0.05)) { screenShake = offset }
             }
+        }
+    }
+
+    private func attachScheduler() {
+        let scheduler = ReviewScheduler(context: modelContext)
+        let unitId = route.unit.id
+        engine.onAnswered = { question, correct in
+            scheduler.record(question: question, unitId: unitId, correct: correct)
         }
     }
 

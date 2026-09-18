@@ -36,6 +36,11 @@ struct LessonSessionView: View {
         .navigationBarBackButtonHidden(flow.stage == .quiz)
         .onAppear {
             timer.start()
+            let scheduler = ReviewScheduler(context: modelContext)
+            let unitId = route.lesson.unitId
+            flow.onAnswered = { question, correct in
+                scheduler.record(question: question, unitId: unitId, correct: correct)
+            }
             if flow.isFinished { saveIfNeeded() }
         }
         .onDisappear { saveIfNeeded() }
