@@ -209,15 +209,13 @@ struct UnitListView: View {
     }
 
     private func load() {
-        var lessonIds: Set<String> = []
         do {
             let lessons = try LessonLibrary.loadAll()
-            lessonIds = Set(lessons.map(\.unitId))
             lessonSections = Curriculum.sections(for: lessons)
         } catch {
             lessonError = error.localizedDescription
         }
-        examDrills = QuestionBank.shared.drillFiles(excludingLessonIds: lessonIds)
+        examDrills = QuestionBank.shared.drillFiles(excludingLessonIds: [])
         do {
             units = try ContentLoader.loadUnits()
         } catch {

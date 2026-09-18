@@ -22,6 +22,9 @@ struct LessonUnitView: View {
                     ForEach(lesson.sessions) { session in
                         sessionCard(session)
                     }
+                    if let file = QuestionBank.shared.files[lesson.unitId] {
+                        drillCard(file)
+                    }
                     if let bossUnit = QuestionBank.shared.makeBossUnit(unitId: lesson.unitId, title: lesson.title) {
                         bossCard(bossUnit)
                     }
@@ -117,6 +120,33 @@ struct LessonUnitView: View {
                 .buttonStyle(.plain)
             }
         }
+    }
+
+    private func drillCard(_ file: UnitFileV2) -> some View {
+        let templates = file.questions.filter { $0.type == "template" }.count
+        return NavigationLink(value: QuestionBank.shared.makeDrillUnit(from: file)) {
+            HStack(spacing: 14) {
+                ZStack {
+                    Circle().fill(Theme.volt.opacity(0.18)).frame(width: 44, height: 44)
+                    Image(systemName: "bolt.fill").foregroundStyle(Theme.volt)
+                }
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("ドリル（10 問ランダム）")
+                        .font(.headline)
+                        .foregroundStyle(Theme.textPrimary)
+                    Text("この単元の \(file.questions.count) 型から出題" + (templates > 0 ? "。計算 \(templates) 型は数値が毎回変わる" : ""))
+                        .font(.caption)
+                        .foregroundStyle(Theme.textSecondary)
+                }
+                Spacer(minLength: 0)
+                Image(systemName: "chevron.right").foregroundStyle(Theme.textSecondary)
+            }
+            .padding(14)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .gameCard(tint: Theme.volt.opacity(0.05), border: Theme.volt.opacity(0.4))
+        }
+        .buttonStyle(.plain)
+        .simultaneousGesture(TapGesture().onEnded { GameFeedback.tap() })
     }
 
     private func bossCard(_ bossUnit: LearningUnit) -> some View {

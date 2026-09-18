@@ -32,7 +32,7 @@
 - 既存の動くコードを作り直さず、拡張する
 - 新しい出題形式やMarkdown記法を追加するときは schema.md / lessons/README.md も更新する
 - 教材（lessons, units）の中身は書き換えない。パーサやUI側で対応する
-- 教材 JSON を追加・変更したら `python3 tools/validate_content.py` を通す
+- 教材 JSON を追加・変更したら `python3 tools/validate_content.py` を通す。教材テキスト（lessons）を追加・変更したら `python3 tools/validate_lessons.py` を通す
 
 ## ビルド確認コマンド
 ```sh
