@@ -43,7 +43,9 @@
         "I * I * r",
         "2 * I * I * r",
         "SQRT3 * I * I * r"
-      ]
+      ],
+      "origin": "三相 3 線式 = three-phase three-wire（3φ3W）。",
+      "tip": "工場の動力盤は 3φ3W 200V。損失は 3 本分。"
     },
     {
       "id": "D02-t02",

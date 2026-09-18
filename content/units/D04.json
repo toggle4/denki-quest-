@@ -24,7 +24,9 @@
         "計算",
         "許容電流"
       ],
-      "srsWeight": 1.0
+      "srsWeight": 1.0,
+      "origin": "許容電流 = ampacity（ampere capacity）。電流減少係数 = derating factor。",
+      "tip": "配管に電線を詰め込みすぎると放熱できず、許容電流を下げる必要がある。"
     },
     {
       "id": "D04-q02",

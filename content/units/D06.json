@@ -28,8 +28,8 @@
         "分岐回路"
       ],
       "srsWeight": 1.0,
-      "origin": "MCCB = Molded Case Circuit Breaker（配線用遮断器）。",
-      "tip": "住宅の分岐回路は 20 A ブレーカ＋VVF1.6 が標準。IH や 200 V エアコンは専用回路。"
+      "origin": "分岐回路 = branch circuit。",
+      "tip": "ブレーカ・電線・コンセントの 3 点セットで決まる。試験でも現場でも必ず出る表。"
     },
     {
       "id": "D06-q02",

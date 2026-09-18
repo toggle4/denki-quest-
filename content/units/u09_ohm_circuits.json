@@ -5,34 +5,305 @@
   "stage": "calculate",
   "description": "オームの法則、合成抵抗、分圧・分流、電線の抵抗を計算で求める。",
   "questions": [
-    {"id": "u09_ohm_circuits_q001", "type": "number", "prompt": "20 Ω の抵抗に 100 V を加えたときに流れる電流 [A] を整数で答えよ。", "answer": 5, "unit": "A", "hint": "I = V ÷ R", "explanation": "I = 100 ÷ 20 = 5 A。"},
-    {"id": "u09_ohm_circuits_q002", "type": "number", "prompt": "ある抵抗に 100 V を加えると 2 A 流れた。抵抗値 [Ω] を整数で答えよ。", "answer": 50, "unit": "Ω", "hint": "R = V ÷ I", "explanation": "R = 100 ÷ 2 = 50 Ω。"},
-    {"id": "u09_ohm_circuits_q003", "type": "number", "prompt": "8 Ω の抵抗に 2.5 A 流れている。両端の電圧 [V] を整数で答えよ。", "answer": 20, "unit": "V", "hint": "V = I × R", "explanation": "V = 2.5 × 8 = 20 V。"},
-    {"id": "u09_ohm_circuits_q004", "type": "number", "prompt": "4 Ω、6 Ω、10 Ω の抵抗を直列につないだ合成抵抗 [Ω] を整数で答えよ。", "answer": 20, "unit": "Ω", "explanation": "直列は和。4 + 6 + 10 = 20 Ω。"},
-    {"id": "u09_ohm_circuits_q005", "type": "number", "prompt": "4 Ω と 12 Ω の抵抗を並列につないだ合成抵抗 [Ω] を整数で答えよ。", "answer": 3, "unit": "Ω", "hint": "積 ÷ 和", "explanation": "(4 × 12) ÷ (4 + 12) = 48 ÷ 16 = 3 Ω。"},
-    {"id": "u09_ohm_circuits_q006", "type": "number", "prompt": "6 Ω の抵抗を 3 本並列につないだ合成抵抗 [Ω] を整数で答えよ。", "answer": 2, "unit": "Ω", "hint": "同じ抵抗 n 本の並列は R ÷ n。", "explanation": "同じ値 n 本の並列は 1 本の 1/n。6 ÷ 3 = 2 Ω。"},
-    {"id": "u09_ohm_circuits_q007", "type": "number", "prompt": "2 Ω と 3 Ω を並列にしたものに、4 Ω を直列につないだ。全体の合成抵抗 [Ω] を小数第 1 位まで答えよ。", "answer": 5.2, "unit": "Ω", "tolerance": 0.05, "hint": "まず並列部分を積 ÷ 和で求める。", "explanation": "並列部分 = (2 × 3) ÷ (2 + 3) = 1.2 Ω。直列で 1.2 + 4 = 5.2 Ω。"},
-    {"id": "u09_ohm_circuits_q008", "type": "number", "prompt": "10 Ω と 10 Ω を直列にしたものと、20 Ω を並列につないだ。合成抵抗 [Ω] を整数で答えよ。", "answer": 10, "unit": "Ω", "hint": "直列部分は 20 Ω。20 Ω と 20 Ω の並列。", "explanation": "直列部分 = 20 Ω。20 Ω 2 本の並列は半分の 10 Ω。"},
-    {"id": "u09_ohm_circuits_q009", "type": "number", "prompt": "30 Ω と 20 Ω の抵抗を直列につなぎ 100 V を加えた。20 Ω にかかる電圧 [V] を整数で答えよ。", "answer": 40, "unit": "V", "hint": "分圧: 抵抗の比で電圧が分かれる。", "explanation": "電流 = 100 ÷ 50 = 2 A。20 Ω の電圧 = 2 × 20 = 40 V。抵抗の比 30:20 = 60 V:40 V でも求まる。"},
-    {"id": "u09_ohm_circuits_q010", "type": "number", "prompt": "10 Ω と 40 Ω の抵抗を並列につなぎ、全体に 10 A 流れている。10 Ω に流れる電流 [A] を整数で答えよ。", "answer": 8, "unit": "A", "hint": "分流: 電流は抵抗の逆比で分かれる。", "explanation": "合成抵抗 = 400 ÷ 50 = 8 Ω。全体電圧 = 10 × 8 = 80 V。10 Ω の電流 = 80 ÷ 10 = 8 A。"},
-    {"id": "u09_ohm_circuits_q011", "type": "choice", "prompt": "抵抗の直列回路で、各抵抗にかかる電圧は何に比例するか。", "choices": ["各抵抗の大きさ", "各抵抗の大きさの逆数", "電流の 2 乗", "抵抗の本数"], "answer": 0, "explanation": "直列では電流が共通なので、V = IR より電圧は抵抗に比例する（分圧）。"},
-    {"id": "u09_ohm_circuits_q012", "type": "choice", "prompt": "抵抗の並列回路で、各抵抗に流れる電流は何に比例するか。", "choices": ["各抵抗の大きさの逆数（抵抗が小さいほど大きい）", "各抵抗の大きさ", "電圧の 2 乗", "抵抗の本数"], "answer": 0, "explanation": "並列では電圧が共通なので、I = V ÷ R より電流は抵抗に反比例する（分流）。"},
-    {"id": "u09_ohm_circuits_q013", "type": "choice", "prompt": "電線の抵抗 R を求める式はどれか。（ρ: 抵抗率、L: 長さ、A: 断面積）", "choices": ["R = ρ L ÷ A", "R = ρ A ÷ L", "R = ρ L A", "R = L ÷ (ρ A)"], "answer": 0, "hint": "長いほど大きく、太いほど小さい。", "explanation": "抵抗は長さに比例し、断面積に反比例する。R = ρL/A。"},
-    {"id": "u09_ohm_circuits_q014", "type": "choice", "prompt": "電線の長さを 2 倍、直径を 2 倍にすると、抵抗は元の何倍になるか。", "choices": ["1/2 倍", "2 倍", "1/4 倍", "変わらない"], "answer": 0, "hint": "直径 2 倍 → 断面積 4 倍。", "explanation": "長さ 2 倍で抵抗 2 倍、直径 2 倍で断面積 4 倍なので抵抗 1/4 倍。合わせて 2 × 1/4 = 1/2 倍。"},
-    {"id": "u09_ohm_circuits_q015", "type": "choice", "prompt": "同じ材質・同じ長さで、直径 1.6 mm の電線と 3.2 mm の電線の抵抗を比べると、3.2 mm のほうは何倍か。", "choices": ["1/4 倍", "1/2 倍", "2 倍", "4 倍"], "answer": 0, "hint": "断面積は直径の 2 乗に比例。", "explanation": "直径 2 倍 → 断面積 4 倍 → 抵抗 1/4 倍。"},
-    {"id": "u09_ohm_circuits_q016", "type": "number", "prompt": "直径 2.0 mm の銅線の断面積 [mm²] を小数第 2 位まで答えよ（π = 3.14）。", "answer": 3.14, "unit": "mm²", "tolerance": 0.02, "hint": "A = π × (直径 ÷ 2)²", "explanation": "A = 3.14 × (2.0 ÷ 2)² = 3.14 × 1 = 3.14 mm²。"},
-    {"id": "u09_ohm_circuits_q017", "type": "number", "prompt": "直径 1.6 mm の銅線の断面積 [mm²] を小数第 1 位まで答えよ（π = 3.14）。", "answer": 2.0, "unit": "mm²", "tolerance": 0.05, "explanation": "A = 3.14 × 0.8² = 3.14 × 0.64 = 2.0096 ≒ 2.0 mm²。1.6 mm 単線 ≒ 2 mm² より線と覚える。"},
-    {"id": "u09_ohm_circuits_q018", "type": "choice", "prompt": "銅線の抵抗率と比べて、アルミニウム線の抵抗率はどうか。", "choices": ["銅より大きい（電気を通しにくい）", "銅より小さい", "同じ", "温度によって逆転する"], "answer": 0, "explanation": "抵抗率は 銀 < 銅 < 金 < アルミニウム の順に大きくなる。アルミは軽いが抵抗は銅の約 1.6 倍。"},
-    {"id": "u09_ohm_circuits_q019", "type": "truefalse", "prompt": "銅線の温度が上がると、抵抗値は大きくなる。", "answer": true, "hint": "金属は温度が上がると抵抗が増える。", "explanation": "金属の抵抗は温度が上がると原子の振動が激しくなり増える。半導体や電解液は逆に減る。"},
-    {"id": "u09_ohm_circuits_q020", "type": "number", "prompt": "断面積 2 mm²、長さ 100 m の銅線の抵抗 [Ω] を求めよ。銅の抵抗率を 0.017 Ω·mm²/m とし、小数第 2 位まで答えよ。", "answer": 0.85, "unit": "Ω", "tolerance": 0.01, "hint": "R = ρ × L ÷ A", "explanation": "R = 0.017 × 100 ÷ 2 = 0.85 Ω。"},
-    {"id": "u09_ohm_circuits_q021", "type": "choice", "prompt": "「キルヒホッフの第 1 法則」の内容はどれか。", "choices": ["回路の分岐点に流れ込む電流の和は、流れ出る電流の和に等しい", "閉回路の起電力の和は電圧降下の和に等しい", "電圧は電流と抵抗の積", "電力は電圧と電流の積"], "answer": 0, "explanation": "第 1 法則は電流の法則（分岐点で電流は消えない）。第 2 法則は電圧の法則。"},
-    {"id": "u09_ohm_circuits_q022", "type": "number", "prompt": "分岐点に 5 A と 3 A の電流が流れ込み、1 本の電線で流れ出している。流れ出る電流 [A] を整数で答えよ。", "answer": 8, "unit": "A", "hint": "キルヒホッフの第 1 法則。", "explanation": "流入 = 流出なので 5 + 3 = 8 A。"},
-    {"id": "u09_ohm_circuits_q023", "type": "number", "prompt": "起電力 12 V、内部抵抗 0.5 Ω の電池に 5.5 Ω の抵抗をつないだ。流れる電流 [A] を整数で答えよ。", "answer": 2, "unit": "A", "hint": "内部抵抗も直列に入っている。", "explanation": "全抵抗 = 0.5 + 5.5 = 6 Ω。I = 12 ÷ 6 = 2 A。"},
-    {"id": "u09_ohm_circuits_q024", "type": "number", "prompt": "起電力 12 V、内部抵抗 0.5 Ω の電池に 5.5 Ω の抵抗をつないだ。電池の端子電圧 [V] を整数で答えよ。", "answer": 11, "unit": "V", "hint": "端子電圧 = 起電力 − 内部抵抗での電圧降下。", "explanation": "電流 2 A、内部抵抗の電圧降下 = 2 × 0.5 = 1 V。端子電圧 = 12 − 1 = 11 V。"},
-    {"id": "u09_ohm_circuits_q025", "type": "choice", "prompt": "同じ電圧で、抵抗を半分にすると電流はどうなるか。", "choices": ["2 倍", "半分", "4 倍", "変わらない"], "answer": 0, "explanation": "I = V ÷ R。R が半分なら I は 2 倍。"},
-    {"id": "u09_ohm_circuits_q026", "type": "number", "prompt": "100 V の電源に 5 Ω と 20 Ω の抵抗を並列につないだ。電源から流れ出る全電流 [A] を整数で答えよ。", "answer": 25, "unit": "A", "hint": "各枝の電流を足す。", "explanation": "5 Ω に 20 A、20 Ω に 5 A。合計 25 A。"},
-    {"id": "u09_ohm_circuits_q027", "type": "number", "prompt": "3 Ω の抵抗に 1.5 A 流したい。必要な電圧 [V] を小数第 1 位まで答えよ。", "answer": 4.5, "unit": "V", "tolerance": 0.05, "explanation": "V = I × R = 1.5 × 3 = 4.5 V。"},
-    {"id": "u09_ohm_circuits_q028", "type": "truefalse", "prompt": "3 本の抵抗を並列につないだ合成抵抗は、そのうち最も小さい抵抗の値よりも小さくなる。", "answer": true, "explanation": "並列は通り道が増えるので、どの 1 本より小さくなる。"}
+    {
+      "id": "u09_ohm_circuits_q001",
+      "type": "number",
+      "prompt": "20 Ω の抵抗に 100 V を加えたときに流れる電流 [A] を整数で答えよ。",
+      "answer": 5,
+      "unit": "A",
+      "hint": "I = V ÷ R",
+      "explanation": "I = 100 ÷ 20 = 5 A。"
+    },
+    {
+      "id": "u09_ohm_circuits_q002",
+      "type": "number",
+      "prompt": "ある抵抗に 100 V を加えると 2 A 流れた。抵抗値 [Ω] を整数で答えよ。",
+      "answer": 50,
+      "unit": "Ω",
+      "hint": "R = V ÷ I",
+      "explanation": "R = 100 ÷ 2 = 50 Ω。"
+    },
+    {
+      "id": "u09_ohm_circuits_q003",
+      "type": "number",
+      "prompt": "8 Ω の抵抗に 2.5 A 流れている。両端の電圧 [V] を整数で答えよ。",
+      "answer": 20,
+      "unit": "V",
+      "hint": "V = I × R",
+      "explanation": "V = 2.5 × 8 = 20 V。"
+    },
+    {
+      "id": "u09_ohm_circuits_q004",
+      "type": "number",
+      "prompt": "4 Ω、6 Ω、10 Ω の抵抗を直列につないだ合成抵抗 [Ω] を整数で答えよ。",
+      "answer": 20,
+      "unit": "Ω",
+      "explanation": "直列は和。4 + 6 + 10 = 20 Ω。"
+    },
+    {
+      "id": "u09_ohm_circuits_q005",
+      "type": "number",
+      "prompt": "4 Ω と 12 Ω の抵抗を並列につないだ合成抵抗 [Ω] を整数で答えよ。",
+      "answer": 3,
+      "unit": "Ω",
+      "hint": "積 ÷ 和",
+      "explanation": "(4 × 12) ÷ (4 + 12) = 48 ÷ 16 = 3 Ω。"
+    },
+    {
+      "id": "u09_ohm_circuits_q006",
+      "type": "number",
+      "prompt": "6 Ω の抵抗を 3 本並列につないだ合成抵抗 [Ω] を整数で答えよ。",
+      "answer": 2,
+      "unit": "Ω",
+      "hint": "同じ抵抗 n 本の並列は R ÷ n。",
+      "explanation": "同じ値 n 本の並列は 1 本の 1/n。6 ÷ 3 = 2 Ω。"
+    },
+    {
+      "id": "u09_ohm_circuits_q007",
+      "type": "number",
+      "prompt": "2 Ω と 3 Ω を並列にしたものに、4 Ω を直列につないだ。全体の合成抵抗 [Ω] を小数第 1 位まで答えよ。",
+      "answer": 5.2,
+      "unit": "Ω",
+      "tolerance": 0.05,
+      "hint": "まず並列部分を積 ÷ 和で求める。",
+      "explanation": "並列部分 = (2 × 3) ÷ (2 + 3) = 1.2 Ω。直列で 1.2 + 4 = 5.2 Ω。"
+    },
+    {
+      "id": "u09_ohm_circuits_q008",
+      "type": "number",
+      "prompt": "10 Ω と 10 Ω を直列にしたものと、20 Ω を並列につないだ。合成抵抗 [Ω] を整数で答えよ。",
+      "answer": 10,
+      "unit": "Ω",
+      "hint": "直列部分は 20 Ω。20 Ω と 20 Ω の並列。",
+      "explanation": "直列部分 = 20 Ω。20 Ω 2 本の並列は半分の 10 Ω。"
+    },
+    {
+      "id": "u09_ohm_circuits_q009",
+      "type": "number",
+      "prompt": "30 Ω と 20 Ω の抵抗を直列につなぎ 100 V を加えた。20 Ω にかかる電圧 [V] を整数で答えよ。",
+      "answer": 40,
+      "unit": "V",
+      "hint": "分圧: 抵抗の比で電圧が分かれる。",
+      "explanation": "電流 = 100 ÷ 50 = 2 A。20 Ω の電圧 = 2 × 20 = 40 V。抵抗の比 30:20 = 60 V:40 V でも求まる。"
+    },
+    {
+      "id": "u09_ohm_circuits_q010",
+      "type": "number",
+      "prompt": "10 Ω と 40 Ω の抵抗を並列につなぎ、全体に 10 A 流れている。10 Ω に流れる電流 [A] を整数で答えよ。",
+      "answer": 8,
+      "unit": "A",
+      "hint": "分流: 電流は抵抗の逆比で分かれる。",
+      "explanation": "合成抵抗 = 400 ÷ 50 = 8 Ω。全体電圧 = 10 × 8 = 80 V。10 Ω の電流 = 80 ÷ 10 = 8 A。"
+    },
+    {
+      "id": "u09_ohm_circuits_q011",
+      "type": "choice",
+      "prompt": "抵抗の直列回路で、各抵抗にかかる電圧は何に比例するか。",
+      "choices": [
+        "各抵抗の大きさ",
+        "各抵抗の大きさの逆数",
+        "電流の 2 乗",
+        "抵抗の本数"
+      ],
+      "answer": 0,
+      "explanation": "直列では電流が共通なので、V = IR より電圧は抵抗に比例する（分圧）。"
+    },
+    {
+      "id": "u09_ohm_circuits_q012",
+      "type": "choice",
+      "prompt": "抵抗の並列回路で、各抵抗に流れる電流は何に比例するか。",
+      "choices": [
+        "各抵抗の大きさの逆数（抵抗が小さいほど大きい）",
+        "各抵抗の大きさ",
+        "電圧の 2 乗",
+        "抵抗の本数"
+      ],
+      "answer": 0,
+      "explanation": "並列では電圧が共通なので、I = V ÷ R より電流は抵抗に反比例する（分流）。"
+    },
+    {
+      "id": "u09_ohm_circuits_q013",
+      "type": "choice",
+      "prompt": "電線の抵抗 R を求める式はどれか。（ρ: 抵抗率、L: 長さ、A: 断面積）",
+      "choices": [
+        "R = ρ L ÷ A",
+        "R = ρ A ÷ L",
+        "R = ρ L A",
+        "R = L ÷ (ρ A)"
+      ],
+      "answer": 0,
+      "hint": "長いほど大きく、太いほど小さい。",
+      "explanation": "抵抗は長さに比例し、断面積に反比例する。R = ρL/A。",
+      "origin": "ρ（ロー）= resistivity（抵抗率）。",
+      "tip": "銅の抵抗率 1.7×10⁻⁸ Ω·m。アルミは約 1.6 倍なので、同じ電流なら一回り太い線を使う。"
+    },
+    {
+      "id": "u09_ohm_circuits_q014",
+      "type": "choice",
+      "prompt": "電線の長さを 2 倍、直径を 2 倍にすると、抵抗は元の何倍になるか。",
+      "choices": [
+        "1/2 倍",
+        "2 倍",
+        "1/4 倍",
+        "変わらない"
+      ],
+      "answer": 0,
+      "hint": "直径 2 倍 → 断面積 4 倍。",
+      "explanation": "長さ 2 倍で抵抗 2 倍、直径 2 倍で断面積 4 倍なので抵抗 1/4 倍。合わせて 2 × 1/4 = 1/2 倍。",
+      "origin": "断面積 = cross-sectional area。",
+      "tip": "1.6 mm 単線 ≒ 2 mm²、2.0 mm ≒ 3.14 mm²。試験の表はこの換算が前提。"
+    },
+    {
+      "id": "u09_ohm_circuits_q015",
+      "type": "choice",
+      "prompt": "同じ材質・同じ長さで、直径 1.6 mm の電線と 3.2 mm の電線の抵抗を比べると、3.2 mm のほうは何倍か。",
+      "choices": [
+        "1/4 倍",
+        "1/2 倍",
+        "2 倍",
+        "4 倍"
+      ],
+      "answer": 0,
+      "hint": "断面積は直径の 2 乗に比例。",
+      "explanation": "直径 2 倍 → 断面積 4 倍 → 抵抗 1/4 倍。"
+    },
+    {
+      "id": "u09_ohm_circuits_q016",
+      "type": "number",
+      "prompt": "直径 2.0 mm の銅線の断面積 [mm²] を小数第 2 位まで答えよ（π = 3.14）。",
+      "answer": 3.14,
+      "unit": "mm²",
+      "tolerance": 0.02,
+      "hint": "A = π × (直径 ÷ 2)²",
+      "explanation": "A = 3.14 × (2.0 ÷ 2)² = 3.14 × 1 = 3.14 mm²。"
+    },
+    {
+      "id": "u09_ohm_circuits_q017",
+      "type": "number",
+      "prompt": "直径 1.6 mm の銅線の断面積 [mm²] を小数第 1 位まで答えよ（π = 3.14）。",
+      "answer": 2.0,
+      "unit": "mm²",
+      "tolerance": 0.05,
+      "explanation": "A = 3.14 × 0.8² = 3.14 × 0.64 = 2.0096 ≒ 2.0 mm²。1.6 mm 単線 ≒ 2 mm² より線と覚える。"
+    },
+    {
+      "id": "u09_ohm_circuits_q018",
+      "type": "choice",
+      "prompt": "銅線の抵抗率と比べて、アルミニウム線の抵抗率はどうか。",
+      "choices": [
+        "銅より大きい（電気を通しにくい）",
+        "銅より小さい",
+        "同じ",
+        "温度によって逆転する"
+      ],
+      "answer": 0,
+      "explanation": "抵抗率は 銀 < 銅 < 金 < アルミニウム の順に大きくなる。アルミは軽いが抵抗は銅の約 1.6 倍。",
+      "origin": "Al = Aluminium、Cu = Copper。",
+      "tip": "幹線に CV アルミ導体を使うことがある。軽くて安いが太くなる。"
+    },
+    {
+      "id": "u09_ohm_circuits_q019",
+      "type": "truefalse",
+      "prompt": "銅線の温度が上がると、抵抗値は大きくなる。",
+      "answer": true,
+      "hint": "金属は温度が上がると抵抗が増える。",
+      "explanation": "金属の抵抗は温度が上がると原子の振動が激しくなり増える。半導体や電解液は逆に減る。",
+      "origin": "温度係数 = temperature coefficient。",
+      "tip": "夏の天井裏は 50 ℃ を超える。周囲温度が高いと許容電流を下げる必要がある。"
+    },
+    {
+      "id": "u09_ohm_circuits_q020",
+      "type": "number",
+      "prompt": "断面積 2 mm²、長さ 100 m の銅線の抵抗 [Ω] を求めよ。銅の抵抗率を 0.017 Ω·mm²/m とし、小数第 2 位まで答えよ。",
+      "answer": 0.85,
+      "unit": "Ω",
+      "tolerance": 0.01,
+      "hint": "R = ρ × L ÷ A",
+      "explanation": "R = 0.017 × 100 ÷ 2 = 0.85 Ω。"
+    },
+    {
+      "id": "u09_ohm_circuits_q021",
+      "type": "choice",
+      "prompt": "「キルヒホッフの第 1 法則」の内容はどれか。",
+      "choices": [
+        "回路の分岐点に流れ込む電流の和は、流れ出る電流の和に等しい",
+        "閉回路の起電力の和は電圧降下の和に等しい",
+        "電圧は電流と抵抗の積",
+        "電力は電圧と電流の積"
+      ],
+      "answer": 0,
+      "explanation": "第 1 法則は電流の法則（分岐点で電流は消えない）。第 2 法則は電圧の法則。",
+      "origin": "Kirchhoff（キルヒホッフ）。ドイツの物理学者。",
+      "tip": "分岐点で「入る電流 = 出る電流」。単相 3 線式の中性線電流を求めるときに使う。"
+    },
+    {
+      "id": "u09_ohm_circuits_q022",
+      "type": "number",
+      "prompt": "分岐点に 5 A と 3 A の電流が流れ込み、1 本の電線で流れ出している。流れ出る電流 [A] を整数で答えよ。",
+      "answer": 8,
+      "unit": "A",
+      "hint": "キルヒホッフの第 1 法則。",
+      "explanation": "流入 = 流出なので 5 + 3 = 8 A。"
+    },
+    {
+      "id": "u09_ohm_circuits_q023",
+      "type": "number",
+      "prompt": "起電力 12 V、内部抵抗 0.5 Ω の電池に 5.5 Ω の抵抗をつないだ。流れる電流 [A] を整数で答えよ。",
+      "answer": 2,
+      "unit": "A",
+      "hint": "内部抵抗も直列に入っている。",
+      "explanation": "全抵抗 = 0.5 + 5.5 = 6 Ω。I = 12 ÷ 6 = 2 A。"
+    },
+    {
+      "id": "u09_ohm_circuits_q024",
+      "type": "number",
+      "prompt": "起電力 12 V、内部抵抗 0.5 Ω の電池に 5.5 Ω の抵抗をつないだ。電池の端子電圧 [V] を整数で答えよ。",
+      "answer": 11,
+      "unit": "V",
+      "hint": "端子電圧 = 起電力 − 内部抵抗での電圧降下。",
+      "explanation": "電流 2 A、内部抵抗の電圧降下 = 2 × 0.5 = 1 V。端子電圧 = 12 − 1 = 11 V。"
+    },
+    {
+      "id": "u09_ohm_circuits_q025",
+      "type": "choice",
+      "prompt": "同じ電圧で、抵抗を半分にすると電流はどうなるか。",
+      "choices": [
+        "2 倍",
+        "半分",
+        "4 倍",
+        "変わらない"
+      ],
+      "answer": 0,
+      "explanation": "I = V ÷ R。R が半分なら I は 2 倍。"
+    },
+    {
+      "id": "u09_ohm_circuits_q026",
+      "type": "number",
+      "prompt": "100 V の電源に 5 Ω と 20 Ω の抵抗を並列につないだ。電源から流れ出る全電流 [A] を整数で答えよ。",
+      "answer": 25,
+      "unit": "A",
+      "hint": "各枝の電流を足す。",
+      "explanation": "5 Ω に 20 A、20 Ω に 5 A。合計 25 A。"
+    },
+    {
+      "id": "u09_ohm_circuits_q027",
+      "type": "number",
+      "prompt": "3 Ω の抵抗に 1.5 A 流したい。必要な電圧 [V] を小数第 1 位まで答えよ。",
+      "answer": 4.5,
+      "unit": "V",
+      "tolerance": 0.05,
+      "explanation": "V = I × R = 1.5 × 3 = 4.5 V。"
+    },
+    {
+      "id": "u09_ohm_circuits_q028",
+      "type": "truefalse",
+      "prompt": "3 本の抵抗を並列につないだ合成抵抗は、そのうち最も小さい抵抗の値よりも小さくなる。",
+      "answer": true,
+      "explanation": "並列は通り道が増えるので、どの 1 本より小さくなる。"
+    }
   ],
-  "boss": {"questionCount": 10, "timeLimitSeconds": 150}
+  "boss": {
+    "questionCount": 10,
+    "timeLimitSeconds": 150
+  }
 }

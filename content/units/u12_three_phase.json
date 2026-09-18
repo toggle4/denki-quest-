@@ -5,24 +5,217 @@
   "stage": "calculate",
   "description": "Y 結線と Δ 結線の電圧・電流の関係、三相電力の計算、断線時の変化を学ぶ。",
   "questions": [
-    {"id": "u12_three_phase_q001", "type": "choice", "prompt": "三相交流の各相の位相差はいくらか。", "choices": ["120°", "90°", "180°", "60°"], "answer": 0, "hint": "360° を 3 等分。", "explanation": "三相交流は 120° ずつずれた 3 つの正弦波。"},
-    {"id": "u12_three_phase_q002", "type": "choice", "prompt": "Y（スター）結線での線間電圧と相電圧の関係はどれか。", "choices": ["線間電圧 = √3 × 相電圧", "線間電圧 = 相電圧", "線間電圧 = 3 × 相電圧", "線間電圧 = 相電圧 ÷ √3"], "answer": 0, "hint": "Y は電圧が √3 倍。Δ は電流が √3 倍。", "explanation": "Y 結線: 線間電圧 = √3 × 相電圧、線電流 = 相電流。"},
-    {"id": "u12_three_phase_q003", "type": "choice", "prompt": "Δ（デルタ）結線での線電流と相電流の関係はどれか。", "choices": ["線電流 = √3 × 相電流", "線電流 = 相電流", "線電流 = 3 × 相電流", "線電流 = 相電流 ÷ √3"], "answer": 0, "explanation": "Δ 結線: 線間電圧 = 相電圧、線電流 = √3 × 相電流。"},
-    {"id": "u12_three_phase_q004", "type": "number", "prompt": "Y 結線の三相負荷で、相電圧が 200 V のときの線間電圧 [V] を整数で答えよ（√3 = 1.73）。", "answer": 346, "unit": "V", "tolerance": 1, "explanation": "200 × 1.73 = 346 V。"},
-    {"id": "u12_three_phase_q005", "type": "number", "prompt": "線間電圧 200 V の三相電源に Y 結線の負荷をつないだ。相電圧 [V] を整数で答えよ（√3 = 1.73）。", "answer": 116, "unit": "V", "tolerance": 1, "hint": "相電圧 = 線間電圧 ÷ √3", "explanation": "200 ÷ 1.73 ≒ 116 V。"},
-    {"id": "u12_three_phase_q006", "type": "number", "prompt": "線間電圧 200 V の三相電源に、各相 20 Ω の抵抗を Y 結線でつないだ。線電流 [A] を小数第 1 位まで答えよ（√3 = 1.73）。", "answer": 5.8, "unit": "A", "tolerance": 0.1, "hint": "相電圧 116 V ÷ 20 Ω。", "explanation": "相電圧 = 200 ÷ 1.73 = 115.6 V。相電流 = 115.6 ÷ 20 = 5.78 A。Y では線電流 = 相電流 ≒ 5.8 A。"},
-    {"id": "u12_three_phase_q007", "type": "number", "prompt": "線間電圧 200 V の三相電源に、各相 20 Ω の抵抗を Δ 結線でつないだ。相電流 [A] を整数で答えよ。", "answer": 10, "unit": "A", "hint": "Δ では相電圧 = 線間電圧。", "explanation": "相電圧 200 V、相電流 = 200 ÷ 20 = 10 A。線電流は √3 倍の 17.3 A。"},
-    {"id": "u12_three_phase_q008", "type": "number", "prompt": "線間電圧 200 V の三相電源に、各相 20 Ω の抵抗を Δ 結線でつないだ。線電流 [A] を小数第 1 位まで答えよ（√3 = 1.73）。", "answer": 17.3, "unit": "A", "tolerance": 0.1, "explanation": "相電流 10 A × 1.73 = 17.3 A。"},
-    {"id": "u12_three_phase_q009", "type": "choice", "prompt": "三相電力 P を線間電圧 V、線電流 I、力率 cosθ で表す式はどれか。", "choices": ["P = √3 V I cosθ", "P = 3 V I cosθ", "P = V I cosθ", "P = √3 V I"], "answer": 0, "hint": "線間・線電流なら √3、相電圧・相電流なら 3。", "explanation": "P = √3 × 線間電圧 × 線電流 × cosθ = 3 × 相電圧 × 相電流 × cosθ。"},
-    {"id": "u12_three_phase_q010", "type": "number", "prompt": "線間電圧 200 V、線電流 10 A、力率 100 % の三相負荷の電力 [W] を整数で答えよ（√3 = 1.73）。", "answer": 3460, "unit": "W", "tolerance": 5, "explanation": "P = 1.73 × 200 × 10 × 1 = 3460 W。"},
-    {"id": "u12_three_phase_q011", "type": "number", "prompt": "各相 20 Ω の抵抗を Δ 結線し、線間電圧 200 V を加えたときの三相全体の消費電力 [W] を整数で答えよ。", "answer": 6000, "unit": "W", "hint": "1 相あたり V² ÷ R を 3 倍。", "explanation": "1 相 = 200² ÷ 20 = 2000 W。3 相で 6000 W。"},
-    {"id": "u12_three_phase_q012", "type": "number", "prompt": "各相 20 Ω の抵抗を Y 結線し、線間電圧 200 V を加えたときの三相全体の消費電力 [W] を整数で答えよ。", "answer": 2000, "unit": "W", "tolerance": 10, "hint": "相電圧は 200 ÷ √3。1 相 = 相電圧² ÷ R。", "explanation": "相電圧² = 200² ÷ 3 = 13333。1 相 = 13333 ÷ 20 = 667 W。3 相で 2000 W。同じ抵抗なら Δ は Y の 3 倍の電力。"},
-    {"id": "u12_three_phase_q013", "type": "choice", "prompt": "同じ抵抗を Y 結線から Δ 結線につなぎ変えると、消費電力は何倍になるか。", "choices": ["3 倍", "√3 倍", "1/3 倍", "変わらない"], "answer": 0, "explanation": "Δ は各抵抗に線間電圧がそのままかかる（Y は 1/√3）。電力は電圧の 2 乗に比例するので 3 倍。"},
-    {"id": "u12_three_phase_q014", "type": "choice", "prompt": "Δ 結線の三相負荷で、電源側の 1 線が断線すると負荷はどうなるか。", "choices": ["単相回路になり、負荷は残りの 2 線で動作する（電力は減る）", "すべて停止する", "変わらない", "電圧が √3 倍になる"], "answer": 0, "explanation": "1 線断線で単相電源に 3 つの抵抗（1 つ + 2 つ直列の並列）がつながった形になり、電力は元の 1/2 になる。"},
-    {"id": "u12_three_phase_q015", "type": "number", "prompt": "Δ 結線した各相 R Ω の抵抗負荷で、1 線が断線した。全体の消費電力は元の何分の 1 か。「2」なら 2 と整数で答えよ。", "answer": 2, "unit": "分の 1", "hint": "断線後は R と 2R の並列 = 2R/3。元は 3 相で 3V²/R。", "explanation": "断線後: R と 2R の並列 = 2R/3。P = V² ÷ (2R/3) = 1.5V²/R。元の 3V²/R の 1/2。"},
-    {"id": "u12_three_phase_q016", "type": "choice", "prompt": "三相 3 線式 200 V 回路の対地電圧はいくらか（変圧器の 1 相を接地）。", "choices": ["200 V", "100 V", "115 V", "346 V"], "answer": 0, "hint": "Δ 結線の 1 線を接地。", "explanation": "三相 3 線 200 V は Δ の 1 端子を B 種接地しているので、他の線の対地電圧は 200 V。絶縁抵抗は 0.2 MΩ 以上。"},
-    {"id": "u12_three_phase_q017", "type": "truefalse", "prompt": "三相交流では、平衡負荷のとき 3 つの相電流の瞬時値の合計は常に 0 である。", "answer": true, "explanation": "120° ずれた同じ大きさの 3 つの電流を足すと打ち消し合って 0。だから Y 結線の中性線には電流が流れない。"},
-    {"id": "u12_three_phase_q018", "type": "choice", "prompt": "三相誘導電動機を 60 Hz の地域から 50 Hz の地域に持っていくと、回転速度はどうなるか。", "choices": ["遅くなる（5/6 倍）", "速くなる", "変わらない", "回らなくなる"], "answer": 0, "hint": "Ns = 120f/p。", "explanation": "回転速度は周波数に比例するので 50/60 = 5/6 に遅くなる。"}
+    {
+      "id": "u12_three_phase_q001",
+      "type": "choice",
+      "prompt": "三相交流の各相の位相差はいくらか。",
+      "choices": [
+        "120°",
+        "90°",
+        "180°",
+        "60°"
+      ],
+      "answer": 0,
+      "hint": "360° を 3 等分。",
+      "explanation": "三相交流は 120° ずつずれた 3 つの正弦波。",
+      "origin": "三相 = three-phase。相 = phase（位相）。",
+      "tip": "工場の動力は三相 200 V。コンセントも 3 極の専用形。"
+    },
+    {
+      "id": "u12_three_phase_q002",
+      "type": "choice",
+      "prompt": "Y（スター）結線での線間電圧と相電圧の関係はどれか。",
+      "choices": [
+        "線間電圧 = √3 × 相電圧",
+        "線間電圧 = 相電圧",
+        "線間電圧 = 3 × 相電圧",
+        "線間電圧 = 相電圧 ÷ √3"
+      ],
+      "answer": 0,
+      "hint": "Y は電圧が √3 倍。Δ は電流が √3 倍。",
+      "explanation": "Y 結線: 線間電圧 = √3 × 相電圧、線電流 = 相電流。",
+      "origin": "Y = star（スター）結線、Δ = delta（デルタ、ギリシャ文字）。",
+      "tip": "三相 3 線 200 V の受電は Δ の 1 線を接地しているので対地電圧は 200 V。"
+    },
+    {
+      "id": "u12_three_phase_q003",
+      "type": "choice",
+      "prompt": "Δ（デルタ）結線での線電流と相電流の関係はどれか。",
+      "choices": [
+        "線電流 = √3 × 相電流",
+        "線電流 = 相電流",
+        "線電流 = 3 × 相電流",
+        "線電流 = 相電流 ÷ √3"
+      ],
+      "answer": 0,
+      "explanation": "Δ 結線: 線間電圧 = 相電圧、線電流 = √3 × 相電流。"
+    },
+    {
+      "id": "u12_three_phase_q004",
+      "type": "number",
+      "prompt": "Y 結線の三相負荷で、相電圧が 200 V のときの線間電圧 [V] を整数で答えよ（√3 = 1.73）。",
+      "answer": 346,
+      "unit": "V",
+      "tolerance": 1,
+      "explanation": "200 × 1.73 = 346 V。"
+    },
+    {
+      "id": "u12_three_phase_q005",
+      "type": "number",
+      "prompt": "線間電圧 200 V の三相電源に Y 結線の負荷をつないだ。相電圧 [V] を整数で答えよ（√3 = 1.73）。",
+      "answer": 116,
+      "unit": "V",
+      "tolerance": 1,
+      "hint": "相電圧 = 線間電圧 ÷ √3",
+      "explanation": "200 ÷ 1.73 ≒ 116 V。"
+    },
+    {
+      "id": "u12_three_phase_q006",
+      "type": "number",
+      "prompt": "線間電圧 200 V の三相電源に、各相 20 Ω の抵抗を Y 結線でつないだ。線電流 [A] を小数第 1 位まで答えよ（√3 = 1.73）。",
+      "answer": 5.8,
+      "unit": "A",
+      "tolerance": 0.1,
+      "hint": "相電圧 116 V ÷ 20 Ω。",
+      "explanation": "相電圧 = 200 ÷ 1.73 = 115.6 V。相電流 = 115.6 ÷ 20 = 5.78 A。Y では線電流 = 相電流 ≒ 5.8 A。"
+    },
+    {
+      "id": "u12_three_phase_q007",
+      "type": "number",
+      "prompt": "線間電圧 200 V の三相電源に、各相 20 Ω の抵抗を Δ 結線でつないだ。相電流 [A] を整数で答えよ。",
+      "answer": 10,
+      "unit": "A",
+      "hint": "Δ では相電圧 = 線間電圧。",
+      "explanation": "相電圧 200 V、相電流 = 200 ÷ 20 = 10 A。線電流は √3 倍の 17.3 A。"
+    },
+    {
+      "id": "u12_three_phase_q008",
+      "type": "number",
+      "prompt": "線間電圧 200 V の三相電源に、各相 20 Ω の抵抗を Δ 結線でつないだ。線電流 [A] を小数第 1 位まで答えよ（√3 = 1.73）。",
+      "answer": 17.3,
+      "unit": "A",
+      "tolerance": 0.1,
+      "explanation": "相電流 10 A × 1.73 = 17.3 A。"
+    },
+    {
+      "id": "u12_three_phase_q009",
+      "type": "choice",
+      "prompt": "三相電力 P を線間電圧 V、線電流 I、力率 cosθ で表す式はどれか。",
+      "choices": [
+        "P = √3 V I cosθ",
+        "P = 3 V I cosθ",
+        "P = V I cosθ",
+        "P = √3 V I"
+      ],
+      "answer": 0,
+      "hint": "線間・線電流なら √3、相電圧・相電流なら 3。",
+      "explanation": "P = √3 × 線間電圧 × 線電流 × cosθ = 3 × 相電圧 × 相電流 × cosθ。",
+      "origin": "√3 ≒ 1.73。三相の線間と相の比。",
+      "tip": "現場の暗算: 三相 200 V・10 A の電力 ≒ 3.46 kW。"
+    },
+    {
+      "id": "u12_three_phase_q010",
+      "type": "number",
+      "prompt": "線間電圧 200 V、線電流 10 A、力率 100 % の三相負荷の電力 [W] を整数で答えよ（√3 = 1.73）。",
+      "answer": 3460,
+      "unit": "W",
+      "tolerance": 5,
+      "explanation": "P = 1.73 × 200 × 10 × 1 = 3460 W。"
+    },
+    {
+      "id": "u12_three_phase_q011",
+      "type": "number",
+      "prompt": "各相 20 Ω の抵抗を Δ 結線し、線間電圧 200 V を加えたときの三相全体の消費電力 [W] を整数で答えよ。",
+      "answer": 6000,
+      "unit": "W",
+      "hint": "1 相あたり V² ÷ R を 3 倍。",
+      "explanation": "1 相 = 200² ÷ 20 = 2000 W。3 相で 6000 W。"
+    },
+    {
+      "id": "u12_three_phase_q012",
+      "type": "number",
+      "prompt": "各相 20 Ω の抵抗を Y 結線し、線間電圧 200 V を加えたときの三相全体の消費電力 [W] を整数で答えよ。",
+      "answer": 2000,
+      "unit": "W",
+      "tolerance": 10,
+      "hint": "相電圧は 200 ÷ √3。1 相 = 相電圧² ÷ R。",
+      "explanation": "相電圧² = 200² ÷ 3 = 13333。1 相 = 13333 ÷ 20 = 667 W。3 相で 2000 W。同じ抵抗なら Δ は Y の 3 倍の電力。"
+    },
+    {
+      "id": "u12_three_phase_q013",
+      "type": "choice",
+      "prompt": "同じ抵抗を Y 結線から Δ 結線につなぎ変えると、消費電力は何倍になるか。",
+      "choices": [
+        "3 倍",
+        "√3 倍",
+        "1/3 倍",
+        "変わらない"
+      ],
+      "answer": 0,
+      "explanation": "Δ は各抵抗に線間電圧がそのままかかる（Y は 1/√3）。電力は電圧の 2 乗に比例するので 3 倍。"
+    },
+    {
+      "id": "u12_three_phase_q014",
+      "type": "choice",
+      "prompt": "Δ 結線の三相負荷で、電源側の 1 線が断線すると負荷はどうなるか。",
+      "choices": [
+        "単相回路になり、負荷は残りの 2 線で動作する（電力は減る）",
+        "すべて停止する",
+        "変わらない",
+        "電圧が √3 倍になる"
+      ],
+      "answer": 0,
+      "explanation": "1 線断線で単相電源に 3 つの抵抗（1 つ + 2 つ直列の並列）がつながった形になり、電力は元の 1/2 になる。"
+    },
+    {
+      "id": "u12_three_phase_q015",
+      "type": "number",
+      "prompt": "Δ 結線した各相 R Ω の抵抗負荷で、1 線が断線した。全体の消費電力は元の何分の 1 か。「2」なら 2 と整数で答えよ。",
+      "answer": 2,
+      "unit": "分の 1",
+      "hint": "断線後は R と 2R の並列 = 2R/3。元は 3 相で 3V²/R。",
+      "explanation": "断線後: R と 2R の並列 = 2R/3。P = V² ÷ (2R/3) = 1.5V²/R。元の 3V²/R の 1/2。"
+    },
+    {
+      "id": "u12_three_phase_q016",
+      "type": "choice",
+      "prompt": "三相 3 線式 200 V 回路の対地電圧はいくらか（変圧器の 1 相を接地）。",
+      "choices": [
+        "200 V",
+        "100 V",
+        "115 V",
+        "346 V"
+      ],
+      "answer": 0,
+      "hint": "Δ 結線の 1 線を接地。",
+      "explanation": "三相 3 線 200 V は Δ の 1 端子を B 種接地しているので、他の線の対地電圧は 200 V。絶縁抵抗は 0.2 MΩ 以上。"
+    },
+    {
+      "id": "u12_three_phase_q017",
+      "type": "truefalse",
+      "prompt": "三相交流では、平衡負荷のとき 3 つの相電流の瞬時値の合計は常に 0 である。",
+      "answer": true,
+      "explanation": "120° ずれた同じ大きさの 3 つの電流を足すと打ち消し合って 0。だから Y 結線の中性線には電流が流れない。"
+    },
+    {
+      "id": "u12_three_phase_q018",
+      "type": "choice",
+      "prompt": "三相誘導電動機を 60 Hz の地域から 50 Hz の地域に持っていくと、回転速度はどうなるか。",
+      "choices": [
+        "遅くなる（5/6 倍）",
+        "速くなる",
+        "変わらない",
+        "回らなくなる"
+      ],
+      "answer": 0,
+      "hint": "Ns = 120f/p。",
+      "explanation": "回転速度は周波数に比例するので 50/60 = 5/6 に遅くなる。",
+      "origin": "同期速度 = synchronous speed（Ns = 120 f / p）。",
+      "tip": "4 極モータは 60 Hz で 1800 min⁻¹、実際は滑りで 1700 台。"
+    }
   ],
-  "boss": {"questionCount": 10, "timeLimitSeconds": 150}
+  "boss": {
+    "questionCount": 10,
+    "timeLimitSeconds": 150
+  }
 }

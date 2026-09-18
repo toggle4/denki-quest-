@@ -68,7 +68,9 @@
       "tags": [
         "中性線断線"
       ],
-      "srsWeight": 1.0
+      "srsWeight": 1.0,
+      "origin": "中性線断線 = neutral open。",
+      "tip": "実際の事故で多い。家電が次々に壊れたら中性線を疑う。"
     },
     {
       "id": "D03-t03",

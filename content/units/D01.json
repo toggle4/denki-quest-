@@ -43,7 +43,9 @@
         "I * r",
         "SQRT3 * I * r",
         "4 * I * r"
-      ]
+      ],
+      "origin": "単相 2 線式 = single-phase two-wire（1φ2W）。",
+      "tip": "図面の「1φ2W 100V」がこれ。"
     },
     {
       "id": "D01-t02",
@@ -165,7 +167,9 @@
         "2 * I * r",
         "SQRT3 * I * r",
         "I * r / 2"
-      ]
+      ],
+      "origin": "単相 3 線式 = single-phase three-wire（1φ3W）。",
+      "tip": "今の住宅の引込はほぼ 1φ3W 100/200V。200 V の IH やエアコンが使える。"
     },
     {
       "id": "D01-t05",

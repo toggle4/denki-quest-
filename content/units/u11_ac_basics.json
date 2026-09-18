@@ -5,30 +5,292 @@
   "stage": "calculate",
   "description": "正弦波交流の実効値と最大値、周波数、コイルとコンデンサの働き、力率と電力の計算を学ぶ。",
   "questions": [
-    {"id": "u11_ac_basics_q001", "type": "choice", "prompt": "交流電圧の「実効値」と「最大値」の関係はどれか。", "choices": ["実効値 = 最大値 ÷ √2", "実効値 = 最大値 × √2", "実効値 = 最大値 ÷ 2", "実効値 = 最大値"], "answer": 0, "hint": "100 V の交流の最大値は約 141 V。", "explanation": "正弦波では 実効値 = 最大値 / √2 ≒ 最大値 × 0.707。電圧計が示すのは実効値。"},
-    {"id": "u11_ac_basics_q002", "type": "number", "prompt": "実効値 100 V の正弦波交流の最大値 [V] を整数で答えよ（√2 = 1.41）。", "answer": 141, "unit": "V", "tolerance": 1, "hint": "最大値 = 実効値 × √2", "explanation": "100 × 1.41 = 141 V。"},
-    {"id": "u11_ac_basics_q003", "type": "number", "prompt": "最大値 282 V の正弦波交流の実効値 [V] を整数で答えよ（√2 = 1.41）。", "answer": 200, "unit": "V", "tolerance": 1, "explanation": "282 ÷ 1.41 = 200 V。"},
-    {"id": "u11_ac_basics_q004", "type": "choice", "prompt": "周波数 50 Hz の交流の周期はいくらか。", "choices": ["0.02 秒", "0.05 秒", "0.5 秒", "50 秒"], "answer": 0, "hint": "周期 T = 1 ÷ f", "explanation": "T = 1 ÷ 50 = 0.02 秒。1 秒間に 50 回くり返す。"},
-    {"id": "u11_ac_basics_q005", "type": "choice", "prompt": "日本の商用周波数の説明で正しいものはどれか。", "choices": ["東日本が 50 Hz、西日本が 60 Hz", "東日本が 60 Hz、西日本が 50 Hz", "全国 50 Hz", "全国 60 Hz"], "answer": 0, "explanation": "静岡県の富士川と新潟県の糸魚川あたりを境に、東が 50 Hz、西が 60 Hz。"},
-    {"id": "u11_ac_basics_q006", "type": "number", "prompt": "周波数 60 Hz の交流の角周波数 ω [rad/s] を整数で答えよ（2π = 6.28）。", "answer": 377, "unit": "rad/s", "tolerance": 1, "hint": "ω = 2πf", "explanation": "ω = 6.28 × 60 ≒ 377 rad/s。"},
-    {"id": "u11_ac_basics_q007", "type": "choice", "prompt": "コイル（インダクタンス L）を交流回路につないだとき、電流は電圧に対してどうなるか。", "choices": ["90° 遅れる", "90° 進む", "同相", "180° ずれる"], "answer": 0, "hint": "コイルは電流の変化をいやがる → 電流が遅れる。", "explanation": "コイルでは電流が電圧より 90° 遅れる。コンデンサは逆に 90° 進む。"},
-    {"id": "u11_ac_basics_q008", "type": "choice", "prompt": "コンデンサ（静電容量 C）を交流回路につないだとき、電流は電圧に対してどうなるか。", "choices": ["90° 進む", "90° 遅れる", "同相", "流れない"], "answer": 0, "explanation": "コンデンサでは電流が電圧より 90° 進む。抵抗だけなら同相。"},
-    {"id": "u11_ac_basics_q009", "type": "choice", "prompt": "コイルのリアクタンス X_L を求める式はどれか。", "choices": ["X_L = 2πfL", "X_L = 1 ÷ (2πfL)", "X_L = L ÷ f", "X_L = fL"], "answer": 0, "hint": "周波数が高いほど通しにくい。", "explanation": "誘導性リアクタンス X_L = 2πfL [Ω]。周波数が高いほど大きい。"},
-    {"id": "u11_ac_basics_q010", "type": "choice", "prompt": "コンデンサのリアクタンス X_C を求める式はどれか。", "choices": ["X_C = 1 ÷ (2πfC)", "X_C = 2πfC", "X_C = fC", "X_C = C ÷ f"], "answer": 0, "hint": "周波数が高いほど通しやすい。", "explanation": "容量性リアクタンス X_C = 1/(2πfC) [Ω]。周波数が高いほど小さい。"},
-    {"id": "u11_ac_basics_q011", "type": "number", "prompt": "抵抗 8 Ω とコイルのリアクタンス 6 Ω が直列につながっている。インピーダンス [Ω] を整数で答えよ。", "answer": 10, "unit": "Ω", "hint": "Z = √(R² + X²)。3:4:5 の直角三角形。", "explanation": "Z = √(8² + 6²) = √(64 + 36) = √100 = 10 Ω。"},
-    {"id": "u11_ac_basics_q012", "type": "number", "prompt": "抵抗 8 Ω、リアクタンス 6 Ω の直列回路に 100 V を加えた。流れる電流 [A] を整数で答えよ。", "answer": 10, "unit": "A", "hint": "I = V ÷ Z", "explanation": "Z = 10 Ω。I = 100 ÷ 10 = 10 A。"},
-    {"id": "u11_ac_basics_q013", "type": "number", "prompt": "抵抗 8 Ω、リアクタンス 6 Ω の直列回路の力率 [%] を整数で答えよ。", "answer": 80, "unit": "%", "hint": "力率 = R ÷ Z", "explanation": "cosθ = R ÷ Z = 8 ÷ 10 = 0.8 → 80 %。"},
-    {"id": "u11_ac_basics_q014", "type": "number", "prompt": "抵抗 8 Ω、リアクタンス 6 Ω の直列回路に 100 V を加えたときの消費電力（有効電力）[W] を整数で答えよ。", "answer": 800, "unit": "W", "hint": "P = I² R または P = VI cosθ", "explanation": "I = 10 A。P = 10² × 8 = 800 W。（VI cosθ = 100 × 10 × 0.8 = 800 W でも同じ）"},
-    {"id": "u11_ac_basics_q015", "type": "choice", "prompt": "交流の「皮相電力」の単位はどれか。", "choices": ["VA（ボルトアンペア）", "W（ワット）", "var（バール）", "Wh（ワット時）"], "answer": 0, "hint": "有効電力は W、無効電力は var、皮相電力は VA。", "explanation": "皮相電力 S = VI [VA]。有効電力 P = VI cosθ [W]。無効電力 Q = VI sinθ [var]。"},
-    {"id": "u11_ac_basics_q016", "type": "number", "prompt": "単相 100 V、電流 10 A、力率 80 % の負荷の有効電力 [W] を整数で答えよ。", "answer": 800, "unit": "W", "hint": "P = V × I × cosθ", "explanation": "P = 100 × 10 × 0.8 = 800 W。皮相電力は 1000 VA。"},
-    {"id": "u11_ac_basics_q017", "type": "number", "prompt": "単相 200 V、電流 5 A、力率 60 % の負荷の無効電力 [var] を整数で答えよ。", "answer": 800, "unit": "var", "hint": "力率 0.6 なら sinθ = 0.8。", "explanation": "Q = V I sinθ = 200 × 5 × 0.8 = 800 var。"},
-    {"id": "u11_ac_basics_q018", "type": "number", "prompt": "有効電力 600 W、無効電力 800 var の負荷の皮相電力 [VA] を整数で答えよ。", "answer": 1000, "unit": "VA", "hint": "S = √(P² + Q²)", "explanation": "S = √(600² + 800²) = √(360000 + 640000) = 1000 VA。"},
-    {"id": "u11_ac_basics_q019", "type": "choice", "prompt": "力率を改善する目的はどれか。", "choices": ["同じ有効電力を送るための電流を減らし、電線の損失を減らす", "電圧を上げる", "周波数を安定させる", "有効電力を増やす"], "answer": 0, "explanation": "力率が悪いと同じ W を送るのに大きな電流が必要で、電線の損失（I²R）が増える。コンデンサで改善する。"},
-    {"id": "u11_ac_basics_q020", "type": "truefalse", "prompt": "白熱電球や電熱器などの抵抗負荷の力率はほぼ 100 % である。", "answer": true, "explanation": "抵抗だけなら電圧と電流が同相で cosθ = 1。電動機や蛍光灯はコイルがあるので力率が下がる。"},
-    {"id": "u11_ac_basics_q021", "type": "choice", "prompt": "交流回路で、抵抗 R とコンデンサ C を直列につないだときのインピーダンスはどれか。", "choices": ["√(R² + X_C²)", "R + X_C", "R − X_C", "R × X_C"], "answer": 0, "hint": "抵抗とリアクタンスは直角に足す。", "explanation": "R と X は位相が 90° ずれているので、ベクトル的に √(R² + X²) で合成する。単純な和ではない。"},
-    {"id": "u11_ac_basics_q022", "type": "number", "prompt": "抵抗 6 Ω とコンデンサのリアクタンス 8 Ω の直列回路に 100 V を加えた。抵抗の両端の電圧 [V] を整数で答えよ。", "answer": 60, "unit": "V", "hint": "Z = 10 Ω、I = 10 A。", "explanation": "Z = √(36 + 64) = 10 Ω。I = 10 A。抵抗の電圧 = 10 × 6 = 60 V。コンデンサは 80 V で、60² + 80² = 100²。"},
-    {"id": "u11_ac_basics_q023", "type": "choice", "prompt": "交流回路で、コイル L とコンデンサ C を直列にしてリアクタンスが打ち消し合い、電流が最大になる現象を何というか。", "choices": ["直列共振", "短絡", "飽和", "整流"], "answer": 0, "explanation": "X_L = X_C になるとインピーダンスが R だけになり、電流が最大になる（共振）。"},
-    {"id": "u11_ac_basics_q024", "type": "truefalse", "prompt": "交流 100 V とは実効値のことで、直流 100 V と同じ電力を抵抗に与える。", "answer": true, "explanation": "実効値は「同じ発熱をする直流の値」と定義される。"}
+    {
+      "id": "u11_ac_basics_q001",
+      "type": "choice",
+      "prompt": "交流電圧の「実効値」と「最大値」の関係はどれか。",
+      "choices": [
+        "実効値 = 最大値 ÷ √2",
+        "実効値 = 最大値 × √2",
+        "実効値 = 最大値 ÷ 2",
+        "実効値 = 最大値"
+      ],
+      "answer": 0,
+      "hint": "100 V の交流の最大値は約 141 V。",
+      "explanation": "正弦波では 実効値 = 最大値 / √2 ≒ 最大値 × 0.707。電圧計が示すのは実効値。",
+      "origin": "実効値 = RMS（Root Mean Square、二乗平均平方根）。",
+      "tip": "「100 V」は実効値。ピークは 141 V。絶縁は最大値に耐える必要がある。"
+    },
+    {
+      "id": "u11_ac_basics_q002",
+      "type": "number",
+      "prompt": "実効値 100 V の正弦波交流の最大値 [V] を整数で答えよ（√2 = 1.41）。",
+      "answer": 141,
+      "unit": "V",
+      "tolerance": 1,
+      "hint": "最大値 = 実効値 × √2",
+      "explanation": "100 × 1.41 = 141 V。"
+    },
+    {
+      "id": "u11_ac_basics_q003",
+      "type": "number",
+      "prompt": "最大値 282 V の正弦波交流の実効値 [V] を整数で答えよ（√2 = 1.41）。",
+      "answer": 200,
+      "unit": "V",
+      "tolerance": 1,
+      "explanation": "282 ÷ 1.41 = 200 V。"
+    },
+    {
+      "id": "u11_ac_basics_q004",
+      "type": "choice",
+      "prompt": "周波数 50 Hz の交流の周期はいくらか。",
+      "choices": [
+        "0.02 秒",
+        "0.05 秒",
+        "0.5 秒",
+        "50 秒"
+      ],
+      "answer": 0,
+      "hint": "周期 T = 1 ÷ f",
+      "explanation": "T = 1 ÷ 50 = 0.02 秒。1 秒間に 50 回くり返す。",
+      "origin": "周期 = period [s]、周波数 = frequency [Hz]。Hz = Hertz（ヘルツ）。",
+      "tip": "50 Hz 地域と 60 Hz 地域では電動機の回転速度が変わる。"
+    },
+    {
+      "id": "u11_ac_basics_q005",
+      "type": "choice",
+      "prompt": "日本の商用周波数の説明で正しいものはどれか。",
+      "choices": [
+        "東日本が 50 Hz、西日本が 60 Hz",
+        "東日本が 60 Hz、西日本が 50 Hz",
+        "全国 50 Hz",
+        "全国 60 Hz"
+      ],
+      "answer": 0,
+      "explanation": "静岡県の富士川と新潟県の糸魚川あたりを境に、東が 50 Hz、西が 60 Hz。",
+      "origin": "50 Hz / 60 Hz = 東日本はドイツ製、西日本はアメリカ製の発電機を最初に導入したため。",
+      "tip": "引っ越しで周波数が変わると、古い電子レンジや洗濯機の一部は使えない。"
+    },
+    {
+      "id": "u11_ac_basics_q006",
+      "type": "number",
+      "prompt": "周波数 60 Hz の交流の角周波数 ω [rad/s] を整数で答えよ（2π = 6.28）。",
+      "answer": 377,
+      "unit": "rad/s",
+      "tolerance": 1,
+      "hint": "ω = 2πf",
+      "explanation": "ω = 6.28 × 60 ≒ 377 rad/s。"
+    },
+    {
+      "id": "u11_ac_basics_q007",
+      "type": "choice",
+      "prompt": "コイル（インダクタンス L）を交流回路につないだとき、電流は電圧に対してどうなるか。",
+      "choices": [
+        "90° 遅れる",
+        "90° 進む",
+        "同相",
+        "180° ずれる"
+      ],
+      "answer": 0,
+      "hint": "コイルは電流の変化をいやがる → 電流が遅れる。",
+      "explanation": "コイルでは電流が電圧より 90° 遅れる。コンデンサは逆に 90° 進む。",
+      "origin": "インダクタンス = inductance（記号 L）。コイル = coil。",
+      "tip": "電動機・変圧器・蛍光灯の安定器はコイルなので、電流が遅れて力率が悪くなる。"
+    },
+    {
+      "id": "u11_ac_basics_q008",
+      "type": "choice",
+      "prompt": "コンデンサ（静電容量 C）を交流回路につないだとき、電流は電圧に対してどうなるか。",
+      "choices": [
+        "90° 進む",
+        "90° 遅れる",
+        "同相",
+        "流れない"
+      ],
+      "answer": 0,
+      "explanation": "コンデンサでは電流が電圧より 90° 進む。抵抗だけなら同相。",
+      "origin": "コンデンサ = capacitor（記号 C）。日本語のコンデンサはドイツ語 Kondensator から。",
+      "tip": "力率改善用の進相コンデンサを電動機と並列につなぐ。"
+    },
+    {
+      "id": "u11_ac_basics_q009",
+      "type": "choice",
+      "prompt": "コイルのリアクタンス X_L を求める式はどれか。",
+      "choices": [
+        "X_L = 2πfL",
+        "X_L = 1 ÷ (2πfL)",
+        "X_L = L ÷ f",
+        "X_L = fL"
+      ],
+      "answer": 0,
+      "hint": "周波数が高いほど通しにくい。",
+      "explanation": "誘導性リアクタンス X_L = 2πfL [Ω]。周波数が高いほど大きい。"
+    },
+    {
+      "id": "u11_ac_basics_q010",
+      "type": "choice",
+      "prompt": "コンデンサのリアクタンス X_C を求める式はどれか。",
+      "choices": [
+        "X_C = 1 ÷ (2πfC)",
+        "X_C = 2πfC",
+        "X_C = fC",
+        "X_C = C ÷ f"
+      ],
+      "answer": 0,
+      "hint": "周波数が高いほど通しやすい。",
+      "explanation": "容量性リアクタンス X_C = 1/(2πfC) [Ω]。周波数が高いほど小さい。"
+    },
+    {
+      "id": "u11_ac_basics_q011",
+      "type": "number",
+      "prompt": "抵抗 8 Ω とコイルのリアクタンス 6 Ω が直列につながっている。インピーダンス [Ω] を整数で答えよ。",
+      "answer": 10,
+      "unit": "Ω",
+      "hint": "Z = √(R² + X²)。3:4:5 の直角三角形。",
+      "explanation": "Z = √(8² + 6²) = √(64 + 36) = √100 = 10 Ω。",
+      "origin": "Z = impedance（impede = 妨げる）。X = reactance。",
+      "tip": "モータの巻線抵抗だけでなく、Z 全体で電流が決まる。"
+    },
+    {
+      "id": "u11_ac_basics_q012",
+      "type": "number",
+      "prompt": "抵抗 8 Ω、リアクタンス 6 Ω の直列回路に 100 V を加えた。流れる電流 [A] を整数で答えよ。",
+      "answer": 10,
+      "unit": "A",
+      "hint": "I = V ÷ Z",
+      "explanation": "Z = 10 Ω。I = 100 ÷ 10 = 10 A。"
+    },
+    {
+      "id": "u11_ac_basics_q013",
+      "type": "number",
+      "prompt": "抵抗 8 Ω、リアクタンス 6 Ω の直列回路の力率 [%] を整数で答えよ。",
+      "answer": 80,
+      "unit": "%",
+      "hint": "力率 = R ÷ Z",
+      "explanation": "cosθ = R ÷ Z = 8 ÷ 10 = 0.8 → 80 %。",
+      "origin": "力率 = power factor（PF、cosθ）。",
+      "tip": "工場は力率 85 % を基準に電気料金の割引・割増がある。コンデンサで改善する。"
+    },
+    {
+      "id": "u11_ac_basics_q014",
+      "type": "number",
+      "prompt": "抵抗 8 Ω、リアクタンス 6 Ω の直列回路に 100 V を加えたときの消費電力（有効電力）[W] を整数で答えよ。",
+      "answer": 800,
+      "unit": "W",
+      "hint": "P = I² R または P = VI cosθ",
+      "explanation": "I = 10 A。P = 10² × 8 = 800 W。（VI cosθ = 100 × 10 × 0.8 = 800 W でも同じ）"
+    },
+    {
+      "id": "u11_ac_basics_q015",
+      "type": "choice",
+      "prompt": "交流の「皮相電力」の単位はどれか。",
+      "choices": [
+        "VA（ボルトアンペア）",
+        "W（ワット）",
+        "var（バール）",
+        "Wh（ワット時）"
+      ],
+      "answer": 0,
+      "hint": "有効電力は W、無効電力は var、皮相電力は VA。",
+      "explanation": "皮相電力 S = VI [VA]。有効電力 P = VI cosθ [W]。無効電力 Q = VI sinθ [var]。",
+      "origin": "VA = volt-ampere（皮相電力）、var = volt-ampere reactive（無効電力）。",
+      "tip": "変圧器や UPS の容量は kVA 表示。W ではなく VA なのは力率が負荷で変わるから。"
+    },
+    {
+      "id": "u11_ac_basics_q016",
+      "type": "number",
+      "prompt": "単相 100 V、電流 10 A、力率 80 % の負荷の有効電力 [W] を整数で答えよ。",
+      "answer": 800,
+      "unit": "W",
+      "hint": "P = V × I × cosθ",
+      "explanation": "P = 100 × 10 × 0.8 = 800 W。皮相電力は 1000 VA。"
+    },
+    {
+      "id": "u11_ac_basics_q017",
+      "type": "number",
+      "prompt": "単相 200 V、電流 5 A、力率 60 % の負荷の無効電力 [var] を整数で答えよ。",
+      "answer": 800,
+      "unit": "var",
+      "hint": "力率 0.6 なら sinθ = 0.8。",
+      "explanation": "Q = V I sinθ = 200 × 5 × 0.8 = 800 var。"
+    },
+    {
+      "id": "u11_ac_basics_q018",
+      "type": "number",
+      "prompt": "有効電力 600 W、無効電力 800 var の負荷の皮相電力 [VA] を整数で答えよ。",
+      "answer": 1000,
+      "unit": "VA",
+      "hint": "S = √(P² + Q²)",
+      "explanation": "S = √(600² + 800²) = √(360000 + 640000) = 1000 VA。"
+    },
+    {
+      "id": "u11_ac_basics_q019",
+      "type": "choice",
+      "prompt": "力率を改善する目的はどれか。",
+      "choices": [
+        "同じ有効電力を送るための電流を減らし、電線の損失を減らす",
+        "電圧を上げる",
+        "周波数を安定させる",
+        "有効電力を増やす"
+      ],
+      "answer": 0,
+      "explanation": "力率が悪いと同じ W を送るのに大きな電流が必要で、電線の損失（I²R）が増える。コンデンサで改善する。",
+      "origin": "力率改善 = power factor correction。",
+      "tip": "進相コンデンサを付けると線電流が減り、同じ電線でより多くの機器を動かせる。"
+    },
+    {
+      "id": "u11_ac_basics_q020",
+      "type": "truefalse",
+      "prompt": "白熱電球や電熱器などの抵抗負荷の力率はほぼ 100 % である。",
+      "answer": true,
+      "explanation": "抵抗だけなら電圧と電流が同相で cosθ = 1。電動機や蛍光灯はコイルがあるので力率が下がる。"
+    },
+    {
+      "id": "u11_ac_basics_q021",
+      "type": "choice",
+      "prompt": "交流回路で、抵抗 R とコンデンサ C を直列につないだときのインピーダンスはどれか。",
+      "choices": [
+        "√(R² + X_C²)",
+        "R + X_C",
+        "R − X_C",
+        "R × X_C"
+      ],
+      "answer": 0,
+      "hint": "抵抗とリアクタンスは直角に足す。",
+      "explanation": "R と X は位相が 90° ずれているので、ベクトル的に √(R² + X²) で合成する。単純な和ではない。"
+    },
+    {
+      "id": "u11_ac_basics_q022",
+      "type": "number",
+      "prompt": "抵抗 6 Ω とコンデンサのリアクタンス 8 Ω の直列回路に 100 V を加えた。抵抗の両端の電圧 [V] を整数で答えよ。",
+      "answer": 60,
+      "unit": "V",
+      "hint": "Z = 10 Ω、I = 10 A。",
+      "explanation": "Z = √(36 + 64) = 10 Ω。I = 10 A。抵抗の電圧 = 10 × 6 = 60 V。コンデンサは 80 V で、60² + 80² = 100²。"
+    },
+    {
+      "id": "u11_ac_basics_q023",
+      "type": "choice",
+      "prompt": "交流回路で、コイル L とコンデンサ C を直列にしてリアクタンスが打ち消し合い、電流が最大になる現象を何というか。",
+      "choices": [
+        "直列共振",
+        "短絡",
+        "飽和",
+        "整流"
+      ],
+      "answer": 0,
+      "explanation": "X_L = X_C になるとインピーダンスが R だけになり、電流が最大になる（共振）。"
+    },
+    {
+      "id": "u11_ac_basics_q024",
+      "type": "truefalse",
+      "prompt": "交流 100 V とは実効値のことで、直流 100 V と同じ電力を抵抗に与える。",
+      "answer": true,
+      "explanation": "実効値は「同じ発熱をする直流の値」と定義される。"
+    }
   ],
-  "boss": {"questionCount": 10, "timeLimitSeconds": 150}
+  "boss": {
+    "questionCount": 10,
+    "timeLimitSeconds": 150
+  }
 }
