@@ -1,0 +1,212 @@
+{
+  "schemaVersion": 2,
+  "unit": {
+    "id": "F02",
+    "stage": 0,
+    "order": 2,
+    "title": "電流・電圧・抵抗とオームの法則",
+    "lessonFile": "F02.md",
+    "prerequisites": ["F01"],
+    "masteryThreshold": 0.95
+  },
+  "questions": [
+    {
+      "id": "F02-s1-q1",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "電流の単位はどれか。",
+      "choices": ["V（ボルト）", "A（アンペア）", "Ω（オーム）", "W（ワット）"],
+      "answerIndex": 1,
+      "explanation": "電流の単位はアンペア[A]。式の中では記号 I で表す。",
+      "tags": ["概念", "電流"],
+      "srsWeight": 0.8
+    },
+    {
+      "id": "F02-s1-q2",
+      "type": "trueFalse",
+      "difficulty": 1,
+      "prompt": "電流の向きは、電池の−から出て＋に戻る向きと決められている。",
+      "answer": false,
+      "explanation": "電流の向きは＋から−。電子の動きは逆だが、電流の向きは＋→−と決めている。",
+      "tags": ["概念", "電流"],
+      "srsWeight": 0.8
+    },
+    {
+      "id": "F02-s2-q1",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "電圧の説明として正しいものはどれか。",
+      "choices": [
+        "電気の流れる量",
+        "電気を押し流そうとする力（2点間の差）",
+        "電気の流れにくさ",
+        "1秒あたりの仕事の量"
+      ],
+      "answerIndex": 1,
+      "explanation": "電圧は「押す力」で、つねに2点間の差として表す。基準はふつう大地。",
+      "tags": ["概念", "電圧"],
+      "srsWeight": 0.8
+    },
+    {
+      "id": "F02-s2-q2",
+      "type": "trueFalse",
+      "difficulty": 1,
+      "prompt": "コンセントに何も差していないとき、コンセントには電圧がかかっていない。",
+      "answer": false,
+      "explanation": "電圧は常にかかっている。回路がつながっていないので電流が流れないだけ。電圧と電流は別のもの。",
+      "tags": ["概念", "電圧"],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "F02-s3-q1",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "次のうち、抵抗が最も大きいものはどれか。",
+      "choices": ["太くて短い銅線", "細くて長い銅線", "太くて長い銅線", "細くて短い銅線"],
+      "answerIndex": 1,
+      "explanation": "細いほど、長いほど抵抗は大きい。電線は太く短くして抵抗を小さくする。",
+      "tags": ["概念", "抵抗"],
+      "srsWeight": 0.8
+    },
+    {
+      "id": "F02-s3-q2",
+      "type": "trueFalse",
+      "difficulty": 1,
+      "prompt": "電熱器は、抵抗の大きいニクロム線に電流を流して熱を出している。",
+      "answer": true,
+      "explanation": "電気製品は抵抗で仕事（発熱・発光）をする。電線は逆に抵抗を小さくする。",
+      "tags": ["概念", "抵抗"],
+      "srsWeight": 0.8
+    },
+    {
+      "id": "F02-t01",
+      "type": "template",
+      "difficulty": 1,
+      "prompt": "{V}V の電源に {R}Ω の抵抗をつないだ。流れる電流は何 A か。",
+      "variables": {
+        "V": { "min": 10, "max": 200, "step": 10 },
+        "R": { "min": 2, "max": 50, "step": 2 }
+      },
+      "constraints": ["V % R == 0"],
+      "answerFormula": "V / R",
+      "answerType": "choice",
+      "unitLabel": "A",
+      "roundTo": 0,
+      "distractors": ["V * R", "R / V", "V - R"],
+      "explanation": "求めるのは電流 I。I = V / R = {V} / {R} = {answer}A。",
+      "tags": ["計算", "オームの法則"],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "F02-t02",
+      "type": "template",
+      "difficulty": 1,
+      "prompt": "{R}Ω の抵抗に {I}A の電流が流れている。抵抗の両端の電圧は何 V か。",
+      "variables": {
+        "R": { "min": 2, "max": 50, "step": 1 },
+        "I": { "min": 1, "max": 10, "step": 1 }
+      },
+      "answerFormula": "I * R",
+      "answerType": "choice",
+      "unitLabel": "V",
+      "roundTo": 0,
+      "distractors": ["R / I", "I + R", "I * R * 2"],
+      "explanation": "求めるのは電圧 V。V = I × R = {I} × {R} = {answer}V。",
+      "tags": ["計算", "オームの法則"],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "F02-t03",
+      "type": "template",
+      "difficulty": 1,
+      "prompt": "{V}V をかけたら {I}A の電流が流れた。この抵抗は何 Ω か。",
+      "variables": {
+        "V": { "min": 20, "max": 200, "step": 10 },
+        "I": { "min": 1, "max": 10, "step": 1 }
+      },
+      "constraints": ["V % I == 0"],
+      "answerFormula": "V / I",
+      "answerType": "choice",
+      "unitLabel": "Ω",
+      "roundTo": 0,
+      "distractors": ["V * I", "I / V", "V - I"],
+      "explanation": "求めるのは抵抗 R。R = V / I = {V} / {I} = {answer}Ω。",
+      "tags": ["計算", "オームの法則"],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "F02-t04",
+      "type": "template",
+      "difficulty": 3,
+      "prompt": "ある回路の電圧を {a}倍、抵抗を {b}倍にした。電流は元の何倍になるか。",
+      "variables": {
+        "a": { "min": 2, "max": 4, "step": 1 },
+        "b": { "min": 2, "max": 4, "step": 1 }
+      },
+      "constraints": ["a != b"],
+      "answerFormula": "a / b",
+      "answerType": "choice",
+      "unitLabel": "倍",
+      "roundTo": 2,
+      "distractors": ["a * b", "b / a", "a + b"],
+      "explanation": "I = V / R。V が {a}倍、R が {b}倍なので、I は {a}/{b} = {answer}倍。V と I は比例、R と I は反比例。",
+      "tags": ["計算", "オームの法則", "比例"],
+      "srsWeight": 1.3
+    },
+    {
+      "id": "F02-s4-q1",
+      "type": "trueFalse",
+      "difficulty": 2,
+      "prompt": "電圧が一定のとき、抵抗を大きくすると電流は大きくなる。",
+      "answer": false,
+      "explanation": "抵抗は「流れにくさ」。大きくなれば電流は小さくなる（反比例）。",
+      "tags": ["概念", "オームの法則"],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "F02-t05",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "抵抗 {r}Ω の電線に {I}A の電流が流れている。電線での電圧降下は何 V か。",
+      "variables": {
+        "r": { "min": 0.1, "max": 1.0, "step": 0.1 },
+        "I": { "min": 2, "max": 20, "step": 1 }
+      },
+      "answerFormula": "I * r",
+      "answerType": "choice",
+      "unitLabel": "V",
+      "roundTo": 1,
+      "distractors": ["I / r", "I * r * 2", "I + r"],
+      "explanation": "電線を小さな抵抗と考える。V = I × R = {I} × {r} = {answer}V。これが電圧降下。",
+      "tags": ["計算", "オームの法則", "電圧降下"],
+      "srsWeight": 1.5
+    },
+    {
+      "id": "F02-t06",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "{V}V の電源に抵抗をつないだところ {mA}mA 流れた。抵抗は何 Ω か。",
+      "variables": {
+        "V": { "min": 3, "max": 12, "step": 3 },
+        "mA": { "min": 100, "max": 600, "step": 100 }
+      },
+      "constraints": ["(V * 1000) % mA == 0"],
+      "answerFormula": "V / (mA / 1000)",
+      "answerType": "choice",
+      "unitLabel": "Ω",
+      "roundTo": 0,
+      "distractors": ["V / mA", "V * mA / 1000", "mA / V"],
+      "explanation": "まず mA を A に直す：{mA}mA = {mA}/1000 A。R = V / I = {V} ÷ ({mA}/1000) = {answer}Ω。単位変換（F01）を忘れずに。",
+      "tags": ["計算", "オームの法則", "単位変換"],
+      "srsWeight": 1.3
+    }
+  ],
+  "boss": {
+    "id": "F02-boss",
+    "title": "抵抗の番人",
+    "description": "制限時間内に5問連続正解でクリア。数値は毎回変わる。",
+    "questionIds": ["F02-t01", "F02-t02", "F02-t03", "F02-t04", "F02-t05", "F02-t06"],
+    "pick": 5,
+    "timeLimitSeconds": 90
+  }
+}

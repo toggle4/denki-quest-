@@ -10,6 +10,24 @@ struct LearningUnit: Codable, Identifiable, Hashable {
     let questions: [Question]
     let boss: BossConfig?
 
+    init(
+        id: String,
+        title: String,
+        order: Int,
+        stage: Stage,
+        description: String,
+        questions: [Question],
+        boss: BossConfig?
+    ) {
+        self.id = id
+        self.title = title
+        self.order = order
+        self.stage = stage
+        self.description = description
+        self.questions = questions
+        self.boss = boss
+    }
+
     enum Stage: String, Codable {
         case review
         case memorize
@@ -63,6 +81,35 @@ struct Question: Codable, Identifiable, Hashable {
 
     private enum CodingKeys: String, CodingKey {
         case id, type, prompt, explanation, hint, image, choices, answer, tolerance, unit
+    }
+
+    /// コードから組み立てるとき（新形式・template 問題の変換など）に使う。
+    init(
+        id: String,
+        type: QuestionType,
+        prompt: String,
+        explanation: String,
+        hint: String? = nil,
+        image: String? = nil,
+        choices: [String] = [],
+        answerIndex: Int = 0,
+        answerBool: Bool = false,
+        answerNumber: Double = 0,
+        tolerance: Double = 0,
+        unit: String? = nil
+    ) {
+        self.id = id
+        self.type = type
+        self.prompt = prompt
+        self.explanation = explanation
+        self.hint = hint
+        self.image = image
+        self.choices = choices
+        self.answerIndex = answerIndex
+        self.answerBool = answerBool
+        self.answerNumber = answerNumber
+        self.tolerance = tolerance
+        self.unit = unit
     }
 
     init(from decoder: Decoder) throws {

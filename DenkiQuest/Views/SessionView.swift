@@ -87,11 +87,15 @@ struct SessionView: View {
     }
 }
 
-/// 出題と回答後のフィードバック。
-private struct QuestionView: View {
+/// 出題と回答後のフィードバック。ドリル（SessionView）と教材の差し込み問題（LessonSessionView）で共用。
+struct QuestionView: View {
     let session: QuizSession
     let item: QuizSession.Item
     let timer: StudyTimer
+    /// 「第 n 問 / N 問」の代わりに出す文言（教材の差し込み問題用）
+    var progressLabel: String? = nil
+    /// 最後の問題の「次へ」ボタンの文言
+    var lastButtonTitle: String = "結果を見る"
 
     @State private var shakeOffset: CGFloat = 0
     @State private var correctScale: CGFloat = 1.0
@@ -140,7 +144,7 @@ private struct QuestionView: View {
                     GameFeedback.tap()
                     session.next()
                 } label: {
-                    Text(session.currentIndex + 1 < session.items.count ? "次へ" : "結果を見る")
+                    Text(session.currentIndex + 1 < session.items.count ? "次へ" : lastButtonTitle)
                 }
                 .buttonStyle(VoltButtonStyle())
                 .padding()
@@ -155,7 +159,7 @@ private struct QuestionView: View {
     private var header: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
-                Text("第 \(session.currentIndex + 1) 問 / \(session.items.count) 問")
+                Text(progressLabel ?? "第 \(session.currentIndex + 1) 問 / \(session.items.count) 問")
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(Theme.textSecondary)
                 TimelineView(.periodic(from: .now, by: 1)) { _ in

@@ -1,25 +1,37 @@
-# denki-quest — 第二種電気工事士 学習ゲーム（iOS）
+# 第二種電気工事士 学習ゲーム（iOS）— DenkiQuest
+
+## 最初に読むもの
+- docs/HANDOFF.md（経緯・確定した設計・現在のタスク）。作業を始める前に必ず読む
+- docs/legacy-overview.md（土台になっている旧ゲームの構成）
 
 ## 目的
 未経験者が中学理科の復習から始めて第二種電気工事士（筆記・技能）に合格するための学習ゲーム。
-目標学習時間は 200 時間。1 セッション 5〜10 分で区切り、集中が途切れない設計にする。
+基礎固めと網羅性を最重視する。1セッション5〜10分で区切り、集中が途切れない設計にする。
 
 ## 技術方針
-- Swift / SwiftUI、iOS 17 以上
+- Swift / SwiftUI、iOS 17以上、Xcodeプロジェクト名は DenkiQuest
 - 進捗・間隔反復のデータは SwiftData に保存
-- 教材データは `content/units/*.json`（形式は `content/schema.md` 参照）。コードに問題文を直書きしない
-- 図記号や器具の画像は Assets に SVG で入れる。外部の画像・過去問を無断で使わない
+- 教材テキストは content/lessons/*.md（仕様は content/lessons/README.md）
+- 問題データは content/units/*.json（仕様は content/schema.md）。コードに問題文を直書きしない
+  - 新形式（schemaVersion 2、F02.json など）と旧形式（u01〜u16、schemaVersion なし）の両方を読む
+- content/ フォルダは Xcode プロジェクトにフォルダ参照（青いフォルダ）として追加済み。Bundle の content/lessons, content/units から読む
+- 図記号や器具の画像は Assets に SVG で置く。外部の画像・過去問を無断で使わない
 - 外部ライブラリは原則使わない
 
 ## 学習設計
-- 単元の順序は `docs/curriculum.md` に従う（暗記系を先、計算系を後）
+- 単元の順序とステージ構成は docs/curriculum.md に従う
+- 各セッションは説明画面と問題画面を交互に並べる（<!-- quiz: --> で差し込み）。画面の流れと戻る・進むのルールは content/lessons/README.md に厳密に従う
+- 計算問題は template 形式（数値をランダム生成）を基本とし、同じ構造の問題を数値を変えて繰り返せるようにする
 - 間違えた問題は 1日→3日→7日→14日 後に再出題
+- 単元クリアは直近10問の正答率90%以上（ステージ0は95%）
 - 各単元の最後にボス戦（制限時間つき連続正解）
 
 ## 作業ルール
-- 1 回の依頼で 1 機能だけ実装する
-- 変更後は必ず xcodebuild でビルドが通ることを確認する
-- 新しい出題形式を追加するときは `content/schema.md` も更新する
+- 1回の依頼で1機能だけ実装する
+- 変更後は必ず xcodebuild -destination 'generic/platform=iOS Simulator' でビルドが通ることを確認する。プロジェクトの署名設定（CODE_SIGN_*）は変更しない
+- 既存の動くコードを作り直さず、拡張する
+- 新しい出題形式やMarkdown記法を追加するときは schema.md / lessons/README.md も更新する
+- 教材（lessons, units）の中身は書き換えない。パーサやUI側で対応する
 - 教材 JSON を追加・変更したら `python3 tools/validate_content.py` を通す
 
 ## ビルド確認コマンド
@@ -30,13 +42,13 @@ xcodebuild -project DenkiQuest.xcodeproj -scheme DenkiQuest \
 
 ## ディレクトリ構成
 - `DenkiQuest/` … アプリ本体（Xcode の同期フォルダ。ここに置いたファイルは自動でターゲットに含まれる）
-  - `Models/` … 教材 JSON を表す Codable 型、SwiftData の `StudyRecord`（学習時間の記録）と目標値 `StudyGoal`
-  - `Services/` … 教材の読み込み、効果音（`SoundPlayer`）、触覚（`Haptics`）、両方をまとめた `GameFeedback`
+  - `Models/` … 教材 JSON の Codable 型（旧形式 `LearningUnit`/`Question`、新形式 `UnitFileV2`/`QuestionV2`）、教材テキストの `Lesson`、SwiftData の `StudyRecord`
+  - `Services/` … 読み込み（`ContentLoader` 旧形式、`QuestionBank` 新形式、`LessonLibrary`/`LessonParser` 教材テキスト）、`TemplateEngine`（template 問題の数値生成）、セッション進行（`QuizSession` ドリル、`LessonFlow` 読む→解く）、効果音・触覚
   - `Theme/` … 配色・カード・ボタンなど共通スタイル
-  - `Views/` … SwiftUI 画面
-  - `Sounds/` … 効果音 WAV（`tools/gen_sounds.py` で自作合成。外部素材は使わない）。tap/correct/wrong/combo/clear/perfect/charge/zap/short
+  - `Views/` … SwiftUI 画面。ホーム `UnitListView`、教材 `LessonUnitView`/`LessonSessionView`/`LessonBlockView`、ドリル `SessionView`
+  - `Sounds/` … 効果音 WAV（`tools/gen_sounds.py` で自作合成）
   - `Assets.xcassets/Mascot.imageset` … マスコット SVG（自作）
-- `tools/` … 効果音・アプリアイコンの生成スクリプト、教材 JSON の検証 `validate_content.py`（Python 標準ライブラリのみ）
-- `content/units/` … 単元ごとの教材 JSON（フォルダ参照としてアプリにバンドルされる）
-- `content/schema.md` … 教材 JSON の形式
-- `docs/curriculum.md` … 単元の順序と学習時間の配分
+- `tools/` … 効果音・アイコンの生成、教材 JSON の検証 `validate_content.py`（Python 標準ライブラリのみ）
+- `content/lessons/` … 教材テキスト（Markdown）
+- `content/units/` … 問題データ（JSON）
+- `docs/` … curriculum.md, HANDOFF.md, legacy-overview.md

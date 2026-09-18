@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0D0000000000000000000017 /* units in Resources */ = {isa = PBXBuildFile; fileRef = 0D0000000000000000000016 /* units */; };
+		0D0000000000000000000017 /* content in Resources */ = {isa = PBXBuildFile; fileRef = 0D0000000000000000000016 /* content */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0D0000000000000000000001 /* DenkiQuest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DenkiQuest.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		0D0000000000000000000016 /* units */ = {isa = PBXFileReference; lastKnownFileType = folder; name = units; path = content/units; sourceTree = "<group>"; };
+		0D0000000000000000000016 /* content */ = {isa = PBXFileReference; lastKnownFileType = folder; name = content; path = content; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -38,7 +38,7 @@
 			isa = PBXGroup;
 			children = (
 				0D0000000000000000000002 /* DenkiQuest */,
-				0D0000000000000000000016 /* units */,
+				0D0000000000000000000016 /* content */,
 				0D0000000000000000000005 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -115,7 +115,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0D0000000000000000000017 /* units in Resources */,
+				0D0000000000000000000017 /* content in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

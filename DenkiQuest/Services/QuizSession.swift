@@ -34,23 +34,25 @@ final class QuizSession {
     /// セッション中の最大連続正解数。
     private(set) var maxCombo = 0
 
-    init(unit: LearningUnit, questionCount: Int = QuizSession.questionsPerSession) {
+    /// 単元からランダムに questionCount 問を選ぶ（ドリル用）。
+    convenience init(unit: LearningUnit, questionCount: Int = QuizSession.questionsPerSession) {
+        self.init(unit: unit, questions: Array(unit.questions.shuffled().prefix(questionCount)))
+    }
+
+    /// 指定した問題をその順で出す（教材の差し込み問題用）。
+    init(unit: LearningUnit, questions: [Question]) {
         self.unit = unit
-        let picked = unit.questions.shuffled().prefix(questionCount)
-        self.items = picked.map { question in
-            guard question.type == .choice else {
-                return Item(id: question.id, question: question, choices: [], correctIndex: 0)
-            }
-            let order = Array(question.choices.indices).shuffled()
-            let shuffledChoices = order.map { question.choices[$0] }
-            let correct = order.firstIndex(of: question.answerIndex) ?? 0
-            return Item(
-                id: question.id,
-                question: question,
-                choices: shuffledChoices,
-                correctIndex: correct
-            )
+        self.items = questions.map(Self.makeItem)
+    }
+
+    private static func makeItem(_ question: Question) -> Item {
+        guard question.type == .choice else {
+            return Item(id: question.id, question: question, choices: [], correctIndex: 0)
         }
+        let order = Array(question.choices.indices).shuffled()
+        let shuffledChoices = order.map { question.choices[$0] }
+        let correct = order.firstIndex(of: question.answerIndex) ?? 0
+        return Item(id: question.id, question: question, choices: shuffledChoices, correctIndex: correct)
     }
 
     var current: Item? {

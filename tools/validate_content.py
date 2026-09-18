@@ -11,6 +11,52 @@ TYPES = {"choice", "truefalse", "number"}
 
 errors = []
 seen_ids = set()
+V2_TYPES = {"multipleChoice", "numericInput", "trueFalse", "matching", "imageChoice", "template"}
+v2_total = 0
+
+
+def validate_v2(path, unit, err):
+    """schemaVersion 2（チャット側の形式）の最低限のチェック。"""
+    global v2_total
+    meta = unit.get("unit", {})
+    if meta.get("id") != path.stem:
+        err(f"unit.id '{meta.get('id')}' がファイル名 '{path.stem}' と一致しない")
+    ids = set()
+    for q in unit.get("questions", []):
+        qid = q.get("id", "?")
+        if qid in ids:
+            err(f"{qid}: id が重複")
+        ids.add(qid)
+        t = q.get("type")
+        if t not in V2_TYPES:
+            err(f"{qid}: type '{t}' が不正")
+            continue
+        v2_total += 1
+        for key in ("prompt", "explanation"):
+            if key not in q:
+                err(f"{qid}: {key} がない")
+        if t == "multipleChoice":
+            ch = q.get("choices", [])
+            a = q.get("answerIndex")
+            if not isinstance(a, int) or not (0 <= a < len(ch)):
+                err(f"{qid}: answerIndex が choices の範囲外")
+        elif t == "trueFalse" and not isinstance(q.get("answer"), bool):
+            err(f"{qid}: answer が true/false でない")
+        elif t == "numericInput" and not isinstance(q.get("answer"), (int, float)):
+            err(f"{qid}: answer が数値でない")
+        elif t == "template":
+            for key in ("variables", "answerFormula", "answerType"):
+                if key not in q:
+                    err(f"{qid}: {key} がない")
+            if q.get("answerType") not in ("numeric", "choice"):
+                err(f"{qid}: answerType が numeric/choice でない")
+            if q.get("answerType") == "choice" and len(q.get("distractors", [])) < 3:
+                err(f"{qid}: choice 形式は distractors が 3 つ以上必要")
+    boss = unit.get("boss")
+    if boss:
+        for qid in boss.get("questionIds", []):
+            if qid not in ids:
+                err(f"boss.questionIds の {qid} が存在しない")
 seen_orders = set()
 total = 0
 by_type = {}
@@ -24,6 +70,10 @@ for path in sorted(UNITS.glob("*.json")):
 
     def err(msg):
         errors.append(f"{path.name}: {msg}")
+
+    if unit.get("schemaVersion") == 2:
+        validate_v2(path, unit, err)
+        continue
 
     for key in ("id", "title", "order", "stage", "description", "questions"):
         if key not in unit:
@@ -84,4 +134,4 @@ if errors:
     print("\n".join(errors))
     print(f"\nNG: {len(errors)} 件")
     sys.exit(1)
-print(f"OK: {len(list(UNITS.glob('*.json')))} 単元 / {total} 問 {by_type}")
+print(f"OK: {len(list(UNITS.glob('*.json')))} ファイル / 旧形式 {total} 問 {by_type} / 新形式 {v2_total} 問")
