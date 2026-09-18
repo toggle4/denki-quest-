@@ -41,6 +41,26 @@ struct LessonSession: Identifiable, Hashable {
     }
 
     var hasQuiz: Bool { !quizQuestionIds.isEmpty }
+
+    /// `**まとめ**` の直後にある箇条書き。前日のまとめカードなどに使う。
+    var summaryPoints: [String] {
+        var points: [String] = []
+        for page in pages {
+            var expecting = false
+            for block in page.blocks {
+                switch block {
+                case .strongLine(let text) where text.contains("まとめ"):
+                    expecting = true
+                case .bulletList(let items) where expecting:
+                    points.append(contentsOf: items)
+                    expecting = false
+                default:
+                    if case .strongLine(_) = block { expecting = false }
+                }
+            }
+        }
+        return points
+    }
 }
 
 /// セッション内の 1 ステップ。

@@ -98,7 +98,9 @@
       "tags": [
         "接地抵抗計"
       ],
-      "srsWeight": 1.0
+      "srsWeight": 1.0,
+      "origin": "接地抵抗計 = Earth Tester。",
+      "tip": "電池式のディジタル形が主流。地電圧が高いと測れないので先に確認する。"
     },
     {
       "id": "K07-q06",
@@ -207,7 +209,9 @@
       "tags": [
         "絶縁抵抗計"
       ],
-      "srsWeight": 1.0
+      "srsWeight": 1.0,
+      "origin": "絶縁抵抗計 = Insulation Resistance Tester（Megger）。",
+      "tip": "電子機器がある回路は 250 V レンジで測る。500 V だと機器を壊すことがある。"
     },
     {
       "id": "K07-q12",
@@ -353,7 +357,9 @@
       "tags": [
         "クランプ"
       ],
-      "srsWeight": 1.0
+      "srsWeight": 1.0,
+      "origin": "クランプメータ = Clamp meter。直流対応は Hall 素子式。",
+      "tip": "太陽光や EV 充電では直流電流を測る場面があり、DC 対応クランプが必要。"
     },
     {
       "id": "K07-q20",

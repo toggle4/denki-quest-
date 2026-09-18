@@ -479,6 +479,25 @@ struct QuestionView: View {
         }
     }
 
+    private func extraRow(icon: String, label: String, text: String, color: Color) -> some View {
+        HStack(alignment: .top, spacing: 8) {
+            Image(systemName: icon)
+                .font(.caption)
+                .foregroundStyle(color)
+                .frame(width: 16)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(label)
+                    .font(.caption2.bold())
+                    .foregroundStyle(color)
+                Text(text)
+                    .font(.subheadline)
+                    .foregroundStyle(Theme.textPrimary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+        .padding(.top, 4)
+    }
+
     private var feedback: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
@@ -499,6 +518,14 @@ struct QuestionView: View {
                 .font(.body)
                 .foregroundStyle(Theme.textPrimary)
                 .fixedSize(horizontal: false, vertical: true)
+            if let origin = item.question.origin {
+                extraRow(icon: "character.book.closed.fill", label: "英語で覚える", text: origin,
+                         color: Color(red: 0.40, green: 0.75, blue: 1.0))
+            }
+            if let tip = item.question.tip {
+                extraRow(icon: "wrench.and.screwdriver.fill", label: "現場では", text: tip,
+                         color: Color(red: 1.0, green: 0.62, blue: 0.30))
+            }
         }
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)

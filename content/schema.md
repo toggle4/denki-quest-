@@ -25,6 +25,9 @@
 | tags | string[] | 分類 |
 | srsWeight | number | 間隔反復の重み（1.0 標準） |
 | figure | string? | `Assets/figures/<名前>.svg` を表示 |
+| hint | string? | 回答前に見られるヒント（使うとコンボが増えない） |
+| origin | string? | 英語の語源・略語の意味（例: `WP = Water Proof`）。正誤に関係なく解説の下に「英語で覚える」として表示 |
+| tip | string? | 現場ではこう使われている、という豆知識。解説の下に「現場では」として表示 |
 
 ## type 一覧
 ### multipleChoice
@@ -100,6 +103,7 @@
 ```
 
 - `hint` は任意。ヒントを使って正解してもコンボは増えない
+- `origin`（英語の語源）と `tip`（現場の豆知識）も任意。新形式と同じ意味
 - 新形式との対応: `choice` ≒ `multipleChoice`（`answer` = `answerIndex`）、`truefalse` = `trueFalse`、`number` ≒ `numericInput`（`unit` = `unitLabel`）
 - 検証: `python3 tools/validate_content.py`（新旧両方を検証する）
 

@@ -44,7 +44,9 @@
       "tags": [
         "漏電遮断器"
       ],
-      "srsWeight": 1.0
+      "srsWeight": 1.0,
+      "origin": "ELB = Earth Leakage Breaker。高感度形 = high sensitivity（30 mA 以下）。",
+      "tip": "住宅の主幹はほぼ 30 mA・0.1 秒の高感度高速形。"
     },
     {
       "id": "S08-q03",
@@ -62,7 +64,9 @@
       "tags": [
         "分電盤"
       ],
-      "srsWeight": 1.0
+      "srsWeight": 1.0,
+      "origin": "2P1E = 2 Pole 1 Element（2 極 1 素子）。E は過電流検出素子。",
+      "tip": "100 V 回路用の安全ブレーカは 2P1E で安い。200 V 回路には必ず 2P2E。"
     },
     {
       "id": "S08-q04",
@@ -80,7 +84,9 @@
       "tags": [
         "分電盤"
       ],
-      "srsWeight": 1.0
+      "srsWeight": 1.0,
+      "origin": "2P2E = 2 Pole 2 Element。",
+      "tip": "200 V のエアコン・IH の分岐は 2P2E。銘板の 2P2E 表示を見て選ぶ。"
     },
     {
       "id": "S08-q05",
@@ -117,7 +123,8 @@
         "漏電遮断器",
         "太陽光"
       ],
-      "srsWeight": 1.0
+      "srsWeight": 1.0,
+      "tip": "太陽光パネルを付ける家では、分電盤の主幹を逆接続可能型に交換する工事が発生する。"
     },
     {
       "id": "S08-q07",
@@ -153,7 +160,9 @@
       "tags": [
         "配線用遮断器"
       ],
-      "srsWeight": 1.0
+      "srsWeight": 1.0,
+      "origin": "モータブレーカ = Motor Breaker。",
+      "tip": "動力盤で、ポンプやファンごとに 1 台ずつ付いている。"
     },
     {
       "id": "S08-q09",

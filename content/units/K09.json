@@ -44,7 +44,9 @@
       "tags": [
         "PSE"
       ],
-      "srsWeight": 1.0
+      "srsWeight": 1.0,
+      "origin": "PSE = Product Safety Electrical appliance & materials。",
+      "tip": "現場で使う VVF や配線用遮断器には ◇PSE の印字がある。ない製品は使えない。"
     },
     {
       "id": "K09-q03",
@@ -62,7 +64,9 @@
       "tags": [
         "PSE"
       ],
-      "srsWeight": 1.0
+      "srsWeight": 1.0,
+      "origin": "PSE = Product Safety Electrical appliance & materials。",
+      "tip": "電線管や換気扇は ○PSE。ブレーカ・電線・コンセントは ◇PSE。"
     },
     {
       "id": "K09-q04",

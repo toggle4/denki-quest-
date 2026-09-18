@@ -27,7 +27,16 @@ enum LessonProgressStore {
 
     static func setCompleted(_ unitId: String, session: Int, _ value: Bool) {
         UserDefaults.standard.set(value, forKey: key(unitId, session, "completed"))
+        if value {
+            UserDefaults.standard.set(Date().timeIntervalSince1970, forKey: key(unitId, session, "completedAt"))
+        }
         changes.bump()
+    }
+
+    /// 最後に読了した日時。未読了なら nil。
+    static func completedAt(_ unitId: String, session: Int) -> Date? {
+        let t = UserDefaults.standard.double(forKey: key(unitId, session, "completedAt"))
+        return t > 0 ? Date(timeIntervalSince1970: t) : nil
     }
 
     static func needsReview(_ unitId: String, session: Int) -> Bool {

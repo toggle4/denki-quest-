@@ -81,6 +81,8 @@ DenkiQuest.xcodeproj ほか チャット側の指示で新規作成された Swi
 > - タスク B: 旧ゲームのブランチをそのまま土台にしたため、手順 1（legacy/ への取り出し）は不要。手順 2 は docs/legacy-overview.md。手順 3〜5 を実施中
 > - チャット側の新実装（Mac の ~/Documents/denki-quest）から LessonParser / LessonLibrary / LessonBlockView / Curriculum を移植し、テーマを旧ゲームに合わせた
 > - 過去問 9 回分を「型」に分類（docs/exam-patterns.md）。型からオリジナルの試験型ドリル 175 問（うち template 43）を作成し、ホームの「試験型ドリル」に表示
+> - 問題データに `origin`（英語の語源）と `tip`（現場の豆知識）を追加し、解説の下に表示。72 問に記入済み
+> - ホームのゲージ下に「昨日の学び」カード（前日に読了したセッションの **まとめ** を表示）
 
 ### タスク A：旧ゲームの復元調査（変更なし、報告のみ）
 1. `git log --all --oneline` と `git reflog` で、現在より前に別の Swift ファイル・Xcode プロジェクトがあったコミットを探す

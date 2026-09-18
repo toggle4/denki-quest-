@@ -34,6 +34,8 @@ struct UnitListView: View {
                         }
                         .buttonStyle(.plain)
 
+                        RecapCardView(lessons: lessonSections.flatMap(\.lessons), stats: stats)
+
                         lessonList
                         examDrillList
                         drillList

@@ -44,6 +44,11 @@ struct QuestionV2: Decodable, Identifiable {
     let tags: [String]
     let srsWeight: Double
     let figure: String?
+    let hint: String?
+    /// 英語の語源・略語の意味
+    let origin: String?
+    /// 現場での豆知識
+    let tip: String?
 
     // multipleChoice / imageChoice
     let choices: [String]?
@@ -63,7 +68,7 @@ struct QuestionV2: Decodable, Identifiable {
     let distractors: [String]?
 
     private enum CodingKeys: String, CodingKey {
-        case id, type, difficulty, prompt, explanation, tags, srsWeight, figure
+        case id, type, difficulty, prompt, explanation, tags, srsWeight, figure, hint, origin, tip
         case choices, answerIndex, answer, unitLabel, tolerance
         case variables, constraints, answerFormula, answerType, roundTo, distractors
     }
@@ -78,6 +83,9 @@ struct QuestionV2: Decodable, Identifiable {
         tags = try c.decodeIfPresent([String].self, forKey: .tags) ?? []
         srsWeight = try c.decodeIfPresent(Double.self, forKey: .srsWeight) ?? 1.0
         figure = try c.decodeIfPresent(String.self, forKey: .figure)
+        hint = try c.decodeIfPresent(String.self, forKey: .hint)
+        origin = try c.decodeIfPresent(String.self, forKey: .origin)
+        tip = try c.decodeIfPresent(String.self, forKey: .tip)
 
         choices = try c.decodeIfPresent([String].self, forKey: .choices)
         answerIndex = try c.decodeIfPresent(Int.self, forKey: .answerIndex)

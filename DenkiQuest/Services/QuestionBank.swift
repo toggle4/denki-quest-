@@ -71,7 +71,7 @@ final class QuestionBank {
                 if copies > 1 {
                     q = Question(
                         id: "\(q.id)#\(k)", type: q.type, prompt: q.prompt, explanation: q.explanation,
-                        hint: q.hint, image: q.image, choices: q.choices, answerIndex: q.answerIndex,
+                        hint: q.hint, image: q.image, origin: q.origin, tip: q.tip, choices: q.choices, answerIndex: q.answerIndex,
                         answerBool: q.answerBool, answerNumber: q.answerNumber, tolerance: q.tolerance, unit: q.unit
                     )
                 }
@@ -124,6 +124,9 @@ enum QuestionFactory {
                 type: .choice,
                 prompt: source.prompt,
                 explanation: source.explanation,
+                hint: source.hint,
+                origin: source.origin,
+                tip: source.tip,
                 choices: choices,
                 answerIndex: index
             )
@@ -135,6 +138,9 @@ enum QuestionFactory {
                 type: .truefalse,
                 prompt: source.prompt,
                 explanation: source.explanation,
+                hint: source.hint,
+                origin: source.origin,
+                tip: source.tip,
                 answerBool: flag
             )
 
@@ -145,6 +151,9 @@ enum QuestionFactory {
                 type: .number,
                 prompt: source.prompt,
                 explanation: source.explanation,
+                hint: source.hint,
+                origin: source.origin,
+                tip: source.tip,
                 answerNumber: answer,
                 tolerance: source.tolerance ?? abs(answer) * 0.01,
                 unit: source.unitLabel
@@ -203,6 +212,9 @@ enum QuestionFactory {
                 type: .choice,
                 prompt: prompt,
                 explanation: explanation,
+                hint: source.hint,
+                origin: source.origin,
+                tip: source.tip,
                 choices: choices,
                 answerIndex: 0
             )
@@ -214,6 +226,9 @@ enum QuestionFactory {
             type: .number,
             prompt: prompt,
             explanation: explanation,
+            hint: source.hint,
+            origin: source.origin,
+            tip: source.tip,
             answerNumber: rounded,
             tolerance: tolerance,
             unit: unitLabel

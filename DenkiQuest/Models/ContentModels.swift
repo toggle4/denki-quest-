@@ -68,6 +68,10 @@ struct Question: Codable, Identifiable, Hashable {
     let explanation: String
     let hint: String?
     let image: String?
+    /// 英語の語源・略語の意味（例: WP = Water Proof）
+    let origin: String?
+    /// 現場ではこう使われている、という豆知識
+    let tip: String?
 
     // choice
     let choices: [String]
@@ -80,7 +84,7 @@ struct Question: Codable, Identifiable, Hashable {
     let unit: String?
 
     private enum CodingKeys: String, CodingKey {
-        case id, type, prompt, explanation, hint, image, choices, answer, tolerance, unit
+        case id, type, prompt, explanation, hint, image, origin, tip, choices, answer, tolerance, unit
     }
 
     /// コードから組み立てるとき（新形式・template 問題の変換など）に使う。
@@ -91,6 +95,8 @@ struct Question: Codable, Identifiable, Hashable {
         explanation: String,
         hint: String? = nil,
         image: String? = nil,
+        origin: String? = nil,
+        tip: String? = nil,
         choices: [String] = [],
         answerIndex: Int = 0,
         answerBool: Bool = false,
@@ -104,6 +110,8 @@ struct Question: Codable, Identifiable, Hashable {
         self.explanation = explanation
         self.hint = hint
         self.image = image
+        self.origin = origin
+        self.tip = tip
         self.choices = choices
         self.answerIndex = answerIndex
         self.answerBool = answerBool
@@ -120,6 +128,8 @@ struct Question: Codable, Identifiable, Hashable {
         explanation = try c.decode(String.self, forKey: .explanation)
         hint = try c.decodeIfPresent(String.self, forKey: .hint)
         image = try c.decodeIfPresent(String.self, forKey: .image)
+        origin = try c.decodeIfPresent(String.self, forKey: .origin)
+        tip = try c.decodeIfPresent(String.self, forKey: .tip)
         unit = try c.decodeIfPresent(String.self, forKey: .unit)
         tolerance = try c.decodeIfPresent(Double.self, forKey: .tolerance) ?? 0
 
@@ -150,6 +160,8 @@ struct Question: Codable, Identifiable, Hashable {
         try c.encode(explanation, forKey: .explanation)
         try c.encodeIfPresent(hint, forKey: .hint)
         try c.encodeIfPresent(image, forKey: .image)
+        try c.encodeIfPresent(origin, forKey: .origin)
+        try c.encodeIfPresent(tip, forKey: .tip)
         try c.encodeIfPresent(unit, forKey: .unit)
         switch type {
         case .choice:

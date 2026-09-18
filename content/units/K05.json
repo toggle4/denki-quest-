@@ -191,7 +191,9 @@
         "地中埋設",
         "材料"
       ],
-      "srsWeight": 1.0
+      "srsWeight": 1.0,
+      "origin": "FEP = Flexible Electric Pipe（波付硬質合成樹脂管）。",
+      "tip": "地中埋設の定番。黒い蛇腹の太い管で、中に CV ケーブルを通す。"
     }
   ],
   "boss": {
