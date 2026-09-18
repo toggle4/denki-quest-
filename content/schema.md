@@ -24,7 +24,7 @@
 | explanation | string | 解説。template では `{変数名}` `{answer}` を埋め込める |
 | tags | string[] | 分類 |
 | srsWeight | number | 間隔反復の重み（1.0 標準） |
-| figure | string? | `Assets/figures/<名前>.svg` を表示 |
+| figure | string? | Assets の画像名（`Assets.xcassets/Figures/<名前>.imageset`）。問題文の下に表示する。旧形式の `image` と同じ |
 | hint | string? | 回答前に見られるヒント（使うとコンボが増えない） |
 | origin | string? | 英語の語源・略語の意味（例: `WP = Water Proof`）。正誤に関係なく解説の下に「英語で覚える」として表示 |
 | tip | string? | 現場ではこう使われている、という豆知識。解説の下に「現場では」として表示 |
@@ -112,6 +112,22 @@
 template 問題は 1 セッションごとに数値が変わる。docs/exam-patterns.md の型から作成している（E01, D01〜D06, K02〜K09, S08, G03）。
 ID の付け方: 固定問題は `<単元>-q01`、template は `<単元>-t01`。
 `unit.legacyUnit` に旧単元の id（例: `u09_ohm_circuits`）を書くと、ホームではその旧単元ドリルの直後に並ぶ。書かなければ末尾の「その他」。
+
+## 図（Figures）
+`DenkiQuest/Assets.xcassets/Figures/` に SVG を置く。`tools/gen_wiring_figures.py` で生成する単線図:
+
+| 名前 | 内容 |
+|---|---|
+| wiring_a | 照明 1 灯 + 単極スイッチ（① JB–スイッチ、② JB–照明） |
+| wiring_b | 照明 + 単極スイッチ + コンセント（③ JB–コンセント） |
+| wiring_c | 3 路スイッチ 2 個 + 照明（① 左 3 路、② 右 3 路、③ 照明） |
+| wiring_e | 1 スイッチで 2 灯・送り配線（① JB–1 灯目、② 1 灯目–2 灯目、③ JB–スイッチ） |
+| wiring_f | スイッチとコンセントの連用 + 照明（① JB–連用、② JB–照明） |
+| wiring_g | 確認表示灯（同時点滅）とスイッチの連用 + 照明（①、②） |
+| wiring_i | 3 路・4 路・3 路 + 照明（① JB–4 路、② JB–左 3 路、③ JB–右 3 路） |
+
+記号: 四角に正弦波 = 電源、JB = ジョイントボックス、○に× = 照明、● = 点滅器（3・4 は 3 路・4 路）、○に縦線 2 本 = コンセント、小さい○に点 = 確認表示灯、点線の枠 = 連用取付枠。数字の丸は問題文が指す区間。
+Xcode の SVG 描画で文字が落ちないよう、文字も線で描いている。
 
 ## アプリ側の対応状況
 | type | 状態 |

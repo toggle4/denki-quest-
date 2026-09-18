@@ -206,6 +206,9 @@ struct QuestionView: View {
                 .font(.title3.weight(.semibold))
                 .foregroundStyle(Theme.textPrimary)
                 .fixedSize(horizontal: false, vertical: true)
+            if let image = item.question.image {
+                QuestionFigureView(name: image)
+            }
         }
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -533,6 +536,29 @@ struct QuestionView: View {
             tint: (session.isCurrentCorrect ? Theme.correct : Theme.wrong).opacity(0.10),
             border: (session.isCurrentCorrect ? Theme.correct : Theme.wrong).opacity(0.6)
         )
+    }
+}
+
+/// 問題に添える図（Assets の名前）。未作成なら名前だけ示す。
+struct QuestionFigureView: View {
+    let name: String
+
+    var body: some View {
+        if UIImage(named: name) != nil {
+            Image(name)
+                .resizable()
+                .scaledToFit()
+                .frame(maxWidth: .infinity)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .strokeBorder(Theme.cardBorder, lineWidth: 1)
+                )
+        } else {
+            Label("図: \(name)（未作成）", systemImage: "photo.artframe")
+                .font(.caption)
+                .foregroundStyle(Theme.textSecondary)
+        }
     }
 }
 

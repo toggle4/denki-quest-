@@ -1,0 +1,275 @@
+{
+  "schemaVersion": 2,
+  "unit": {
+    "id": "W03",
+    "stage": 2,
+    "order": 3,
+    "title": "最少電線本数（複線図の考え方）",
+    "lessonFile": null,
+    "prerequisites": [],
+    "masteryThreshold": 0.9,
+    "legacyUnit": "u15_wiring_diagram"
+  },
+  "questions": [
+    {
+      "id": "W03-q01",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "図は照明 1 灯を単極スイッチで点滅する回路である。① の部分（ジョイントボックスとスイッチの間）の最少電線本数はいくつか。",
+      "choices": [
+        "2 本",
+        "3 本",
+        "4 本",
+        "1 本"
+      ],
+      "answerIndex": 0,
+      "explanation": "スイッチには電源の黒（非接地側）と、照明への戻り線の 2 本。白（接地側）はスイッチへ行かない。",
+      "tags": [
+        "電線本数"
+      ],
+      "srsWeight": 1.2,
+      "figure": "wiring_a",
+      "hint": "スイッチに白は行かない。"
+    },
+    {
+      "id": "W03-q02",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "図の ② の部分（ジョイントボックスと照明の間）の最少電線本数はいくつか。",
+      "choices": [
+        "2 本",
+        "3 本",
+        "4 本",
+        "1 本"
+      ],
+      "answerIndex": 0,
+      "explanation": "照明には電源の白（接地側）と、スイッチからの戻り線の 2 本。",
+      "tags": [
+        "電線本数"
+      ],
+      "srsWeight": 1.2,
+      "figure": "wiring_a"
+    },
+    {
+      "id": "W03-q03",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "図は照明・単極スイッチ・コンセントの回路である。③ の部分（ジョイントボックスとコンセントの間）の最少電線本数はいくつか。",
+      "choices": [
+        "2 本",
+        "3 本",
+        "4 本",
+        "1 本"
+      ],
+      "answerIndex": 0,
+      "explanation": "コンセントは電源に直接つなぐので、白と黒の 2 本。スイッチは経由しない。",
+      "tags": [
+        "電線本数"
+      ],
+      "srsWeight": 1.2,
+      "figure": "wiring_b"
+    },
+    {
+      "id": "W03-q04",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "図は 3 路スイッチ 2 個で照明 1 灯を点滅する回路である。① の部分（ジョイントボックスと左の 3 路スイッチの間）の最少電線本数はいくつか。",
+      "choices": [
+        "3 本",
+        "2 本",
+        "4 本",
+        "5 本"
+      ],
+      "answerIndex": 0,
+      "explanation": "電源側の 3 路スイッチには、0 端子用の黒 1 本と、もう一方の 3 路と結ぶ 1・3 端子用の 2 本、計 3 本。",
+      "tags": [
+        "電線本数",
+        "3路"
+      ],
+      "srsWeight": 1.2,
+      "figure": "wiring_c",
+      "hint": "0 端子に 1 本、1・3 端子に 2 本。"
+    },
+    {
+      "id": "W03-q05",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "図の ② の部分（ジョイントボックスと右の 3 路スイッチの間）の最少電線本数はいくつか。",
+      "choices": [
+        "3 本",
+        "2 本",
+        "4 本",
+        "5 本"
+      ],
+      "answerIndex": 0,
+      "explanation": "負荷側の 3 路スイッチも、0 端子から照明へ行く 1 本と、1・3 端子の 2 本で計 3 本。",
+      "tags": [
+        "電線本数",
+        "3路"
+      ],
+      "srsWeight": 1.2,
+      "figure": "wiring_c"
+    },
+    {
+      "id": "W03-q06",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "図の ③ の部分（ジョイントボックスと照明の間）の最少電線本数はいくつか。",
+      "choices": [
+        "2 本",
+        "3 本",
+        "4 本",
+        "1 本"
+      ],
+      "answerIndex": 0,
+      "explanation": "3 路回路でも照明には白と戻り線の 2 本だけ。",
+      "tags": [
+        "電線本数",
+        "3路"
+      ],
+      "srsWeight": 1.2,
+      "figure": "wiring_c"
+    },
+    {
+      "id": "W03-q07",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "図は 1 つのスイッチで 2 灯を点滅する回路（送り配線）である。② の部分（照明と照明の間）の最少電線本数はいくつか。",
+      "choices": [
+        "2 本",
+        "3 本",
+        "4 本",
+        "1 本"
+      ],
+      "answerIndex": 0,
+      "explanation": "2 灯目は 1 灯目の端子から白と戻り線を送るだけなので 2 本。",
+      "tags": [
+        "電線本数"
+      ],
+      "srsWeight": 1.2,
+      "figure": "wiring_e"
+    },
+    {
+      "id": "W03-q08",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "図はスイッチとコンセントを同じ取付枠に連用した回路である。① の部分（ジョイントボックスと連用箇所の間）の最少電線本数はいくつか。",
+      "choices": [
+        "3 本",
+        "2 本",
+        "4 本",
+        "5 本"
+      ],
+      "answerIndex": 0,
+      "explanation": "コンセント用の白と黒、スイッチからの戻り線で 3 本。黒はコンセントとスイッチの間を渡り線で共用する。",
+      "tags": [
+        "電線本数",
+        "連用"
+      ],
+      "srsWeight": 1.2,
+      "figure": "wiring_f",
+      "hint": "黒は渡り線で共用できる。"
+    },
+    {
+      "id": "W03-q09",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "図は確認表示灯（同時点滅）とスイッチを連用した回路である。① の部分の最少電線本数はいくつか。",
+      "choices": [
+        "3 本",
+        "2 本",
+        "4 本",
+        "5 本"
+      ],
+      "answerIndex": 0,
+      "explanation": "同時点滅の表示灯は照明と並列なので、白・黒・戻り線の 3 本。表示灯とスイッチの間は渡り線。",
+      "tags": [
+        "電線本数",
+        "表示灯"
+      ],
+      "srsWeight": 1.2,
+      "figure": "wiring_g"
+    },
+    {
+      "id": "W03-q10",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "図は 3 路・4 路・3 路で照明 1 灯を点滅する回路である。① の部分（ジョイントボックスと 4 路スイッチの間）の最少電線本数はいくつか。",
+      "choices": [
+        "4 本",
+        "2 本",
+        "3 本",
+        "6 本"
+      ],
+      "answerIndex": 0,
+      "explanation": "4 路スイッチは両側の 3 路と 2 本ずつつながるので、計 4 本。",
+      "tags": [
+        "電線本数",
+        "4路"
+      ],
+      "srsWeight": 1.2,
+      "figure": "wiring_i",
+      "hint": "4 路は 2 本入って 2 本出る。"
+    },
+    {
+      "id": "W03-q11",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "図の ② の部分（ジョイントボックスと左の 3 路スイッチの間）の最少電線本数はいくつか。",
+      "choices": [
+        "3 本",
+        "2 本",
+        "4 本",
+        "5 本"
+      ],
+      "answerIndex": 0,
+      "explanation": "4 路があっても 3 路スイッチ自体は 0 端子 1 本 + 1・3 端子 2 本の 3 本。",
+      "tags": [
+        "電線本数",
+        "3路"
+      ],
+      "srsWeight": 1.2,
+      "figure": "wiring_i"
+    },
+    {
+      "id": "W03-q12",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "3 路スイッチどうしをジョイントボックスを経由せず直接つなぐ場合、スイッチ間の電線本数はいくつか。",
+      "choices": [
+        "2 本",
+        "3 本",
+        "4 本",
+        "1 本"
+      ],
+      "answerIndex": 0,
+      "explanation": "1・3 端子どうしを結ぶ 2 本だけ。0 端子は電源または照明側へ別に配線する。",
+      "tags": [
+        "電線本数",
+        "3路"
+      ],
+      "srsWeight": 1.2
+    }
+  ],
+  "boss": {
+    "id": "W03-boss",
+    "title": "配線図ボス",
+    "description": "制限時間内に 5 問連続正解でクリア。",
+    "questionIds": [
+      "W03-q01",
+      "W03-q02",
+      "W03-q03",
+      "W03-q04",
+      "W03-q05",
+      "W03-q06",
+      "W03-q07",
+      "W03-q08",
+      "W03-q09",
+      "W03-q10",
+      "W03-q11",
+      "W03-q12"
+    ],
+    "pick": 5,
+    "timeLimitSeconds": 120
+  }
+}
