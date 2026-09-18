@@ -3,14 +3,15 @@ import SwiftUI
 /// 教材単元のセッション一覧。ここから「読む → 解く」のセッションに入る。
 struct LessonUnitView: View {
     let lesson: Lesson
-    @State private var refreshToken = 0
 
     private var hasQuestions: Bool {
         QuestionBank.shared.hasQuestions(unitId: lesson.unitId)
     }
 
     var body: some View {
-        ZStack {
+        // 進捗が更新されたら再描画されるように、観測点に触れておく
+        let _ = LessonProgressStore.changes.version
+        return ZStack {
             GameBackground()
             ScrollView {
                 VStack(spacing: 14) {
@@ -28,7 +29,6 @@ struct LessonUnitView: View {
         .navigationTitle(lesson.title)
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(.hidden, for: .navigationBar)
-        .onAppear { refreshToken += 1 }
     }
 
     private func goalCard(_ goal: String) -> some View {

@@ -1,8 +1,22 @@
 import Foundation
 import Observation
 
+/// 進捗が書き換わったことを画面に伝えるための観測点。
+/// UserDefaults への書き込みは SwiftUI が検知しないので、書くたびに version を進める。
+@Observable
+final class LessonProgressChanges {
+    private(set) var version = 0
+
+    func bump() {
+        version += 1
+    }
+}
+
 /// 教材セッションの進捗（読了・要復習・再開位置）。SwiftData 化はタスク C-1 で行う。
+/// 画面側は読み取り前に `LessonProgressStore.changes.version` に触れておくと、更新時に再描画される。
 enum LessonProgressStore {
+    static let changes = LessonProgressChanges()
+
     private static func key(_ unitId: String, _ session: Int, _ name: String) -> String {
         "lesson.\(unitId).\(session).\(name)"
     }
@@ -13,6 +27,7 @@ enum LessonProgressStore {
 
     static func setCompleted(_ unitId: String, session: Int, _ value: Bool) {
         UserDefaults.standard.set(value, forKey: key(unitId, session, "completed"))
+        changes.bump()
     }
 
     static func needsReview(_ unitId: String, session: Int) -> Bool {
@@ -21,6 +36,7 @@ enum LessonProgressStore {
 
     static func setNeedsReview(_ unitId: String, session: Int, _ value: Bool) {
         UserDefaults.standard.set(value, forKey: key(unitId, session, "needsReview"))
+        changes.bump()
     }
 
     /// 途中で閉じたとき、次に開く位置（LessonFlow のブロック番号）
@@ -30,10 +46,12 @@ enum LessonProgressStore {
 
     static func setResumeIndex(_ unitId: String, session: Int, _ value: Int) {
         UserDefaults.standard.set(value, forKey: key(unitId, session, "resume"))
+        changes.bump()
     }
 
     static func clearResume(_ unitId: String, session: Int) {
         UserDefaults.standard.removeObject(forKey: key(unitId, session, "resume"))
+        changes.bump()
     }
 
     static func completedSessionCount(_ lesson: Lesson) -> Int {

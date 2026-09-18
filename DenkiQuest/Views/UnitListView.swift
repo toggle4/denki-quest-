@@ -189,7 +189,10 @@ struct UnitListView: View {
 private struct LessonRow: View {
     let lesson: Lesson
 
-    private var completed: Int { LessonProgressStore.completedSessionCount(lesson) }
+    private var completed: Int {
+        _ = LessonProgressStore.changes.version
+        return LessonProgressStore.completedSessionCount(lesson)
+    }
     private var hasQuestions: Bool { QuestionBank.shared.hasQuestions(unitId: lesson.unitId) }
 
     var body: some View {
