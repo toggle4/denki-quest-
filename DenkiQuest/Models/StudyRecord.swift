@@ -50,6 +50,8 @@ struct StudyStats {
 
     let totalSeconds: Double
     let todaySeconds: Double
+    let yesterdaySeconds: Double
+    let yesterdaySessionCount: Int
     let streakDays: Int
     let last7Days: [Day]
     let sessionCount: Int
@@ -60,15 +62,20 @@ struct StudyStats {
         let today = calendar.startOfDay(for: now)
 
         var perDay: [Date: Double] = [:]
+        var countPerDay: [Date: Int] = [:]
         var total: Double = 0
         for record in records {
             total += record.durationSeconds
             let day = calendar.startOfDay(for: record.startedAt)
             perDay[day, default: 0] += record.durationSeconds
+            countPerDay[day, default: 0] += 1
         }
 
         totalSeconds = total
         todaySeconds = perDay[today] ?? 0
+        let yesterday = calendar.date(byAdding: .day, value: -1, to: today)!
+        yesterdaySeconds = perDay[yesterday] ?? 0
+        yesterdaySessionCount = countPerDay[yesterday] ?? 0
         sessionCount = records.count
 
         // 連続日数: 今日（まだ学習していなければ昨日）から遡って途切れるまで数える
