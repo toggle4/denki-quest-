@@ -1,0 +1,189 @@
+{
+  "schemaVersion": 2,
+  "unit": {
+    "id": "S08",
+    "stage": 1,
+    "order": 8,
+    "title": "遮断器・保護装置",
+    "lessonFile": null,
+    "prerequisites": [],
+    "masteryThreshold": 0.9
+  },
+  "questions": [
+    {
+      "id": "S08-q01",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "定格電流 30 A の配線用遮断器に 37.5 A（1.25 倍）の電流が流れたとき、動作しなければならない時間の限度はどれか。",
+      "choices": [
+        "60 分",
+        "2 分",
+        "4 分",
+        "120 分"
+      ],
+      "answerIndex": 0,
+      "explanation": "30 A 以下: 1.25 倍で 60 分以内、2 倍で 2 分以内。",
+      "tags": [
+        "配線用遮断器"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S08-q02",
+      "type": "multipleChoice",
+      "difficulty": 3,
+      "prompt": "漏電遮断器に関する記述で誤っているものはどれか。",
+      "choices": [
+        "高感度形の定格感度電流は 1000 mA 以下である",
+        "高速形は動作時間 0.1 秒以内",
+        "テストボタンで動作を確認できる",
+        "零相変流器で漏れ電流を検出する"
+      ],
+      "answerIndex": 0,
+      "explanation": "高感度形は 30 mA 以下。中感度形は 30 mA 超 1000 mA 以下。",
+      "tags": [
+        "漏電遮断器"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S08-q03",
+      "type": "multipleChoice",
+      "difficulty": 3,
+      "prompt": "単相 3 線式 100/200 V の住宅分電盤工事で不適切なものはどれか。",
+      "choices": [
+        "100 V 電灯分岐に 2 極 1 素子（2P1E）を使い、素子のある極に中性線を結線した",
+        "200 V エアコン分岐に 2 極 2 素子（2P2E）を使った",
+        "100 V 電熱器分岐に 2 極 2 素子を使った",
+        "主開閉器の中性極に銅バーを用いた"
+      ],
+      "answerIndex": 0,
+      "explanation": "2P1E の素子（過電流検出）のある極には非接地側（電圧側）を結線する。中性線側に素子があると過電流を検出できない。",
+      "tags": [
+        "分電盤"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S08-q04",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "単相 200 V の分岐回路に施設してはならない過電流遮断装置はどれか。",
+      "choices": [
+        "2 極 1 素子の配線用遮断器",
+        "2 極 2 素子の配線用遮断器",
+        "2 極 2 素子の漏電遮断器（過負荷保護付）",
+        "2 極のヒューズ"
+      ],
+      "answerIndex": 0,
+      "explanation": "200 V 回路は両線とも電圧側なので、両極に素子のある 2P2E が必要。",
+      "tags": [
+        "分電盤"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S08-q05",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "単相 3 線式分電盤の主幹として、中性線欠相保護付の漏電遮断器を使う理由はどれか。",
+      "choices": [
+        "中性線が断線したときの異常電圧から機器を守るため",
+        "短絡電流を大きくするため",
+        "力率を改善するため",
+        "電圧降下を減らすため"
+      ],
+      "answerIndex": 0,
+      "explanation": "中性線欠相保護付は、中性線断線時の異常電圧を検出して遮断する。3 極 2 素子（3P2E）。",
+      "tags": [
+        "漏電遮断器"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S08-q06",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "系統連系型の太陽光発電（出力 5.5 kW）を分電盤に接続するときに使う漏電遮断器はどれか。",
+      "choices": [
+        "過負荷保護付・逆接続可能型",
+        "過負荷保護なしの高感度形",
+        "中感度形",
+        "モータブレーカ"
+      ],
+      "answerIndex": 0,
+      "explanation": "電源側と負荷側の両方から電力が流れるため、逆接続可能型を使う。",
+      "tags": [
+        "漏電遮断器",
+        "太陽光"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S08-q07",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "配線用遮断器の目的はどれか。",
+      "choices": [
+        "過電流（過負荷・短絡）から電線を保護する",
+        "地絡を検出して遮断する",
+        "電圧の不平衡を検出する",
+        "力率を改善する"
+      ],
+      "answerIndex": 0,
+      "explanation": "配線用遮断器は過電流保護。地絡は漏電遮断器。",
+      "tags": [
+        "配線用遮断器"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S08-q08",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "銘板に「電動機保護兼用」と表示された 3 極の遮断器の名称はどれか。",
+      "choices": [
+        "配線用遮断器（モータブレーカ）",
+        "漏電遮断器",
+        "電磁開閉器",
+        "カットアウトスイッチ"
+      ],
+      "answerIndex": 0,
+      "explanation": "電動機の始動電流で動作しないよう特性を合わせた配線用遮断器。",
+      "tags": [
+        "配線用遮断器"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S08-q09",
+      "type": "trueFalse",
+      "difficulty": 1,
+      "prompt": "定格電流 30 A 以下のヒューズは、定格電流の 1.1 倍の電流では溶断してはならない。",
+      "answer": true,
+      "explanation": "1.1 倍に耐え、1.6 倍で 60 分以内、2 倍で 2 分以内に溶断。",
+      "tags": [
+        "ヒューズ"
+      ],
+      "srsWeight": 1.0
+    }
+  ],
+  "boss": {
+    "id": "S08-boss",
+    "title": "試験型ボス",
+    "description": "制限時間内に5問連続正解でクリア。",
+    "questionIds": [
+      "S08-q01",
+      "S08-q02",
+      "S08-q03",
+      "S08-q04",
+      "S08-q05",
+      "S08-q06",
+      "S08-q07",
+      "S08-q08",
+      "S08-q09"
+    ],
+    "pick": 5,
+    "timeLimitSeconds": 120
+  }
+}

@@ -1,0 +1,245 @@
+{
+  "schemaVersion": 2,
+  "unit": {
+    "id": "K09",
+    "stage": 3,
+    "order": 9,
+    "title": "電気設備技術基準・電気用品安全法",
+    "lessonFile": null,
+    "prerequisites": [],
+    "masteryThreshold": 0.9
+  },
+  "questions": [
+    {
+      "id": "K09-q01",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "電気設備技術基準における低圧の区分（直流・交流）の組合せで正しいものはどれか。",
+      "choices": [
+        "直流 750 V 以下・交流 600 V 以下",
+        "直流 600 V 以下・交流 750 V 以下",
+        "直流 600 V 以下・交流 600 V 以下",
+        "直流 750 V 以下・交流 300 V 以下"
+      ],
+      "answerIndex": 0,
+      "explanation": "低圧: 直流 750 V 以下、交流 600 V 以下。高圧: それを超え 7000 V 以下。",
+      "tags": [
+        "電圧区分"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "K09-q02",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "電気用品安全法の表示に関する記述で誤っているものはどれか。",
+      "choices": [
+        "特定電気用品には ○ に PSE の表示をする",
+        "特定電気用品以外の電気用品には ○ に PSE の表示をする",
+        "特定電気用品には ◇ に PSE（または <PS>E）の表示をする",
+        "表示のない電気用品は販売できない"
+      ],
+      "answerIndex": 0,
+      "explanation": "特定電気用品は菱形 ◇PSE。丸 ○PSE は特定以外。",
+      "tags": [
+        "PSE"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "K09-q03",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "特定電気用品に該当するものはどれか。",
+      "choices": [
+        "定格電流 20 A の漏電遮断器",
+        "30 W の換気扇",
+        "外径 19 mm の金属製電線管",
+        "40 W の蛍光ランプ"
+      ],
+      "answerIndex": 0,
+      "explanation": "遮断器・電線・ヒューズ・配線器具は特定電気用品。換気扇・電線管・ランプは特定以外。",
+      "tags": [
+        "PSE"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "K09-q04",
+      "type": "multipleChoice",
+      "difficulty": 3,
+      "prompt": "特定電気用品の組合せとして正しいものはどれか。",
+      "choices": [
+        "タイムスイッチ・配線用遮断器",
+        "電磁開閉器・フロートスイッチ",
+        "ライティングダクト・単相電動機",
+        "電線管・換気扇"
+      ],
+      "answerIndex": 0,
+      "explanation": "タイムスイッチ、配線用遮断器、漏電遮断器、差込接続器、電線（100 mm² 以下）などは特定。",
+      "tags": [
+        "PSE"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "K09-q05",
+      "type": "multipleChoice",
+      "difficulty": 3,
+      "prompt": "次のうち特定電気用品の組合せはどれか。 A: 100 V 20 A 漏電遮断器 B: 100 V 25 W 換気扇 C: 600 V 2.0 mm 3 心 VVF D: 内径 16 mm の PF 管",
+      "choices": [
+        "A と C",
+        "A と B",
+        "C と D",
+        "B と D"
+      ],
+      "answerIndex": 0,
+      "explanation": "漏電遮断器と電線（22 mm² 以下のケーブル）が特定。換気扇と電線管は特定以外。",
+      "tags": [
+        "PSE"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "K09-q06",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "小勢力回路（チャイム・インターホン）の最大使用電圧はどれか。",
+      "choices": [
+        "60 V",
+        "30 V",
+        "100 V",
+        "24 V"
+      ],
+      "answerIndex": 0,
+      "explanation": "小勢力回路は 60 V 以下。電線は 0.8 mm 以上。",
+      "tags": [
+        "小勢力回路"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "K09-q07",
+      "type": "multipleChoice",
+      "difficulty": 3,
+      "prompt": "住宅の屋内に三相 200 V のルームエアコン（対地電圧 200 V）を施設する条件として正しいものはどれか。",
+      "choices": [
+        "定格消費電力 2 kW 以上で、専用の配線用遮断器と漏電遮断器を設け、屋内配線と直接接続する",
+        "1.5 kW でもコンセントで接続すればよい",
+        "漏電遮断器があればコンセント接続でよい",
+        "2 kW 以上なら漏電遮断器は不要"
+      ],
+      "answerIndex": 0,
+      "explanation": "対地電圧 150 V 超は、2 kW 以上・専用開閉器＋過電流遮断器・漏電遮断器・直接接続・簡易接触防護措置が条件。",
+      "tags": [
+        "対地電圧"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "K09-q08",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "住宅と車庫（別棟）の間で、引込口開閉器を省略できる電路の長さの最大値はどれか。",
+      "choices": [
+        "15 m",
+        "8 m",
+        "10 m",
+        "20 m"
+      ],
+      "answerIndex": 0,
+      "explanation": "別棟への電路が 15 m 以下なら、その建物の引込口開閉器を省略できる。",
+      "tags": [
+        "引込"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "K09-q09",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "低圧引込線の取付点の地表上の高さの最低値はどれか（道路を横断せず、技術上やむを得ない場合）。",
+      "choices": [
+        "2.5 m",
+        "2 m",
+        "3 m",
+        "4 m"
+      ],
+      "answerIndex": 0,
+      "explanation": "原則 4 m 以上、道路横断なしで技術上やむを得ず交通に支障がなければ 2.5 m 以上。",
+      "tags": [
+        "引込"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "K09-q10",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "電気設備技術基準（省令）に関する記述で誤っているものはどれか。",
+      "choices": [
+        "電気設備技術基準は電気工事士法に基づいて定められている",
+        "電圧を低圧・高圧・特別高圧に区分している",
+        "電気設備は感電・火災などの危害を防止するよう施設する",
+        "低圧電路の絶縁抵抗の値を定めている"
+      ],
+      "answerIndex": 0,
+      "explanation": "電気設備技術基準は電気事業法に基づく省令。",
+      "tags": [
+        "法令"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "K09-q11",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "電技の条文「低圧の幹線や分岐回路には過電流から電線を保護するため (A) に過電流遮断器を施設し、地絡が生じたときに自動的に電路を遮断する装置を施設する」の (A) に入る語はどれか。",
+      "choices": [
+        "必要な箇所",
+        "すべての分岐回路の末端",
+        "引込口だけ",
+        "変圧器の一次側"
+      ],
+      "answerIndex": 0,
+      "explanation": "「必要な箇所」に過電流遮断器。",
+      "tags": [
+        "法令"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "K09-q12",
+      "type": "trueFalse",
+      "difficulty": 1,
+      "prompt": "交流の高圧は、600 V を超え 7000 V 以下である。",
+      "answer": true,
+      "explanation": "7000 V を超えると特別高圧。",
+      "tags": [
+        "電圧区分"
+      ],
+      "srsWeight": 1.0
+    }
+  ],
+  "boss": {
+    "id": "K09-boss",
+    "title": "試験型ボス",
+    "description": "制限時間内に5問連続正解でクリア。",
+    "questionIds": [
+      "K09-q01",
+      "K09-q02",
+      "K09-q03",
+      "K09-q04",
+      "K09-q05",
+      "K09-q06",
+      "K09-q07",
+      "K09-q08",
+      "K09-q09",
+      "K09-q10",
+      "K09-q11",
+      "K09-q12"
+    ],
+    "pick": 5,
+    "timeLimitSeconds": 120
+  }
+}

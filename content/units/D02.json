@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 2,
+  "unit": {
+    "id": "D02",
+    "stage": 4,
+    "order": 2,
+    "title": "三相 3 線式の電圧降下と電力損失",
+    "lessonFile": null,
+    "prerequisites": [],
+    "masteryThreshold": 0.9
+  },
+  "questions": [
+    {
+      "id": "D02-t01",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "三相 3 線式で、電線 1 本の抵抗が {r} Ω、線電流が {I} A のとき、配線の電力損失は何 W か。",
+      "variables": {
+        "r": {
+          "min": 0.1,
+          "max": 0.2,
+          "step": 0.05
+        },
+        "I": {
+          "min": 10,
+          "max": 20,
+          "step": 5
+        }
+      },
+      "answerFormula": "3 * I * I * r",
+      "answerType": "choice",
+      "unitLabel": "W",
+      "roundTo": 1,
+      "explanation": "3 本それぞれで I²r の損失: 3 × {I}² × {r} = {answer} W。",
+      "tags": [
+        "計算",
+        "三相",
+        "電力損失"
+      ],
+      "srsWeight": 1.2,
+      "distractors": [
+        "I * I * r",
+        "2 * I * I * r",
+        "SQRT3 * I * I * r"
+      ]
+    },
+    {
+      "id": "D02-t02",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "三相 3 線式で、電線 1 本の抵抗が {r} Ω、線電流が {I} A のとき、線間の電圧降下は何 V か。√3 = 1.73 とする。",
+      "variables": {
+        "r": {
+          "min": 0.1,
+          "max": 0.3,
+          "step": 0.1
+        },
+        "I": {
+          "min": 10,
+          "max": 20,
+          "step": 5
+        }
+      },
+      "answerFormula": "SQRT3 * I * r",
+      "answerType": "choice",
+      "unitLabel": "V",
+      "roundTo": 1,
+      "explanation": "三相の線間電圧降下 e = √3 × I × r = 1.73 × {I} × {r} = {answer} V。",
+      "tags": [
+        "計算",
+        "三相",
+        "電圧降下"
+      ],
+      "srsWeight": 1.2,
+      "distractors": [
+        "I * r",
+        "2 * I * r",
+        "3 * I * r"
+      ]
+    },
+    {
+      "id": "D02-t03",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "三相 3 線式で、電源の線間電圧が {Vs} V、電線 1 本の抵抗が {r} Ω、線電流が {I} A のとき、負荷の線間電圧は何 V か。√3 = 1.73 とする。",
+      "variables": {
+        "Vs": {
+          "min": 206,
+          "max": 210,
+          "step": 2
+        },
+        "r": {
+          "min": 0.1,
+          "max": 0.2,
+          "step": 0.1
+        },
+        "I": {
+          "min": 10,
+          "max": 20,
+          "step": 5
+        }
+      },
+      "answerFormula": "Vs - SQRT3 * I * r",
+      "answerType": "choice",
+      "unitLabel": "V",
+      "roundTo": 1,
+      "explanation": "{Vs} − √3 × {I} × {r} = {answer} V。",
+      "tags": [
+        "計算",
+        "三相",
+        "負荷電圧"
+      ],
+      "srsWeight": 1.2,
+      "distractors": [
+        "Vs - I * r",
+        "Vs - 2 * I * r",
+        "Vs - 3 * I * r"
+      ]
+    },
+    {
+      "id": "D02-q04",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "線電流 I、電線 1 本の抵抗 r のとき、単相 2 線式・単相 3 線式（平衡）・三相 3 線式の配線の電力損失の組合せで正しいものはどれか。",
+      "choices": [
+        "2I²r・2I²r・3I²r",
+        "2I²r・I²r・3I²r",
+        "I²r・2I²r・3I²r",
+        "2I²r・3I²r・3I²r"
+      ],
+      "answerIndex": 0,
+      "explanation": "2 線式は 2 本、3 線式は平衡なら外線 2 本、三相は 3 本。それぞれ本数 × I²r。",
+      "tags": [
+        "公式",
+        "電力損失"
+      ],
+      "srsWeight": 1.0
+    }
+  ],
+  "boss": {
+    "id": "D02-boss",
+    "title": "試験型ボス",
+    "description": "制限時間内に5問連続正解でクリア。",
+    "questionIds": [
+      "D02-t01",
+      "D02-t02",
+      "D02-t03",
+      "D02-q04"
+    ],
+    "pick": 5,
+    "timeLimitSeconds": 120
+  }
+}

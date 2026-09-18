@@ -1,0 +1,280 @@
+{
+  "schemaVersion": 2,
+  "unit": {
+    "id": "D05",
+    "stage": 4,
+    "order": 5,
+    "title": "幹線の太さと過電流遮断器の選定",
+    "lessonFile": null,
+    "prerequisites": [],
+    "masteryThreshold": 0.9
+  },
+  "questions": [
+    {
+      "id": "D05-t01",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "定格電流 {IB} A の過電流遮断器で保護された幹線から分岐し、分岐点から {L} m の位置に分岐回路用の過電流遮断器を設ける。分岐電線の許容電流の最小値は何 A か。",
+      "variables": {
+        "IB": {
+          "min": 40,
+          "max": 120,
+          "step": 20
+        },
+        "L": {
+          "min": 9,
+          "max": 15,
+          "step": 1
+        }
+      },
+      "answerFormula": "IB * 0.55",
+      "answerType": "choice",
+      "unitLabel": "A",
+      "roundTo": 1,
+      "explanation": "分岐点から 8 m を超えるので、幹線の遮断器定格の 55 % 以上: {IB} × 0.55 = {answer} A。",
+      "tags": [
+        "計算",
+        "幹線",
+        "分岐"
+      ],
+      "srsWeight": 1.2,
+      "distractors": [
+        "IB * 0.35",
+        "IB",
+        "IB * 0.5"
+      ]
+    },
+    {
+      "id": "D05-t02",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "定格電流 {IB} A の過電流遮断器で保護された幹線から分岐し、分岐点から {L} m の位置に分岐回路用の過電流遮断器を設ける。分岐電線の許容電流の最小値は何 A か。",
+      "variables": {
+        "IB": {
+          "min": 40,
+          "max": 120,
+          "step": 20
+        },
+        "L": {
+          "min": 4,
+          "max": 8,
+          "step": 1
+        }
+      },
+      "answerFormula": "IB * 0.35",
+      "answerType": "choice",
+      "unitLabel": "A",
+      "roundTo": 1,
+      "explanation": "分岐点から 3 m を超え 8 m 以下なので 35 % 以上: {IB} × 0.35 = {answer} A。3 m 以下なら制限なし。",
+      "tags": [
+        "計算",
+        "幹線",
+        "分岐"
+      ],
+      "srsWeight": 1.2,
+      "distractors": [
+        "IB * 0.55",
+        "IB * 0.25",
+        "IB"
+      ]
+    },
+    {
+      "id": "D05-q03",
+      "type": "multipleChoice",
+      "difficulty": 3,
+      "prompt": "定格 50 A の配線用遮断器で保護された幹線から、許容電流 42 A の VVR 8 mm² で分岐する。分岐点から分岐回路の遮断器までの長さの制限はどれか。",
+      "choices": [
+        "制限なし",
+        "3 m 以下",
+        "8 m 以下",
+        "10 m 以下"
+      ],
+      "answerIndex": 0,
+      "explanation": "42 ÷ 50 = 84 % ≥ 55 % なので、長さの制限はない。35 % 以上 55 % 未満なら 8 m 以下、35 % 未満なら 3 m 以下。",
+      "tags": [
+        "幹線",
+        "分岐"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "D05-t04",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "電動機の定格電流の合計が {M} A、電熱器の定格電流の合計が {H} A の幹線がある。需要率 100 % のとき、幹線の電線の許容電流の最小値は何 A か。",
+      "variables": {
+        "M": {
+          "min": 10,
+          "max": 40,
+          "step": 10
+        },
+        "H": {
+          "min": 5,
+          "max": 20,
+          "step": 5
+        }
+      },
+      "answerFormula": "1.25 * M + H",
+      "answerType": "choice",
+      "unitLabel": "A",
+      "roundTo": 1,
+      "explanation": "電動機の合計が電熱器より大きく 50 A 以下なので、1.25 × {M} + {H} = {answer} A。",
+      "tags": [
+        "計算",
+        "幹線"
+      ],
+      "srsWeight": 1.2,
+      "constraints": [
+        "M > H"
+      ],
+      "distractors": [
+        "M + H",
+        "1.1 * M + H",
+        "3 * M + H"
+      ]
+    },
+    {
+      "id": "D05-t05",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "電動機の定格電流の合計が {M} A、電熱器の定格電流の合計が {H} A の幹線がある。需要率 100 % のとき、幹線の電線の許容電流の最小値は何 A か。",
+      "variables": {
+        "M": {
+          "min": 10,
+          "max": 20,
+          "step": 5
+        },
+        "H": {
+          "min": 20,
+          "max": 40,
+          "step": 5
+        }
+      },
+      "answerFormula": "M + H",
+      "answerType": "choice",
+      "unitLabel": "A",
+      "roundTo": 1,
+      "explanation": "電動機の合計が電熱器の合計以下なら割増なし。{M} + {H} = {answer} A。",
+      "tags": [
+        "計算",
+        "幹線"
+      ],
+      "srsWeight": 1.2,
+      "constraints": [
+        "M <= H"
+      ],
+      "distractors": [
+        "1.25 * M + H",
+        "1.1 * M + H",
+        "3 * M + H"
+      ]
+    },
+    {
+      "id": "D05-t06",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "電動機の定格電流の合計が {M} A、電熱器の定格電流の合計が {H} A の幹線がある。需要率 100 % のとき、幹線の電線の許容電流の最小値は何 A か。",
+      "variables": {
+        "M": {
+          "min": 60,
+          "max": 100,
+          "step": 20
+        },
+        "H": {
+          "min": 10,
+          "max": 30,
+          "step": 10
+        }
+      },
+      "answerFormula": "1.1 * M + H",
+      "answerType": "choice",
+      "unitLabel": "A",
+      "roundTo": 1,
+      "explanation": "電動機の合計が 50 A を超えるので 1.1 倍: 1.1 × {M} + {H} = {answer} A。",
+      "tags": [
+        "計算",
+        "幹線"
+      ],
+      "srsWeight": 1.2,
+      "distractors": [
+        "1.25 * M + H",
+        "M + H",
+        "3 * M + H"
+      ]
+    },
+    {
+      "id": "D05-t07",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "電動機の定格電流の合計が {M} A、電熱器の定格電流の合計が {H} A の幹線（許容電流は 1.25 × 電動機 + 電熱器 で選定）に施設する過電流遮断器の定格電流の最大値は何 A か。",
+      "variables": {
+        "M": {
+          "min": 20,
+          "max": 40,
+          "step": 10
+        },
+        "H": {
+          "min": 10,
+          "max": 20,
+          "step": 10
+        }
+      },
+      "answerFormula": "3 * M + H",
+      "answerType": "choice",
+      "unitLabel": "A",
+      "roundTo": 0,
+      "explanation": "電動機がある幹線は 3 × {M} + {H} = {answer} A 以下。ただし幹線の許容電流の 2.5 倍を超えないこと（この条件では超えない）。",
+      "tags": [
+        "計算",
+        "幹線",
+        "過電流遮断器"
+      ],
+      "srsWeight": 1.2,
+      "constraints": [
+        "M > H",
+        "3 * M + H <= 2.5 * (1.25 * M + H)"
+      ],
+      "distractors": [
+        "1.25 * M + H",
+        "2.5 * (1.25 * M + H)",
+        "M + H"
+      ]
+    },
+    {
+      "id": "D05-q08",
+      "type": "multipleChoice",
+      "difficulty": 3,
+      "prompt": "電動機 20 A × 2 台と電熱器 10 A を接続する幹線で、電線の許容電流 Iw と過電流遮断器の定格 IB の組合せとして適切なものはどれか。需要率 100 %。",
+      "choices": [
+        "Iw = 60 A、IB = 130 A",
+        "Iw = 50 A、IB = 150 A",
+        "Iw = 60 A、IB = 150 A",
+        "Iw = 50 A、IB = 130 A"
+      ],
+      "answerIndex": 0,
+      "explanation": "M = 40 A > H = 10 A、M ≤ 50 A なので Iw = 1.25×40+10 = 60 A。IB ≤ 3×40+10 = 130 A かつ ≤ 2.5×60 = 150 A → 130 A。",
+      "tags": [
+        "計算",
+        "幹線"
+      ],
+      "srsWeight": 1.0
+    }
+  ],
+  "boss": {
+    "id": "D05-boss",
+    "title": "試験型ボス",
+    "description": "制限時間内に5問連続正解でクリア。",
+    "questionIds": [
+      "D05-t01",
+      "D05-t02",
+      "D05-q03",
+      "D05-t04",
+      "D05-t05",
+      "D05-t06",
+      "D05-t07",
+      "D05-q08"
+    ],
+    "pick": 5,
+    "timeLimitSeconds": 150
+  }
+}

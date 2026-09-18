@@ -103,6 +103,11 @@
 - 新形式との対応: `choice` ≒ `multipleChoice`（`answer` = `answerIndex`）、`truefalse` = `trueFalse`、`number` ≒ `numericInput`（`unit` = `unitLabel`）
 - 検証: `python3 tools/validate_content.py`（新旧両方を検証する）
 
+## 試験型ドリル（教材のない新形式ファイル）
+`unit.lessonFile` が null で、対応する `content/lessons/<id>.md` がない新形式ファイルは、ホームの「試験型ドリル」に並ぶ。
+template 問題は 1 セッションごとに数値が変わる。docs/exam-patterns.md の型から作成している（E01, D01〜D06, K02〜K09, S08, G03）。
+ID の付け方: 固定問題は `<単元>-q01`、template は `<単元>-t01`。
+
 ## アプリ側の対応状況
 | type | 状態 |
 |---|---|

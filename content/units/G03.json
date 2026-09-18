@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 2,
+  "unit": {
+    "id": "G03",
+    "stage": 5,
+    "order": 3,
+    "title": "リングスリーブの大きさと圧着マーク",
+    "lessonFile": null,
+    "prerequisites": [],
+    "masteryThreshold": 0.9
+  },
+  "questions": [
+    {
+      "id": "G03-q01",
+      "type": "multipleChoice",
+      "difficulty": 3,
+      "prompt": "電線の組合せとリングスリーブの種類・圧着マークの組合せで不適切なものはどれか。",
+      "choices": [
+        "1.6 mm × 4 本 → 中スリーブ・「中」",
+        "1.6 mm × 2 本 → 小スリーブ・「○」",
+        "1.6 mm × 1 本 + 2.0 mm × 1 本 → 小スリーブ・「小」",
+        "1.6 mm × 1 本 + 2.0 mm × 2 本 → 中スリーブ・「中」"
+      ],
+      "answerIndex": 0,
+      "explanation": "1.6 mm は 4 本まで小スリーブ・「小」。中になるのは 1.6 × 5〜6 本、2.0 × 3〜4 本など。",
+      "tags": [
+        "リングスリーブ"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "G03-q02",
+      "type": "multipleChoice",
+      "difficulty": 3,
+      "prompt": "電線の組合せとリングスリーブの種類・圧着マークで不適切なものはどれか。",
+      "choices": [
+        "2.0 mm × 2 本 → 中スリーブ・「中」",
+        "2.0 mm × 3 本 → 中スリーブ・「中」",
+        "1.6 mm × 3 本 → 小スリーブ・「小」",
+        "1.6 mm × 1 本 + 2.0 mm × 2 本 → 中スリーブ・「中」"
+      ],
+      "answerIndex": 0,
+      "explanation": "2.0 mm × 2 本は小スリーブ・「小」。",
+      "tags": [
+        "リングスリーブ"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "G03-q03",
+      "type": "multipleChoice",
+      "difficulty": 3,
+      "prompt": "次の表で不適切なものをすべて選んだ組合せはどれか。 a: 1.6 × 2 → 小・○ b: 1.6 × 2 + 2.0 × 1 → 中・中 c: 1.6 × 4 → 中・中 d: 1.6 × 1 + 2.0 × 2 → 中・中",
+      "choices": [
+        "b、c",
+        "a、d",
+        "c、d",
+        "b、d"
+      ],
+      "answerIndex": 0,
+      "explanation": "b は 2.0 × 1 + 1.6 × 2 で小・「小」。c は 1.6 × 4 で小・「小」。a と d は正しい。",
+      "tags": [
+        "リングスリーブ"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "G03-q04",
+      "type": "multipleChoice",
+      "difficulty": 3,
+      "prompt": "VVF 1.6 mm だけが集まるジョイントボックスで、2 本接続が 3 か所、3 本接続が 1 か所ある。リングスリーブの種類・個数・圧着マークの組合せはどれか。",
+      "choices": [
+        "小 4 個（○ × 3、小 × 1）",
+        "小 4 個（すべて ○）",
+        "小 3 個 + 中 1 個",
+        "小 4 個（小 × 4）"
+      ],
+      "answerIndex": 0,
+      "explanation": "1.6 × 2 本は「○」、1.6 × 3 本は「小」。すべて小スリーブ。",
+      "tags": [
+        "リングスリーブ"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "G03-q05",
+      "type": "multipleChoice",
+      "difficulty": 3,
+      "prompt": "VVF 1.6 mm の 2 本接続 2 か所、4 本接続 1 か所、2.0 mm × 1 本 + 1.6 mm × 3 本の接続 1 か所があるボックスで、リングスリーブの組合せはどれか。",
+      "choices": [
+        "小 3 個 + 中 1 個",
+        "小 4 個",
+        "小 2 個 + 中 2 個",
+        "中 4 個"
+      ],
+      "answerIndex": 0,
+      "explanation": "1.6 × 2（○）、1.6 × 2（○）、1.6 × 4（小）は小スリーブ 3 個。2.0 × 1 + 1.6 × 3 は中スリーブ。",
+      "tags": [
+        "リングスリーブ"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "G03-q06",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "リングスリーブの大きさを決める基準として正しいものはどれか。",
+      "choices": [
+        "接続する電線の断面積の合計（小: 約 8 mm² 以下、中: 約 14 mm² 以下）",
+        "電線の本数だけ",
+        "いちばん太い電線の直径",
+        "ボックスの大きさ"
+      ],
+      "answerIndex": 0,
+      "explanation": "1.6 mm ≒ 2 mm²、2.0 mm ≒ 3.14 mm²。合計 8 mm² 以下は小、8 超 14 以下は中、それ以上は大。",
+      "tags": [
+        "リングスリーブ"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "G03-q07",
+      "type": "trueFalse",
+      "difficulty": 1,
+      "prompt": "1.6 mm × 2 本の圧着マークは「○」で、1.6 mm × 3 本は「小」である。",
+      "answer": true,
+      "explanation": "○ は 1.6 × 2 本のときだけ。",
+      "tags": [
+        "リングスリーブ"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "G03-q08",
+      "type": "trueFalse",
+      "difficulty": 1,
+      "prompt": "2.0 mm × 3 本は小スリーブに入る。",
+      "answer": false,
+      "explanation": "2.0 × 3 本は合計約 9.4 mm² で中スリーブ。",
+      "tags": [
+        "リングスリーブ"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "G03-q09",
+      "type": "multipleChoice",
+      "difficulty": 3,
+      "prompt": "CV 5.5 mm² の 3 心ケーブルが 3 本集まる動力回路のジョイントボックスで、各相を 1 本ずつ接続（5.5 mm² × 3 本 × 3 か所）するときのリングスリーブは何か。",
+      "choices": [
+        "大スリーブ 3 個",
+        "中スリーブ 3 個",
+        "小スリーブ 3 個",
+        "大スリーブ 9 個"
+      ],
+      "answerIndex": 0,
+      "explanation": "5.5 mm² × 3 本 = 16.5 mm² で 14 mm² を超えるので大。3 か所で 3 個。",
+      "tags": [
+        "リングスリーブ"
+      ],
+      "srsWeight": 1.0
+    }
+  ],
+  "boss": {
+    "id": "G03-boss",
+    "title": "試験型ボス",
+    "description": "制限時間内に5問連続正解でクリア。",
+    "questionIds": [
+      "G03-q01",
+      "G03-q02",
+      "G03-q03",
+      "G03-q04",
+      "G03-q05",
+      "G03-q06",
+      "G03-q07",
+      "G03-q08",
+      "G03-q09"
+    ],
+    "pick": 5,
+    "timeLimitSeconds": 120
+  }
+}

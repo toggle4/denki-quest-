@@ -48,6 +48,67 @@ final class QuestionBank {
         guard let source = questionsById[id] else { return nil }
         return QuestionFactory.make(from: source)
     }
+
+    /// 教材（lessons）を持たない新形式ファイル = 試験型ドリル。ステージ・順番で並べる。
+    func drillFiles(excludingLessonIds lessonIds: Set<String>) -> [UnitFileV2] {
+        files.values
+            .filter { !lessonIds.contains($0.unit.id) }
+            .sorted {
+                let a = ($0.unit.stage ?? 99, $0.unit.order ?? 99, $0.unit.id)
+                let b = ($1.unit.stage ?? 99, $1.unit.order ?? 99, $1.unit.id)
+                return a < b
+            }
+    }
+
+    /// ドリル用に旧ゲームの LearningUnit を組み立てる。
+    /// template 問題は数値を変えて 3 回ずつ生成し、セッションのたびに違う数値が出るようにする。
+    func makeDrillUnit(from file: UnitFileV2) -> LearningUnit {
+        var questions: [Question] = []
+        for source in file.questions {
+            let copies = source.type == "template" ? 3 : 1
+            for k in 0..<copies {
+                guard var q = QuestionFactory.make(from: source) else { continue }
+                if copies > 1 {
+                    q = Question(
+                        id: "\(q.id)#\(k)", type: q.type, prompt: q.prompt, explanation: q.explanation,
+                        hint: q.hint, image: q.image, choices: q.choices, answerIndex: q.answerIndex,
+                        answerBool: q.answerBool, answerNumber: q.answerNumber, tolerance: q.tolerance, unit: q.unit
+                    )
+                }
+                questions.append(q)
+            }
+        }
+        return LearningUnit(
+            id: file.unit.id,
+            title: file.unit.title,
+            order: file.unit.order ?? 0,
+            stage: Self.legacyStage(for: file.unit.stage ?? 0),
+            description: file.boss?.description ?? "過去の出題パターンをもとにした試験型ドリル。",
+            questions: questions,
+            boss: file.boss.map { BossConfig(questionCount: $0.pick ?? 5, timeLimitSeconds: $0.timeLimitSeconds) }
+        )
+    }
+
+    private static func legacyStage(for stage: Int) -> LearningUnit.Stage {
+        switch stage {
+        case 0: return .review
+        case 4: return .calculate
+        case 5: return .practical
+        default: return .memorize
+        }
+    }
+
+    static func stageTitle(_ stage: Int?) -> String {
+        switch stage {
+        case 0: return "ステージ 0　電気の基礎"
+        case 1: return "ステージ 1　図記号・器具・材料・工具"
+        case 2: return "ステージ 2　配線図"
+        case 3: return "ステージ 3　施工方法・検査・法令"
+        case 4: return "ステージ 4　配電理論と配線設計"
+        case 5: return "ステージ 5　技能試験"
+        default: return "その他"
+        }
+    }
 }
 
 /// 新形式の 1 問を、旧ゲームの出題 UI が扱う Question に変換する。

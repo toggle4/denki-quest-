@@ -1,0 +1,145 @@
+{
+  "schemaVersion": 2,
+  "unit": {
+    "id": "D03",
+    "stage": 4,
+    "order": 3,
+    "title": "単相 3 線式の中性線断線と負荷電圧",
+    "lessonFile": null,
+    "prerequisites": [],
+    "masteryThreshold": 0.9
+  },
+  "questions": [
+    {
+      "id": "D03-t01",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "単相 3 線式 100/200 V で、上側に {RA} Ω、下側に {RB} Ω の負荷がつながっている。中性線が断線したとき、上側の負荷にかかる電圧は何 V か。線間電圧を {V} V とする。",
+      "variables": {
+        "V": {
+          "min": 200,
+          "max": 200,
+          "step": 1
+        },
+        "RA": {
+          "min": 10,
+          "max": 30,
+          "step": 10
+        },
+        "RB": {
+          "min": 10,
+          "max": 30,
+          "step": 10
+        }
+      },
+      "answerFormula": "V * RA / (RA + RB)",
+      "answerType": "choice",
+      "unitLabel": "V",
+      "roundTo": 0,
+      "explanation": "断線すると 2 つの負荷が直列に {V} V にかかる。分圧で上側 = {V} × {RA} ÷ ({RA}+{RB}) = {answer} V。抵抗の大きい側に高い電圧がかかる。",
+      "tags": [
+        "計算",
+        "中性線断線"
+      ],
+      "srsWeight": 1.2,
+      "constraints": [
+        "RA != RB"
+      ],
+      "distractors": [
+        "V * RB / (RA + RB)",
+        "V / 2",
+        "V * RA / RB"
+      ]
+    },
+    {
+      "id": "D03-q02",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "単相 3 線式 100/200 V の住宅で、100 V の機器に 150 V がかかって故障した。最も考えられる原因はどれか。",
+      "choices": [
+        "中性線の断線",
+        "外線の断線",
+        "接地線の断線",
+        "漏電遮断器の故障"
+      ],
+      "answerIndex": 0,
+      "explanation": "中性線が切れると 2 つの 100 V 負荷が直列で 200 V にかかり、軽い負荷側に 100 V を超える電圧がかかる。",
+      "tags": [
+        "中性線断線"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "D03-t03",
+      "type": "template",
+      "difficulty": 3,
+      "prompt": "単相 3 線式で電源の両側が {Vs} V、電線 1 本の抵抗 {r} Ω。片側だけに {R} Ω の負荷がある状態から、反対側にも同じ {R} Ω の負荷をつないで平衡させた。負荷の電圧は何 V 上がるか。小数第 1 位まで。",
+      "variables": {
+        "Vs": {
+          "min": 105,
+          "max": 105,
+          "step": 1
+        },
+        "r": {
+          "min": 0.1,
+          "max": 0.2,
+          "step": 0.1
+        },
+        "R": {
+          "min": 3.3,
+          "max": 5.3,
+          "step": 1.0
+        }
+      },
+      "answerFormula": "Vs * R / (R + r) - Vs * R / (R + 2 * r)",
+      "answerType": "numeric",
+      "unitLabel": "V",
+      "roundTo": 1,
+      "explanation": "片側だけのときは外線と中性線の 2 本で降下: V = {Vs}×{R}÷({R}+2×{r})。平衡すると中性線 0 A で V = {Vs}×{R}÷({R}+{r})。差は {answer} V。",
+      "tags": [
+        "計算",
+        "単相3線",
+        "不平衡"
+      ],
+      "srsWeight": 1.2
+    },
+    {
+      "id": "D03-q04",
+      "type": "trueFalse",
+      "difficulty": 1,
+      "prompt": "単相 3 線式の中性線には、過電流遮断器（ヒューズ）を施設してはならない。",
+      "answer": true,
+      "explanation": "中性線が先に切れると異常電圧が発生するため。中性線には遮断器を入れず、主開閉器の中性極は銅バーで直結する。",
+      "tags": [
+        "中性線"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "D03-q05",
+      "type": "trueFalse",
+      "difficulty": 1,
+      "prompt": "単相 3 線式で中性線が断線すると、抵抗の小さい（消費電力の大きい）負荷側に高い電圧がかかる。",
+      "answer": false,
+      "explanation": "直列の分圧なので、抵抗の大きい（軽い）負荷側に高い電圧がかかる。",
+      "tags": [
+        "中性線断線"
+      ],
+      "srsWeight": 1.0
+    }
+  ],
+  "boss": {
+    "id": "D03-boss",
+    "title": "試験型ボス",
+    "description": "制限時間内に5問連続正解でクリア。",
+    "questionIds": [
+      "D03-t01",
+      "D03-q02",
+      "D03-t03",
+      "D03-q04",
+      "D03-q05"
+    ],
+    "pick": 5,
+    "timeLimitSeconds": 120
+  }
+}

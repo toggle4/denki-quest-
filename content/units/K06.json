@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 2,
+  "unit": {
+    "id": "K06",
+    "stage": 3,
+    "order": 6,
+    "title": "特殊場所（湿気・粉じん・危険物）の工事",
+    "lessonFile": null,
+    "prerequisites": [],
+    "masteryThreshold": 0.9
+  },
+  "questions": [
+    {
+      "id": "K06-q01",
+      "type": "multipleChoice",
+      "difficulty": 3,
+      "prompt": "特殊場所と工事方法の組合せで不適切なものはどれか。",
+      "choices": [
+        "危険物（石油類）を貯蔵する場所に金属線ぴ工事",
+        "可燃性ガスのある場所に厚鋼電線管工事",
+        "可燃性粉じんのある場所に合成樹脂管（VE）工事",
+        "塗装作業場に厚鋼電線管工事"
+      ],
+      "answerIndex": 0,
+      "explanation": "危険物・可燃性ガス・粉じんの場所では金属線ぴ・ライティングダクト・金属ダクトは不可。金属管（厚鋼）・ケーブル（防護）・合成樹脂管（粉じん）が基本。",
+      "tags": [
+        "特殊場所"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "K06-q02",
+      "type": "multipleChoice",
+      "difficulty": 3,
+      "prompt": "特殊場所と施工できる工事の組合せで不適切なものはどれか。",
+      "choices": [
+        "危険物のある場所で防護装置なしの VVF ケーブル工事",
+        "可燃性ガスのある場所で MI ケーブル工事",
+        "可燃性粉じんのある場所で合成樹脂管（VE28）工事",
+        "塗装作業場で厚鋼電線管工事"
+      ],
+      "answerIndex": 0,
+      "explanation": "危険物・可燃性ガスの場所のケーブル工事は、管などの防護装置に収める（MI ケーブルは除く）。",
+      "tags": [
+        "特殊場所"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "K06-q03",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "湿気の多い展開した場所に施設できない工事をすべて選んだ組合せはどれか。 a: 金属線ぴ工事 b: 金属ダクト工事 c: ライティングダクト工事",
+      "choices": [
+        "a、b、c",
+        "a、c",
+        "b、c",
+        "a、b"
+      ],
+      "answerIndex": 0,
+      "explanation": "3 つとも乾燥した場所限定。湿気の多い場所はケーブル・金属管・合成樹脂管・がいし引き。",
+      "tags": [
+        "特殊場所",
+        "施設場所"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "K06-q04",
+      "type": "trueFalse",
+      "difficulty": 1,
+      "prompt": "可燃性ガスが滞留するおそれのある場所では、金属管工事は薄鋼電線管でもよい。",
+      "answer": false,
+      "explanation": "可燃性ガスの場所は厚鋼電線管に限る。",
+      "tags": [
+        "特殊場所"
+      ],
+      "srsWeight": 1.0
+    }
+  ],
+  "boss": {
+    "id": "K06-boss",
+    "title": "試験型ボス",
+    "description": "制限時間内に5問連続正解でクリア。",
+    "questionIds": [
+      "K06-q01",
+      "K06-q02",
+      "K06-q03",
+      "K06-q04"
+    ],
+    "pick": 5,
+    "timeLimitSeconds": 90
+  }
+}

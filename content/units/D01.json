@@ -1,0 +1,363 @@
+{
+  "schemaVersion": 2,
+  "unit": {
+    "id": "D01",
+    "stage": 4,
+    "order": 1,
+    "title": "単相 2 線式・3 線式の電圧降下と電力損失",
+    "lessonFile": null,
+    "prerequisites": [],
+    "masteryThreshold": 0.9
+  },
+  "questions": [
+    {
+      "id": "D01-t01",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "単相 2 線式で、電線 1 本の抵抗が {r} Ω、負荷電流が {I} A のとき、電線による電圧降下は何 V か。",
+      "variables": {
+        "r": {
+          "min": 0.05,
+          "max": 0.3,
+          "step": 0.05
+        },
+        "I": {
+          "min": 5,
+          "max": 30,
+          "step": 5
+        }
+      },
+      "answerFormula": "2 * I * r",
+      "answerType": "choice",
+      "unitLabel": "V",
+      "roundTo": 1,
+      "explanation": "往復 2 本で降下するので e = 2 × {I} × {r} = {answer} V。",
+      "tags": [
+        "計算",
+        "単相2線",
+        "電圧降下"
+      ],
+      "srsWeight": 1.2,
+      "distractors": [
+        "I * r",
+        "SQRT3 * I * r",
+        "4 * I * r"
+      ]
+    },
+    {
+      "id": "D01-t02",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "単相 2 線式で、電源から点 A まで電線 1 本の抵抗が {r1} Ω、点 A から末端 B まで {r2} Ω である。点 A に {I2} A、末端 B に {I1} A の負荷があり、末端の電圧は {Vb} V である。電源側の電圧は何 V か。",
+      "variables": {
+        "r1": {
+          "min": 0.05,
+          "max": 0.1,
+          "step": 0.05
+        },
+        "r2": {
+          "min": 0.1,
+          "max": 0.2,
+          "step": 0.1
+        },
+        "I1": {
+          "min": 5,
+          "max": 10,
+          "step": 5
+        },
+        "I2": {
+          "min": 5,
+          "max": 10,
+          "step": 5
+        },
+        "Vb": {
+          "min": 100,
+          "max": 100,
+          "step": 1
+        }
+      },
+      "answerFormula": "Vb + 2 * I1 * r2 + 2 * (I1 + I2) * r1",
+      "answerType": "choice",
+      "unitLabel": "V",
+      "roundTo": 1,
+      "explanation": "区間ごとに 2 × 電流 × 抵抗を足す。A–B 間は {I1} A、電源–A 間は {I1}+{I2} A が流れる。{answer} V。",
+      "tags": [
+        "計算",
+        "単相2線",
+        "分散負荷"
+      ],
+      "srsWeight": 1.2,
+      "distractors": [
+        "Vb + I1 * r2 + (I1 + I2) * r1",
+        "Vb + 2 * (I1 + I2) * (r1 + r2)",
+        "Vb + 2 * I1 * (r1 + r2)"
+      ]
+    },
+    {
+      "id": "D01-t03",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "単相 2 線式で、こう長（片道）{L} m、電線の抵抗 {rho} Ω/km の配線に、100 V・{P} W の負荷をつないだ。電圧降下は何 V か。",
+      "variables": {
+        "L": {
+          "min": 5,
+          "max": 20,
+          "step": 1
+        },
+        "rho": {
+          "min": 3.2,
+          "max": 5.0,
+          "step": 0.9
+        },
+        "P": {
+          "min": 1000,
+          "max": 2000,
+          "step": 500
+        }
+      },
+      "answerFormula": "2 * (P / 100) * (rho * L / 1000)",
+      "answerType": "choice",
+      "unitLabel": "V",
+      "roundTo": 1,
+      "explanation": "電流 = {P} ÷ 100 A。電線 1 本の抵抗 = {rho} × {L} ÷ 1000 Ω。e = 2 × I × r = {answer} V。",
+      "tags": [
+        "計算",
+        "単相2線",
+        "電圧降下"
+      ],
+      "srsWeight": 1.2,
+      "distractors": [
+        "(P / 100) * (rho * L / 1000)",
+        "2 * (P / 100) * rho * L",
+        "(P / 100) * rho * L / 100"
+      ]
+    },
+    {
+      "id": "D01-t04",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "単相 3 線式で、上下の負荷が平衡し各負荷に {I} A 流れている。電線 1 本の抵抗が {r} Ω のとき、各負荷にかかる電圧降下は何 V か。",
+      "variables": {
+        "r": {
+          "min": 0.1,
+          "max": 0.3,
+          "step": 0.1
+        },
+        "I": {
+          "min": 10,
+          "max": 20,
+          "step": 5
+        }
+      },
+      "answerFormula": "I * r",
+      "answerType": "choice",
+      "unitLabel": "V",
+      "roundTo": 1,
+      "explanation": "平衡なら中性線に電流が流れないので、外線 1 本分の降下 {I} × {r} = {answer} V だけ。",
+      "tags": [
+        "計算",
+        "単相3線",
+        "電圧降下"
+      ],
+      "srsWeight": 1.2,
+      "distractors": [
+        "2 * I * r",
+        "SQRT3 * I * r",
+        "I * r / 2"
+      ]
+    },
+    {
+      "id": "D01-t05",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "単相 3 線式で上下の負荷が平衡し、各負荷に {I} A 流れている。電線 1 本の抵抗が {r} Ω のとき、配線の電力損失は何 W か。",
+      "variables": {
+        "I": {
+          "min": 8,
+          "max": 15,
+          "step": 1
+        },
+        "r": {
+          "min": 0.1,
+          "max": 0.5,
+          "step": 0.1
+        }
+      },
+      "answerFormula": "2 * I * I * r",
+      "answerType": "choice",
+      "unitLabel": "W",
+      "roundTo": 1,
+      "explanation": "中性線は 0 A なので、外線 2 本だけ: 2 × {I}² × {r} = {answer} W。",
+      "tags": [
+        "計算",
+        "単相3線",
+        "電力損失"
+      ],
+      "srsWeight": 1.2,
+      "distractors": [
+        "I * I * r",
+        "3 * I * I * r",
+        "4 * I * I * r"
+      ]
+    },
+    {
+      "id": "D01-t06",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "単相 3 線式 100/200 V で、電源電圧が {Vs} V、電線 1 本の抵抗が {r} Ω、上下平衡で各負荷に {I} A 流れている。負荷にかかる電圧は何 V か。",
+      "variables": {
+        "Vs": {
+          "min": 104,
+          "max": 106,
+          "step": 1
+        },
+        "r": {
+          "min": 0.1,
+          "max": 0.2,
+          "step": 0.1
+        },
+        "I": {
+          "min": 10,
+          "max": 20,
+          "step": 5
+        }
+      },
+      "answerFormula": "Vs - I * r",
+      "answerType": "choice",
+      "unitLabel": "V",
+      "roundTo": 1,
+      "explanation": "平衡なら降下は外線 1 本分 {I} × {r} V。{Vs} − それ = {answer} V。",
+      "tags": [
+        "計算",
+        "単相3線",
+        "負荷電圧"
+      ],
+      "srsWeight": 1.2,
+      "distractors": [
+        "Vs - 2 * I * r",
+        "Vs",
+        "Vs - I * r / 2"
+      ]
+    },
+    {
+      "id": "D01-t07",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "単相 3 線式で電源の両側が {Vs} V、電線 1 本の抵抗が {r} Ω。上側の負荷に {Iu} A、下側の負荷に {Id} A 流れているとき、上側の負荷にかかる電圧は何 V か。",
+      "variables": {
+        "Vs": {
+          "min": 103,
+          "max": 105,
+          "step": 1
+        },
+        "r": {
+          "min": 0.1,
+          "max": 0.2,
+          "step": 0.1
+        },
+        "Iu": {
+          "min": 15,
+          "max": 25,
+          "step": 5
+        },
+        "Id": {
+          "min": 5,
+          "max": 10,
+          "step": 5
+        }
+      },
+      "answerFormula": "Vs - Iu * r - (Iu - Id) * r",
+      "answerType": "choice",
+      "unitLabel": "V",
+      "roundTo": 1,
+      "explanation": "上側の回路は外線（{Iu} A）と中性線（差の {Iu}−{Id} A）を通る。降下 = {Iu}×{r} + ({Iu}−{Id})×{r}。{answer} V。",
+      "tags": [
+        "計算",
+        "単相3線",
+        "不平衡"
+      ],
+      "srsWeight": 1.2,
+      "distractors": [
+        "Vs - Iu * r",
+        "Vs - 2 * Iu * r",
+        "Vs - (Iu - Id) * r"
+      ]
+    },
+    {
+      "id": "D01-q08",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "単相 3 線式で上下の負荷が平衡しているとき、電線 1 本の抵抗を r [Ω]、負荷電流を I [A] とすると、負荷にかかる電圧降下を表す式はどれか。",
+      "choices": [
+        "r I",
+        "2 r I",
+        "√3 r I",
+        "3 r I"
+      ],
+      "answerIndex": 0,
+      "explanation": "中性線に電流が流れないので、外線 1 本分の rI だけ。単相 2 線式なら 2rI。",
+      "tags": [
+        "公式",
+        "単相3線"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "D01-q09",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "同じ負荷（100 V 1 kW を 2 つ）に対して、単相 2 線式から単相 3 線式（平衡）に変えると、配線の電力損失はどうなるか。電線の抵抗は同じとする。",
+      "choices": [
+        "1/4 になる",
+        "1/2 になる",
+        "変わらない",
+        "2 倍になる"
+      ],
+      "answerIndex": 0,
+      "explanation": "2 線式は 20 A が往復 2 本 → 2×20²r = 800r。3 線式は外線 10 A × 2 本 → 2×10²r = 200r。1/4。",
+      "tags": [
+        "単相3線",
+        "電力損失"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "D01-q10",
+      "type": "multipleChoice",
+      "difficulty": 3,
+      "prompt": "単相 2 線式で、こう長 100 m、負荷電流 10 A、電圧降下を 4 V 以内にしたい。電線の抵抗が 5.5 mm²: 3.33、8 mm²: 2.31、14 mm²: 1.30、22 mm²: 0.82 [Ω/km] のとき、最小の断面積はどれか。",
+      "choices": [
+        "14 mm²",
+        "5.5 mm²",
+        "8 mm²",
+        "22 mm²"
+      ],
+      "answerIndex": 0,
+      "explanation": "e = 2 × 10 × (R × 0.1)。4 V 以内には R ≤ 2.0 Ω/km が必要。8 mm² は 2.31 で不足、14 mm² の 1.30 が最小。",
+      "tags": [
+        "計算",
+        "電線選定"
+      ],
+      "srsWeight": 1.0
+    }
+  ],
+  "boss": {
+    "id": "D01-boss",
+    "title": "試験型ボス",
+    "description": "制限時間内に5問連続正解でクリア。",
+    "questionIds": [
+      "D01-t01",
+      "D01-t02",
+      "D01-t03",
+      "D01-t04",
+      "D01-t05",
+      "D01-t06",
+      "D01-t07",
+      "D01-q08",
+      "D01-q09",
+      "D01-q10"
+    ],
+    "pick": 5,
+    "timeLimitSeconds": 150
+  }
+}

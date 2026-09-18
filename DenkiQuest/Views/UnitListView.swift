@@ -5,6 +5,7 @@ import SwiftData
 struct UnitListView: View {
     @State private var units: [LearningUnit] = []
     @State private var lessonSections: [Curriculum.Section] = []
+    @State private var examDrills: [UnitFileV2] = []
     @State private var lessonError: String?
     @State private var drillError: String?
     @AppStorage(SoundPlayer.enabledKey) private var soundEnabled = true
@@ -34,6 +35,7 @@ struct UnitListView: View {
                         .buttonStyle(.plain)
 
                         lessonList
+                        examDrillList
                         drillList
                     }
                     .padding()
@@ -120,6 +122,25 @@ struct UnitListView: View {
         }
     }
 
+    // MARK: - 試験型ドリル（新形式・教材なし）
+
+    @ViewBuilder
+    private var examDrillList: some View {
+        let grouped = Dictionary(grouping: examDrills, by: { $0.unit.stage ?? 99 })
+        ForEach(grouped.keys.sorted(), id: \.self) { stage in
+            if let files = grouped[stage] {
+                sectionHeader("試験型ドリル：" + QuestionBank.stageTitle(stage), subtitle: "数値が毎回変わる")
+                ForEach(files, id: \.unit.id) { file in
+                    NavigationLink(value: QuestionBank.shared.makeDrillUnit(from: file)) {
+                        ExamDrillRow(file: file)
+                    }
+                    .buttonStyle(.plain)
+                    .simultaneousGesture(TapGesture().onEnded { GameFeedback.tap() })
+                }
+            }
+        }
+    }
+
     // MARK: - ドリル（旧単元）
 
     @ViewBuilder
@@ -171,11 +192,15 @@ struct UnitListView: View {
     }
 
     private func load() {
+        var lessonIds: Set<String> = []
         do {
-            lessonSections = Curriculum.sections(for: try LessonLibrary.loadAll())
+            let lessons = try LessonLibrary.loadAll()
+            lessonIds = Set(lessons.map(\.unitId))
+            lessonSections = Curriculum.sections(for: lessons)
         } catch {
             lessonError = error.localizedDescription
         }
+        examDrills = QuestionBank.shared.drillFiles(excludingLessonIds: lessonIds)
         do {
             units = try ContentLoader.loadUnits()
         } catch {
@@ -226,6 +251,47 @@ private struct LessonRow: View {
                 Image(systemName: "checkmark.seal.fill")
                     .foregroundStyle(Theme.correct)
             }
+            Image(systemName: "chevron.right")
+                .foregroundStyle(Theme.textSecondary)
+        }
+        .padding(14)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .gameCard()
+    }
+}
+
+private struct ExamDrillRow: View {
+    let file: UnitFileV2
+
+    private var templateCount: Int { file.questions.filter { $0.type == "template" }.count }
+
+    var body: some View {
+        HStack(spacing: 14) {
+            Text(file.unit.id)
+                .font(.caption.weight(.bold).monospaced())
+                .foregroundStyle(Theme.backgroundBottom)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 6)
+                .background(Color(red: 1.0, green: 0.62, blue: 0.30), in: RoundedRectangle(cornerRadius: 8))
+            VStack(alignment: .leading, spacing: 4) {
+                Text(file.unit.title)
+                    .font(.headline)
+                    .foregroundStyle(Theme.textPrimary)
+                HStack(spacing: 8) {
+                    Text("\(file.questions.count) 型")
+                        .font(.caption)
+                        .foregroundStyle(Theme.textSecondary)
+                    if templateCount > 0 {
+                        Text("計算 \(templateCount) 型は数値ランダム")
+                            .font(.caption2.bold())
+                            .foregroundStyle(Theme.backgroundBottom)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(Theme.volt, in: Capsule())
+                    }
+                }
+            }
+            Spacer(minLength: 0)
             Image(systemName: "chevron.right")
                 .foregroundStyle(Theme.textSecondary)
         }
