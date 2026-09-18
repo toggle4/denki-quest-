@@ -22,6 +22,9 @@ struct LessonUnitView: View {
                     ForEach(lesson.sessions) { session in
                         sessionCard(session)
                     }
+                    if let bossUnit = QuestionBank.shared.makeBossUnit(unitId: lesson.unitId, title: lesson.title) {
+                        bossCard(bossUnit)
+                    }
                 }
                 .padding()
             }
@@ -114,6 +117,44 @@ struct LessonUnitView: View {
                 .buttonStyle(.plain)
             }
         }
+    }
+
+    private func bossCard(_ bossUnit: LearningUnit) -> some View {
+        let cleared = BossRecordStore.isCleared(lesson.unitId)
+        return NavigationLink(value: BossRoute(unit: bossUnit)) {
+            HStack(spacing: 14) {
+                Image("BossMonster")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 56, height: 56)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack(spacing: 6) {
+                        Text("ボス戦")
+                            .font(.headline)
+                            .foregroundStyle(Theme.textPrimary)
+                        if cleared {
+                            Image(systemName: "crown.fill").foregroundStyle(Theme.volt)
+                        }
+                    }
+                    Text("\(bossUnit.boss?.questionCount ?? 5) 問分の HP・制限時間 \(bossUnit.boss?.timeLimitSeconds ?? 90) 秒。数値は毎回変わる")
+                        .font(.caption)
+                        .foregroundStyle(Theme.textSecondary)
+                    if let best = BossRecordStore.bestTime(lesson.unitId) {
+                        Text("最速 \(StudyFormat.clock(best))")
+                            .font(.caption2.bold())
+                            .foregroundStyle(Theme.volt)
+                    }
+                }
+                Spacer(minLength: 0)
+                Image(systemName: "chevron.right").foregroundStyle(Theme.textSecondary)
+            }
+            .padding(14)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .gameCard(tint: Theme.wrong.opacity(0.06), border: Theme.wrong.opacity(0.5))
+        }
+        .buttonStyle(.plain)
+        .simultaneousGesture(TapGesture().onEnded { GameFeedback.tap() })
     }
 
     private func statusColor(completed: Bool, needsReview: Bool, inProgress: Bool) -> Color {

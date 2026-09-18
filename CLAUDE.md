@@ -43,11 +43,12 @@ xcodebuild -project DenkiQuest.xcodeproj -scheme DenkiQuest \
 ## ディレクトリ構成
 - `DenkiQuest/` … アプリ本体（Xcode の同期フォルダ。ここに置いたファイルは自動でターゲットに含まれる）
   - `Models/` … 教材 JSON の Codable 型（旧形式 `LearningUnit`/`Question`、新形式 `UnitFileV2`/`QuestionV2`）、教材テキストの `Lesson`、SwiftData の `StudyRecord`
-  - `Services/` … 読み込み（`ContentLoader` 旧形式、`QuestionBank` 新形式、`LessonLibrary`/`LessonParser` 教材テキスト）、`TemplateEngine`（template 問題の数値生成）、セッション進行（`QuizSession` ドリル、`LessonFlow` 読む→解く）、効果音・触覚
+  - `Services/` … 読み込み（`ContentLoader` 旧形式、`QuestionBank` 新形式、`LessonLibrary`/`LessonParser` 教材テキスト）、`TemplateEngine`（template 問題の数値生成）、セッション進行（`QuizSession` ドリル、`LessonFlow` 読む→解く、`BossEngine` ボス戦）、効果音・触覚
   - `Theme/` … 配色・カード・ボタンなど共通スタイル
   - `Views/` … SwiftUI 画面。ホーム `UnitListView`、教材 `LessonUnitView`/`LessonSessionView`/`LessonBlockView`、ドリル `SessionView`
   - `Sounds/` … 効果音 WAV（`tools/gen_sounds.py` で自作合成）
   - `Assets.xcassets/Mascot.imageset` … マスコット SVG（自作）
+  - `Assets.xcassets/BossMonster.imageset` … ボスの絵（ユーザー提供）、`Figures/` … 単線図 SVG（tools/gen_wiring_figures.py）
 - `tools/` … 効果音・アイコンの生成、教材 JSON の検証 `validate_content.py`（Python 標準ライブラリのみ）
 - `content/lessons/` … 教材テキスト（Markdown）
 - `content/units/` … 問題データ（JSON）

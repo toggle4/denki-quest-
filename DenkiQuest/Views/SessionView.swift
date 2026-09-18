@@ -654,8 +654,15 @@ private struct ResultView: View {
             Spacer()
 
             VStack(spacing: 12) {
-                Button("もう一度", action: retry)
+                if session.unit.boss != nil {
+                    NavigationLink(value: BossRoute(unit: session.unit)) {
+                        Label(BossRecordStore.isCleared(session.unit.id) ? "ボス戦にもう一度挑む" : "ボス戦に挑む", systemImage: "bolt.trianglebadge.exclamationmark.fill")
+                    }
                     .buttonStyle(VoltButtonStyle())
+                    .simultaneousGesture(TapGesture().onEnded { GameFeedback.tap() })
+                }
+                Button("もう一度", action: retry)
+                    .buttonStyle(VoltButtonStyle(prominent: session.unit.boss == nil))
                 Button("クエスト一覧に戻る", action: finish)
                     .buttonStyle(VoltButtonStyle(prominent: false))
             }

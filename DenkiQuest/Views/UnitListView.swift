@@ -65,6 +65,9 @@ struct UnitListView: View {
             .navigationDestination(for: LessonSessionRoute.self) { route in
                 LessonSessionView(route: route)
             }
+            .navigationDestination(for: BossRoute.self) { route in
+                BossBattleView(route: route)
+            }
             .sheet(isPresented: $showStudyLog) {
                 StudyLogView(stats: stats, records: records, units: units)
             }
@@ -340,9 +343,16 @@ private struct UnitRow: View {
                     .font(.caption)
                     .foregroundStyle(Theme.textSecondary)
                     .lineLimit(2)
-                Text("\(unit.questions.count) 問")
-                    .font(.caption2)
-                    .foregroundStyle(Theme.textSecondary)
+                HStack(spacing: 6) {
+                    Text("\(unit.questions.count) 問")
+                        .font(.caption2)
+                        .foregroundStyle(Theme.textSecondary)
+                    if bossCleared {
+                        Label("ボス撃破", systemImage: "crown.fill")
+                            .font(.caption2.bold())
+                            .foregroundStyle(Theme.volt)
+                    }
+                }
             }
             Spacer(minLength: 0)
             Image(systemName: "chevron.right")
@@ -351,6 +361,11 @@ private struct UnitRow: View {
         .padding(14)
         .frame(maxWidth: .infinity, alignment: .leading)
         .gameCard()
+    }
+
+    private var bossCleared: Bool {
+        _ = LessonProgressStore.changes.version
+        return BossRecordStore.isCleared(unit.id)
     }
 }
 

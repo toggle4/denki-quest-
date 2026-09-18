@@ -89,6 +89,22 @@ final class QuestionBank {
         )
     }
 
+    /// 教材つき単元（F02 など）のボス戦用。boss.questionIds を出題に変換する。
+    func makeBossUnit(unitId: String, title: String) -> LearningUnit? {
+        guard let file = files[unitId], let boss = file.boss else { return nil }
+        let questions = boss.questionIds.compactMap { instantiate(id: $0) }
+        guard !questions.isEmpty else { return nil }
+        return LearningUnit(
+            id: unitId,
+            title: title,
+            order: file.unit.order ?? 0,
+            stage: Self.legacyStage(for: file.unit.stage ?? 0),
+            description: boss.description ?? "",
+            questions: questions,
+            boss: BossConfig(questionCount: boss.pick ?? 5, timeLimitSeconds: boss.timeLimitSeconds)
+        )
+    }
+
     private static func legacyStage(for stage: Int) -> LearningUnit.Stage {
         switch stage {
         case 0: return .review

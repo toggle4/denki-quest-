@@ -45,7 +45,7 @@ final class QuizSession {
         self.items = questions.map(Self.makeItem)
     }
 
-    private static func makeItem(_ question: Question) -> Item {
+    static func makeItem(_ question: Question) -> Item {
         guard question.type == .choice else {
             return Item(id: question.id, question: question, choices: [], correctIndex: 0)
         }
