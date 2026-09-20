@@ -15,6 +15,7 @@ struct BossBattleView: View {
     @State private var saved = false
     @State private var screenShake: CGSize = .zero
     @State private var redFlash: Double = 0
+    @State private var nameReveal = false
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
 
@@ -28,7 +29,7 @@ struct BossBattleView: View {
             GameBackground()
             VStack(spacing: 0) {
                 statusBar
-                BossMonsterView(engine: engine)
+                BossMonsterView(engine: engine, imageName: bossImageName)
                     .frame(height: 230)
                     .padding(.horizontal)
                     .padding(.top, 6)
@@ -40,7 +41,7 @@ struct BossBattleView: View {
                 .ignoresSafeArea()
                 .allowsHitTesting(false)
         }
-        .navigationTitle("ボス戦　\(route.unit.title)")
+        .navigationTitle(battleTitle)
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(.hidden, for: .navigationBar)
         .navigationBarBackButtonHidden(engine.phase == .fighting)
@@ -58,12 +59,21 @@ struct BossBattleView: View {
         }
     }
 
+    /// 戦闘中は名前だけ。二つ名は登場演出と図鑑でしか出さない。
+    private var battleTitle: String {
+        engine.boss?.name ?? "ボス戦　\(route.unit.title)"
+    }
+
+    private var bossImageName: String {
+        engine.boss?.imageName ?? "BossMonster"
+    }
+
     // MARK: - 上部: HP・タイマー・ハート
 
     private var statusBar: some View {
         VStack(spacing: 8) {
             HStack {
-                Label("BOSS", systemImage: "bolt.trianglebadge.exclamationmark.fill")
+                Label(engine.boss?.name ?? "BOSS", systemImage: "bolt.trianglebadge.exclamationmark.fill")
                     .font(.caption.bold())
                     .foregroundStyle(Theme.wrong)
                 Spacer()
@@ -141,39 +151,93 @@ struct BossBattleView: View {
         }
     }
 
+    /// 登場演出。ここだけは二つ名を大きく出す。戦闘に入ったら名前だけになる。
     private var introView: some View {
-        VStack(spacing: 14) {
-            Spacer()
-            Text("ボスが現れた！")
-                .font(.title2.bold())
-                .foregroundStyle(Theme.textPrimary)
-            VStack(alignment: .leading, spacing: 6) {
-                Label("正解すると攻撃。速く答えるほど大ダメージ（3 秒以内でクリティカル）", systemImage: "bolt.fill")
-                Label("不正解は反撃を受けてハートが 1 つ減る。3 回で敗北", systemImage: "heart.slash.fill")
-                Label("制限時間 \(Int(engine.timeLimit)) 秒以内に HP を 0 にすれば勝利", systemImage: "timer")
-                Label("連続正解でダメージが上がる", systemImage: "flame.fill")
-            }
-            .font(.subheadline)
-            .foregroundStyle(Theme.textPrimary)
-            .padding(14)
-            .gameCard()
-            Spacer()
-            Button {
-                GameFeedback.tap()
-                withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
-                    engine.start()
+        ScrollView {
+            VStack(spacing: 12) {
+                Text("ボスが現れた！")
+                    .font(.subheadline.bold())
+                    .foregroundStyle(Theme.wrong)
+                    .tracking(4)
+                if let boss = engine.boss {
+                    nameplate(boss)
+                    Text("「\(boss.cry)」")
+                        .font(.subheadline)
+                        .foregroundStyle(Theme.textSecondary)
+                        .multilineTextAlignment(.center)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .padding(.horizontal, 8)
+                        .opacity(nameReveal ? 1 : 0)
+                        .animation(.easeOut(duration: 0.4).delay(0.55), value: nameReveal)
                 }
-            } label: {
-                Label("戦う", systemImage: "bolt.fill")
+                VStack(alignment: .leading, spacing: 6) {
+                    Label("正解すると攻撃。速く答えるほど大ダメージ（3 秒以内でクリティカル）", systemImage: "bolt.fill")
+                    Label("不正解は反撃を受けてハートが 1 つ減る。3 回で敗北", systemImage: "heart.slash.fill")
+                    Label("制限時間 \(Int(engine.timeLimit)) 秒以内に HP を 0 にすれば勝利", systemImage: "timer")
+                    Label("連続正解でダメージが上がる", systemImage: "flame.fill")
+                }
+                .font(.footnote)
+                .foregroundStyle(Theme.textPrimary)
+                .padding(14)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .gameCard()
+                Button {
+                    GameFeedback.tap()
+                    withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                        engine.start()
+                    }
+                } label: {
+                    Label("戦う", systemImage: "bolt.fill")
+                }
+                .buttonStyle(VoltButtonStyle())
+                .padding(.top, 2)
             }
-            .buttonStyle(VoltButtonStyle())
+            .padding()
         }
-        .padding()
+        .onAppear {
+            nameReveal = true
+            GameFeedback.bossAppear()
+        }
+    }
+
+    /// 二つ名 → 名前の順に出るネームプレート。
+    private func nameplate(_ boss: Boss) -> some View {
+        VStack(spacing: 2) {
+            Text(boss.epithet)
+                .font(.headline.weight(.black))
+                .foregroundStyle(Theme.volt)
+                .tracking(8)
+                .opacity(nameReveal ? 1 : 0)
+                .offset(y: nameReveal ? 0 : -10)
+                .animation(.easeOut(duration: 0.35).delay(0.1), value: nameReveal)
+            Text(boss.name)
+                .font(.system(size: 34, weight: .black, design: .rounded))
+                .foregroundStyle(Theme.textPrimary)
+                .shadow(color: Theme.wrong.opacity(0.7), radius: 14)
+                .minimumScaleFactor(0.6)
+                .lineLimit(1)
+                .scaleEffect(nameReveal ? 1 : 1.5)
+                .opacity(nameReveal ? 1 : 0)
+                .animation(.spring(response: 0.45, dampingFraction: 0.6).delay(0.35), value: nameReveal)
+            Text(boss.rank.label)
+                .font(.caption2.bold())
+                .foregroundStyle(Theme.backgroundBottom)
+                .padding(.horizontal, 10)
+                .padding(.vertical, 3)
+                .background(Theme.wrong, in: Capsule())
+                .opacity(nameReveal ? 1 : 0)
+                .animation(.easeOut(duration: 0.3).delay(0.7), value: nameReveal)
+        }
     }
 
     private func resultView(won: Bool) -> some View {
         VStack(spacing: 14) {
             Spacer()
+            if let name = engine.boss?.name {
+                Text(name)
+                    .font(.headline.bold())
+                    .foregroundStyle(Theme.textSecondary)
+            }
             Text(won ? "撃破！" : "敗北…")
                 .font(.system(size: 40, weight: .black, design: .rounded))
                 .foregroundStyle(won ? Theme.volt : Theme.wrong)
@@ -204,6 +268,7 @@ struct BossBattleView: View {
                     saved = false
                     timer.reset()
                     engine = BossEngine(unit: route.unit)
+                    nameReveal = false
                     attachScheduler()
                     timer.start()
                 }
@@ -272,6 +337,7 @@ struct BossBattleView: View {
 /// ボスの絵。呼吸・稲妻・被弾フラッシュ・ダメージ表示。
 private struct BossMonsterView: View {
     let engine: BossEngine
+    let imageName: String
 
     @State private var flash: Double = 0
     @State private var punch: CGFloat = 1.0
@@ -286,9 +352,9 @@ private struct BossMonsterView: View {
             let defeated = engine.phase == .won
 
             ZStack {
-                Image("BossMonster")
+                Image(imageName)
                     .resizable()
-                    .scaledToFill()
+                    .scaledToFit()
                     .frame(maxWidth: .infinity)
                     .frame(height: 230)
                     .scaleEffect(defeated ? 0.92 : breath * punch)

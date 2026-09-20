@@ -24,7 +24,8 @@
 - 計算問題は template 形式（数値をランダム生成）を基本とし、同じ構造の問題を数値を変えて繰り返せるようにする
 - 間違えた問題は 1日→3日→7日→14日 後に再出題
 - 単元クリアは直近10問の正答率90%以上（ステージ0は95%）
-- 各単元の最後にボス戦（制限時間つき連続正解）
+- 各単元の最後にボス戦（制限時間つき連続正解）。ボスは 12 体で、ステージを前半・後半に分けた区間ごとに 1 体が担当する（割り当ては docs/curriculum.md の付録）
+- ボスは戦闘中は名前だけを出し、二つ名は登場演出とボス図鑑でだけ出す
 
 ## 作業ルール
 - 1回の依頼で1機能だけ実装する
@@ -42,13 +43,14 @@ xcodebuild -project DenkiQuest.xcodeproj -scheme DenkiQuest \
 
 ## ディレクトリ構成
 - `DenkiQuest/` … アプリ本体（Xcode の同期フォルダ。ここに置いたファイルは自動でターゲットに含まれる）
-  - `Models/` … 教材 JSON の Codable 型（旧形式 `LearningUnit`/`Question`、新形式 `UnitFileV2`/`QuestionV2`）、教材テキストの `Lesson`、SwiftData の `StudyRecord`（学習時間）と `ReviewItem`（間隔反復）
+  - `Models/` … 教材 JSON の Codable 型（旧形式 `LearningUnit`/`Question`、新形式 `UnitFileV2`/`QuestionV2`）、教材テキストの `Lesson`、SwiftData の `StudyRecord`（学習時間）と `ReviewItem`（間隔反復）、ボス名簿 `Boss`/`BossRoster`/`BossCollection`
   - `Services/` … 読み込み（`ContentLoader` 旧形式、`QuestionBank` 新形式、`LessonLibrary`/`LessonParser` 教材テキスト）、`TemplateEngine`（template 問題の数値生成）、セッション進行（`QuizSession` ドリル、`LessonFlow` 読む→解く、`BossEngine` ボス戦）、効果音・触覚
   - `Theme/` … 配色・カード・ボタンなど共通スタイル
-  - `Views/` … SwiftUI 画面。ホーム `UnitListView`、教材 `LessonUnitView`/`LessonSessionView`/`LessonBlockView`、ドリル `SessionView`
+  - `Views/` … SwiftUI 画面。ホーム `UnitListView`、教材 `LessonUnitView`/`LessonSessionView`/`LessonBlockView`、ドリル `SessionView`、ボス戦 `BossBattleView`、ボス図鑑 `BossCollectionView`
   - `Sounds/` … 効果音 WAV（`tools/gen_sounds.py` で自作合成）
   - `Assets.xcassets/Mascot.imageset` … マスコット SVG（自作）
-  - `Assets.xcassets/BossMonster.imageset` … ボスの絵（ユーザー提供）、`Figures/` … 単線図 SVG（tools/gen_wiring_figures.py）
+  - `Assets.xcassets/Bosses/Boss01〜Boss12.imageset` … ボス 12 体の絵（背景透過 PNG。仮画像は tools/gen_boss_placeholders.py。差し替えはファイル名 boss_NN.png のまま上書き）
+  - `Assets.xcassets/BossMonster.imageset` … 名簿にない単元用の予備画像、`Figures/` … 単線図 SVG（tools/gen_wiring_figures.py）
 - `tools/` … 効果音・アイコンの生成、教材 JSON の検証 `validate_content.py`（Python 標準ライブラリのみ）
 - `content/lessons/` … 教材テキスト（Markdown）
 - `content/units/` … 問題データ（JSON）

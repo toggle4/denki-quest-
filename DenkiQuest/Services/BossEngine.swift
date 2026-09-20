@@ -56,6 +56,8 @@ final class BossEngine {
     static let maxHearts = 3
 
     let unit: LearningUnit
+    /// この単元に割り当てられたボス。対応表にない単元では nil。
+    let boss: Boss?
     let maxHP: Int
     let timeLimit: Double
     private let baseDamage: Int
@@ -92,6 +94,7 @@ final class BossEngine {
 
     init(unit: LearningUnit) {
         self.unit = unit
+        self.boss = BossRoster.boss(forUnit: unit.id)
         let pick = max(unit.boss?.questionCount ?? 5, 1)
         self.timeLimit = Double(unit.boss?.timeLimitSeconds ?? 90)
         self.remaining = timeLimit
@@ -224,6 +227,10 @@ final class BossEngine {
     private func win() {
         phase = .won
         timerTask?.cancel()
+        // 図鑑の記録を先に書いてから、画面の更新通知（bump）を出す
+        if let boss {
+            BossCollection.registerDefeat(bossId: boss.id, time: elapsed, combo: maxCombo, hit: maxHit)
+        }
         BossRecordStore.recordClear(unit.id, time: elapsed)
         Haptics.heavy()
         SoundPlayer.shared.play(.short)

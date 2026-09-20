@@ -13,6 +13,7 @@ struct UnitListView: View {
     @Query(sort: \StudyRecord.startedAt, order: .reverse) private var records: [StudyRecord]
     @Query(sort: \ReviewItem.dueAt) private var reviewItems: [ReviewItem]
     @State private var showStudyLog = false
+    @State private var showBossDex = false
     @State private var flash: Double = 0
     @State private var screenShake: CGSize = .zero
 
@@ -37,6 +38,7 @@ struct UnitListView: View {
 
                         RecapCardView(lessons: lessonSections.flatMap(\.lessons), stats: stats)
                         ReviewCardView(items: reviewItems, units: units)
+                        bossDexCard
 
                         lessonList
                         drillList
@@ -52,6 +54,13 @@ struct UnitListView: View {
                     Menu {
                         Toggle("効果音", isOn: $soundEnabled)
                         Toggle("振動", isOn: $hapticsEnabled)
+                        Divider()
+                        Button {
+                            GameFeedback.tap()
+                            showBossDex = true
+                        } label: {
+                            Label("ボス図鑑", systemImage: "books.vertical.fill")
+                        }
                     } label: {
                         Image(systemName: "gearshape.fill")
                             .foregroundStyle(Theme.textSecondary)
@@ -76,6 +85,9 @@ struct UnitListView: View {
             .sheet(isPresented: $showStudyLog) {
                 StudyLogView(stats: stats, records: records, units: units)
             }
+            .sheet(isPresented: $showBossDex) {
+                BossCollectionView()
+            }
             .offset(screenShake)
             .overlay {
                 Color.white
@@ -97,6 +109,44 @@ struct UnitListView: View {
                 .foregroundStyle(Theme.textSecondary)
         }
         .padding(.top, 4)
+    }
+
+    // MARK: - ボス図鑑への入口
+
+    private var bossDexCard: some View {
+        // 撃破するたびに数字が変わるよう、進捗の観測点に触れておく
+        let _ = LessonProgressStore.changes.version
+        let found = BossCollection.defeatedCount
+        let preview = Array(BossRoster.ordered.prefix(4))
+        return Button {
+            GameFeedback.tap()
+            showBossDex = true
+        } label: {
+            HStack(spacing: 12) {
+                HStack(spacing: -10) {
+                    ForEach(preview) { boss in
+                        BossPortrait(imageName: boss.imageName,
+                                     revealed: BossCollection.record(for: boss.id).isDefeated,
+                                     height: 38)
+                            .frame(width: 38)
+                    }
+                }
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("ボス図鑑")
+                        .font(.headline)
+                        .foregroundStyle(Theme.textPrimary)
+                    Text("撃破 \(found) / \(BossCollection.total) 体")
+                        .font(.caption)
+                        .foregroundStyle(Theme.textSecondary)
+                }
+                Spacer(minLength: 0)
+                Image(systemName: "chevron.right").foregroundStyle(Theme.textSecondary)
+            }
+            .padding(14)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .gameCard(tint: Theme.wrong.opacity(0.05), border: Theme.wrong.opacity(0.35))
+        }
+        .buttonStyle(.plain)
     }
 
     private func sectionHeader(_ title: String, subtitle: String) -> some View {

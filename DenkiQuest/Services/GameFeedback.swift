@@ -21,6 +21,12 @@ enum GameFeedback {
         SoundPlayer.shared.play(.wrong)
     }
 
+    /// ボス登場。重い振動と低い雷鳴で「出てきた」感を出す。
+    static func bossAppear() {
+        Haptics.heavy()
+        SoundPlayer.shared.play(.short)
+    }
+
     static func sessionCleared(perfect: Bool) {
         Haptics.heavy()
         SoundPlayer.shared.play(perfect ? .perfect : .clear)

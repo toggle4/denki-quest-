@@ -610,6 +610,16 @@ private struct ResultView: View {
         }
     }
 
+    /// ボスの名前が分かっている（＝一度倒した）ときは名前を出す。
+    private var bossButtonTitle: String {
+        let cleared = BossRecordStore.isCleared(session.unit.id)
+        if let boss = BossRoster.boss(forUnit: session.unit.id),
+           BossCollection.record(for: boss.id).isDefeated {
+            return cleared ? "\(boss.name)にもう一度挑む" : "\(boss.name)に挑む"
+        }
+        return cleared ? "ボス戦にもう一度挑む" : "ボス戦に挑む"
+    }
+
     private var message: String {
         switch ratio {
         case 1.0: return "パーフェクト！この単元はばっちり。"
@@ -672,7 +682,7 @@ private struct ResultView: View {
             VStack(spacing: 12) {
                 if session.unit.boss != nil {
                     NavigationLink(value: BossRoute(unit: session.unit)) {
-                        Label(BossRecordStore.isCleared(session.unit.id) ? "ボス戦にもう一度挑む" : "ボス戦に挑む", systemImage: "bolt.trianglebadge.exclamationmark.fill")
+                        Label(bossButtonTitle, systemImage: "bolt.trianglebadge.exclamationmark.fill")
                     }
                     .buttonStyle(VoltButtonStyle())
                     .simultaneousGesture(TapGesture().onEnded { GameFeedback.tap() })

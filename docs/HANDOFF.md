@@ -93,6 +93,12 @@ DenkiQuest.xcodeproj ほか チャット側の指示で新規作成された Swi
 > - タスク C の 1〜3 が完了。残り: 単元アンロック、模擬試験モード、図解ライブラリ、図記号 SVG
 > - 試験範囲の教材テキストを Claude Code 側で作成開始: K01〜K09、D01〜D06、S08、G03、W03（18 本、差し込み問題つき）。
 >   検証は tools/validate_lessons.py。教材単元画面に「ドリル（10 問）」「ボス戦」カードを追加
+> - ボスを 12 体に拡張（DenkiQuest/Models/Boss.swift の BossRoster）。ステージを前半・後半に分け、区間ごとに 1 体が担当する。
+>   割り当て表は docs/curriculum.md「付録：ボスの割り当て（12 体）」。画像は Assets.xcassets/Bosses/BossNN.imageset/boss_NN.png（01〜12、背景透過 PNG）。
+>   仮画像は tools/gen_boss_placeholders.py で生成しているので、同じファイル名で上書きすれば差し替わる
+> - 戦闘中は名前だけ、二つ名は登場演出とボス図鑑だけ。未撃破のボスは影と「？？？」で伏せる
+> - ボス図鑑を追加（BossCollectionView）。撃破回数・最速タイム・最大コンボ・最大ヒット・初撃破日を UserDefaults に保存（BossCollection）。
+>   入口はホームの「ボス図鑑」カードと歯車メニュー
 
 ### タスク A：旧ゲームの復元調査（変更なし、報告のみ）
 1. `git log --all --oneline` と `git reflog` で、現在より前に別の Swift ファイル・Xcode プロジェクトがあったコミットを探す

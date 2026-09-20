@@ -151,13 +151,13 @@ struct LessonUnitView: View {
 
     private func bossCard(_ bossUnit: LearningUnit) -> some View {
         let cleared = BossRecordStore.isCleared(lesson.unitId)
+        let boss = BossRoster.boss(forUnit: lesson.unitId)
+        // 一度も倒していないボスは影のまま。名前は登場演出で明かす。
+        let known = boss.map { BossCollection.record(for: $0.id).isDefeated } ?? true
         return NavigationLink(value: BossRoute(unit: bossUnit)) {
             HStack(spacing: 14) {
-                Image("BossMonster")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 56, height: 56)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                BossPortrait(imageName: boss?.imageName ?? "BossMonster", revealed: known, height: 56)
+                    .frame(width: 56)
                 VStack(alignment: .leading, spacing: 4) {
                     HStack(spacing: 6) {
                         Text("ボス戦")
@@ -166,6 +166,11 @@ struct LessonUnitView: View {
                         if cleared {
                             Image(systemName: "crown.fill").foregroundStyle(Theme.volt)
                         }
+                    }
+                    if let boss {
+                        Text(known ? "\(boss.epithet)\(boss.name)" : "？？？　\(boss.rank.label)")
+                            .font(.caption.bold())
+                            .foregroundStyle(known ? Theme.volt : Theme.textSecondary)
                     }
                     Text("\(bossUnit.boss?.questionCount ?? 5) 問分の HP・制限時間 \(bossUnit.boss?.timeLimitSeconds ?? 90) 秒。数値は毎回変わる")
                         .font(.caption)
