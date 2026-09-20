@@ -97,6 +97,10 @@ DenkiQuest.xcodeproj ほか チャット側の指示で新規作成された Swi
 >   割り当て表は docs/curriculum.md「付録：ボスの割り当て（12 体）」。画像は Assets.xcassets/Bosses/BossNN.imageset/boss_NN.png（01〜12、背景透過 PNG）。
 >   仮画像は tools/gen_boss_placeholders.py で生成しているので、同じファイル名で上書きすれば差し替わる
 > - 戦闘中は名前だけ、二つ名は登場演出とボス図鑑だけ。未撃破のボスは影と「？？？」で伏せる
+> - ボス戦の UX を作り込み: 3・2・1・GO! のカウントダウン、ダメージ倍率ゲージ（10 秒で減る）、
+>   解答演出のあいだはタイマー停止、外した問題はその場で解説、残り 10 秒・5 秒の警告、
+>   HP 3 割以下で ENRAGED（呼吸と稲妻が激しくなる）、降参ボタン、
+>   結果画面に S/A/B/C ランクと取りこぼした問題の見直し、視差を減らす設定への対応
 > - ボス図鑑を追加（BossCollectionView）。撃破回数・最速タイム・最大コンボ・最大ヒット・初撃破日を UserDefaults に保存（BossCollection）。
 >   入口はホームの「ボス図鑑」カードと歯車メニュー
 

@@ -30,6 +30,8 @@ enum BossRecordStore {
 final class BossEngine {
     enum Phase {
         case intro
+        /// 3・2・1・GO! のカウントダウン。ここではまだ時間が減らない
+        case countdown
         case fighting
         case won
         case lost
@@ -38,6 +40,7 @@ final class BossEngine {
     enum LoseReason {
         case hearts
         case timeout
+        case surrender
     }
 
     struct Event: Identifiable {
@@ -77,6 +80,14 @@ final class BossEngine {
     /// 被弾・反撃の演出トリガー（増えるたびに View が反応する）
     private(set) var hitToken = 0
     private(set) var counterToken = 0
+    /// 残り時間の警告（10 秒・5 秒）。増えるたびに View が反応する
+    private(set) var warnToken = 0
+    /// カウントダウンの表示（3 → 2 → 1 → 0 は GO!）
+    private(set) var countdown = 3
+    /// いまの問題が出た時刻。速度ゲージが使う
+    private(set) var questionShownAt = Date()
+    /// 間違えた問題（結果画面で見直す）
+    private(set) var missed: [Question] = []
 
     private(set) var current: QuizSession.Item?
     /// 回答のたびに呼ばれる（間隔反復の記録用）
@@ -89,6 +100,9 @@ final class BossEngine {
 
     private var queue: [Question] = []
     private var shownAt = Date()
+    private var warned10 = false
+    private var warned5 = false
+    private var countdownTask: Task<Void, Never>?
     private var timerTask: Task<Void, Never>?
     private var advanceTask: Task<Void, Never>?
 
@@ -105,19 +119,45 @@ final class BossEngine {
 
     var elapsed: Double { timeLimit - remaining }
     var isBusy: Bool { lastCorrect != nil }
+    /// HP が 3 割を切ると本気を出す。
+    var isEnraged: Bool { phase == .fighting && Double(bossHP) <= Double(maxHP) * 0.3 }
+    /// いまの調子であと何発で倒せるか（目安）。
+    var estimatedHitsLeft: Int {
+        let perHit = max(Double(baseDamage), Double(totalDamage) / Double(max(correctCount, 1)))
+        return max(1, Int(ceil(Double(bossHP) / perHit)))
+    }
 
     // MARK: - 開始・タイマー
 
     func start() {
         guard phase == .intro else { return }
+        phase = .countdown
+        countdown = 3
+        countdownTask = Task { @MainActor [weak self] in
+            for value in stride(from: 3, through: 0, by: -1) {
+                guard let self, self.phase == .countdown else { return }
+                self.countdown = value
+                Haptics.impact(intensity: value == 0 ? 1.0 : 0.5)
+                SoundPlayer.shared.play(value == 0 ? .zap : .tap)
+                try? await Task.sleep(nanoseconds: value == 0 ? 450_000_000 : 700_000_000)
+            }
+            guard let self, self.phase == .countdown else { return }
+            self.beginFight()
+        }
+    }
+
+    private func beginFight() {
         phase = .fighting
         nextQuestion()
         timerTask = Task { @MainActor [weak self] in
             while !Task.isCancelled {
                 try? await Task.sleep(nanoseconds: 100_000_000)
                 guard let self, self.phase == .fighting else { return }
-                self.remaining = max(0, self.remaining - 0.1)
                 self.events.removeAll { Date().timeIntervalSince($0.at) > 1.4 }
+                // 正誤の演出を見せているあいだは時間を止める（読む時間を取られない）
+                guard self.lastCorrect == nil else { continue }
+                self.remaining = max(0, self.remaining - 0.1)
+                self.checkTimeWarning()
                 if self.remaining <= 0 {
                     self.lose(.timeout)
                 }
@@ -125,9 +165,31 @@ final class BossEngine {
         }
     }
 
+    /// 残り 10 秒・5 秒で一度ずつ警告を出す。
+    private func checkTimeWarning() {
+        if !warned10, remaining <= 10 {
+            warned10 = true
+            warnToken += 1
+            Haptics.impact(intensity: 0.6)
+        }
+        if !warned5, remaining <= 5 {
+            warned5 = true
+            warnToken += 1
+            Haptics.impact(intensity: 0.9)
+        }
+    }
+
+    /// 降参して戦いを終える。
+    func surrender() {
+        guard phase == .fighting || phase == .countdown else { return }
+        phase = .fighting
+        lose(.surrender)
+    }
+
     func stop() {
         timerTask?.cancel()
         advanceTask?.cancel()
+        countdownTask?.cancel()
         SoundPlayer.shared.stop(.charge)
     }
 
@@ -145,6 +207,7 @@ final class BossEngine {
         selectedBool = nil
         lastCorrect = nil
         shownAt = Date()
+        questionShownAt = shownAt
     }
 
     // MARK: - 回答
@@ -194,6 +257,9 @@ final class BossEngine {
                 return
             }
         } else {
+            if !missed.contains(where: { $0.id == current!.question.id }) {
+                missed.append(current!.question)
+            }
             combo = 0
             hearts -= 1
             events.append(Event(kind: .counter, amount: 1, critical: false, combo: 0, at: Date()))
@@ -246,7 +312,10 @@ final class BossEngine {
         loseReason = reason
         timerTask?.cancel()
         advanceTask?.cancel()
-        Haptics.shortCircuit()
-        SoundPlayer.shared.play(.wrong)
+        countdownTask?.cancel()
+        if reason != .surrender {
+            Haptics.shortCircuit()
+            SoundPlayer.shared.play(.wrong)
+        }
     }
 }
