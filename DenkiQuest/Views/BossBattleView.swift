@@ -25,29 +25,30 @@ struct BossBattleView: View {
     }
 
     var body: some View {
-        ZStack {
-            GameBackground()
-            VStack(spacing: 0) {
-                statusBar
-                BossMonsterView(engine: engine, imageName: bossImageName)
-                    .frame(height: 230)
-                    .padding(.horizontal)
-                    .padding(.top, 6)
-                content
+        GeometryReader { geo in
+            // 画像は画面いちばん上まで敷く。セーフエリアぶんも使う
+            let topInset = geo.safeAreaInsets.top
+            ZStack {
+                GameBackground()
+                VStack(spacing: 0) {
+                    bossStage(height: (geo.size.height + topInset) * 0.44, topInset: topInset)
+                    content
+                }
+                .offset(screenShake)
+                Color.red
+                    .opacity(redFlash)
+                    .ignoresSafeArea()
+                    .allowsHitTesting(false)
             }
-            .offset(screenShake)
-            Color.red
-                .opacity(redFlash)
-                .ignoresSafeArea()
-                .allowsHitTesting(false)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            .ignoresSafeArea(edges: .top)
         }
-        .navigationTitle(battleTitle)
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbarBackground(.hidden, for: .navigationBar)
-        .navigationBarBackButtonHidden(engine.phase == .fighting)
+        .toolbar(.hidden, for: .navigationBar)
+        .navigationBarBackButtonHidden(true)
         .onAppear {
             timer.start()
             attachScheduler()
+            nameReveal = true
         }
         .onDisappear {
             engine.stop()
@@ -60,30 +61,82 @@ struct BossBattleView: View {
     }
 
     /// 戦闘中は名前だけ。二つ名は登場演出と図鑑でしか出さない。
-    private var battleTitle: String {
-        engine.boss?.name ?? "ボス戦　\(route.unit.title)"
+    private var displayName: String {
+        guard let boss = engine.boss else { return route.unit.title }
+        return engine.phase == .intro ? boss.fullName : boss.name
     }
 
     private var bossImageName: String {
         engine.boss?.imageName ?? "BossMonster"
     }
 
-    // MARK: - 上部: HP・タイマー・ハート
+    // MARK: - 上部: 画像いっぱい + 重ねた HP・タイマー・ハート
+
+    /// 画面上部いっぱいのボス画像。下端にステータスを重ねる。
+    private func bossStage(height: CGFloat, topInset: CGFloat) -> some View {
+        ZStack(alignment: .bottom) {
+            BossMonsterView(engine: engine, imageName: bossImageName)
+            LinearGradient(
+                colors: [.clear, Theme.backgroundBottom.opacity(0.5), Theme.backgroundBottom.opacity(0.92)],
+                startPoint: .center,
+                endPoint: .bottom
+            )
+            .allowsHitTesting(false)
+            statusBar
+                .padding(.horizontal, 16)
+                .padding(.bottom, 10)
+        }
+        .frame(height: max(height, 200))
+        .frame(maxWidth: .infinity)
+        .clipped()
+        .overlay(alignment: .topLeading) { backButton(topInset: topInset) }
+    }
+
+    /// 画像に重ねる戻るボタン。戦闘中は出さない。
+    private func backButton(topInset: CGFloat) -> some View {
+        Button {
+            GameFeedback.tap()
+            dismiss()
+        } label: {
+            Image(systemName: "chevron.left")
+                .font(.headline.bold())
+                .foregroundStyle(Theme.textPrimary)
+                .frame(width: 40, height: 40)
+                .background(Color.black.opacity(0.45), in: Circle())
+                .overlay(Circle().strokeBorder(Color.white.opacity(0.25), lineWidth: 1))
+        }
+        .padding(.leading, 14)
+        .padding(.top, topInset + 6)
+        .opacity(engine.phase == .fighting ? 0 : 1)
+        .allowsHitTesting(engine.phase != .fighting)
+        .animation(.easeOut(duration: 0.25), value: engine.phase)
+    }
 
     private var statusBar: some View {
         VStack(spacing: 8) {
-            HStack {
-                Label(engine.boss?.name ?? "BOSS", systemImage: "bolt.trianglebadge.exclamationmark.fill")
-                    .font(.caption.bold())
+            HStack(spacing: 8) {
+                Label("BOSS", systemImage: "bolt.trianglebadge.exclamationmark.fill")
+                    .font(.caption2.bold())
                     .foregroundStyle(Theme.wrong)
-                Spacer()
+                    .shadow(color: .black.opacity(0.9), radius: 3)
+                Text(displayName)
+                    .font(.title3.weight(.black))
+                    .foregroundStyle(Theme.textPrimary)
+                    .shadow(color: .black.opacity(0.9), radius: 4)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
+                    .scaleEffect(nameReveal ? 1 : 1.25, anchor: .leading)
+                    .opacity(nameReveal ? 1 : 0)
+                    .animation(.spring(response: 0.45, dampingFraction: 0.6).delay(0.15), value: nameReveal)
+                Spacer(minLength: 4)
                 HStack(spacing: 3) {
                     ForEach(0..<BossEngine.maxHearts, id: \.self) { i in
                         Image(systemName: i < engine.hearts ? "heart.fill" : "heart")
-                            .foregroundStyle(i < engine.hearts ? Theme.wrong : Theme.textSecondary.opacity(0.4))
+                            .foregroundStyle(i < engine.hearts ? Theme.wrong : Color.white.opacity(0.35))
                     }
                 }
                 .font(.subheadline)
+                .shadow(color: .black.opacity(0.9), radius: 3)
                 .animation(.spring(response: 0.3, dampingFraction: 0.5), value: engine.hearts)
             }
             // ボス HP
@@ -100,7 +153,8 @@ struct BossBattleView: View {
             HStack {
                 Text("HP \(engine.bossHP) / \(engine.maxHP)")
                     .font(.caption.monospacedDigit())
-                    .foregroundStyle(Theme.textSecondary)
+                    .foregroundStyle(Theme.textPrimary.opacity(0.85))
+                    .shadow(color: .black.opacity(0.9), radius: 3)
                 Spacer()
                 if engine.combo >= 2 {
                     Text("\(engine.combo) COMBO")
@@ -114,6 +168,7 @@ struct BossBattleView: View {
                 Label(StudyFormat.clock(engine.remaining), systemImage: "timer")
                     .font(.caption.monospacedDigit().bold())
                     .foregroundStyle(engine.remaining < 15 ? Theme.wrong : Theme.textPrimary)
+                    .shadow(color: .black.opacity(0.9), radius: 3)
             }
             .animation(.spring(response: 0.3, dampingFraction: 0.6), value: engine.combo)
             // 残り時間バー
@@ -127,8 +182,6 @@ struct BossBattleView: View {
             }
             .frame(height: 5)
         }
-        .padding(.horizontal)
-        .padding(.top, 4)
     }
 
     // MARK: - 下部
@@ -151,16 +204,25 @@ struct BossBattleView: View {
         }
     }
 
-    /// 登場演出。ここだけは二つ名を大きく出す。戦闘に入ったら名前だけになる。
+    /// 登場演出。名前（intro のあいだは二つ名つき）は画像の上に重ねて出す。
     private var introView: some View {
         ScrollView {
             VStack(spacing: 12) {
-                Text("ボスが現れた！")
-                    .font(.subheadline.bold())
-                    .foregroundStyle(Theme.wrong)
-                    .tracking(4)
+                HStack(spacing: 8) {
+                    Text("ボスが現れた！")
+                        .font(.subheadline.bold())
+                        .foregroundStyle(Theme.wrong)
+                        .tracking(4)
+                    if let boss = engine.boss {
+                        Text(boss.rank.label)
+                            .font(.caption2.bold())
+                            .foregroundStyle(Theme.backgroundBottom)
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 3)
+                            .background(Theme.wrong, in: Capsule())
+                    }
+                }
                 if let boss = engine.boss {
-                    nameplate(boss)
                     Text("「\(boss.cry)」")
                         .font(.subheadline)
                         .foregroundStyle(Theme.textSecondary)
@@ -197,36 +259,6 @@ struct BossBattleView: View {
         .onAppear {
             nameReveal = true
             GameFeedback.bossAppear()
-        }
-    }
-
-    /// 二つ名 → 名前の順に出るネームプレート。
-    private func nameplate(_ boss: Boss) -> some View {
-        VStack(spacing: 2) {
-            Text(boss.epithet)
-                .font(.headline.weight(.black))
-                .foregroundStyle(Theme.volt)
-                .tracking(8)
-                .opacity(nameReveal ? 1 : 0)
-                .offset(y: nameReveal ? 0 : -10)
-                .animation(.easeOut(duration: 0.35).delay(0.1), value: nameReveal)
-            Text(boss.name)
-                .font(.system(size: 34, weight: .black, design: .rounded))
-                .foregroundStyle(Theme.textPrimary)
-                .shadow(color: Theme.wrong.opacity(0.7), radius: 14)
-                .minimumScaleFactor(0.6)
-                .lineLimit(1)
-                .scaleEffect(nameReveal ? 1 : 1.5)
-                .opacity(nameReveal ? 1 : 0)
-                .animation(.spring(response: 0.45, dampingFraction: 0.6).delay(0.35), value: nameReveal)
-            Text(boss.rank.label)
-                .font(.caption2.bold())
-                .foregroundStyle(Theme.backgroundBottom)
-                .padding(.horizontal, 10)
-                .padding(.vertical, 3)
-                .background(Theme.wrong, in: Capsule())
-                .opacity(nameReveal ? 1 : 0)
-                .animation(.easeOut(duration: 0.3).delay(0.7), value: nameReveal)
         }
     }
 
@@ -352,28 +384,22 @@ private struct BossMonsterView: View {
             let defeated = engine.phase == .won
 
             ZStack {
+                // 画面上部いっぱいに敷く。はみ出しは親（bossStage）が切る
                 Image(imageName)
                     .resizable()
-                    .scaledToFit()
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 230)
-                    .scaleEffect(defeated ? 0.92 : breath * punch)
+                    .scaledToFill()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .scaleEffect(defeated ? 0.94 : breath * punch)
                     .rotationEffect(.degrees(defeated ? 6 : sway))
                     .offset(shake)
                     .saturation(defeated ? 0.1 : 1.0)
                     .brightness(defeated ? -0.4 : 0)
                     .overlay(Color.red.opacity(tint))
                     .overlay(Color.white.opacity(flash))
-                    .clipShape(RoundedRectangle(cornerRadius: 18))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 18)
-                            .strokeBorder(engine.combo >= 3 ? Theme.volt : Theme.cardBorder, lineWidth: engine.combo >= 3 ? 2 : 1)
-                    )
                     .animation(.spring(response: 0.6, dampingFraction: 0.7), value: defeated)
 
                 if !defeated {
                     lightning(time: t)
-                        .clipShape(RoundedRectangle(cornerRadius: 18))
                         .allowsHitTesting(false)
                 }
 
