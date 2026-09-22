@@ -30,13 +30,18 @@ struct BossBattleView: View {
 
     var body: some View {
         GeometryReader { geo in
-            // 画像は画面いちばん上まで敷く。セーフエリアぶんも使う
+            // 画像は画面いちばん上まで敷く。セーフエリアぶんも使う。
+            // 横幅はここで数値に決めて、以降すべて frame(width:) で固定する。
+            // 提案幅の伝わり方に任せると、scaledToFill の絵に押し広げられる。
             let topInset = geo.safeAreaInsets.top
+            let screenWidth = geo.size.width
+            let stageHeight = max((geo.size.height + topInset) * 0.46, 200)
             ZStack {
                 GameBackground()
                 VStack(spacing: 0) {
-                    bossStage(height: (geo.size.height + topInset) * 0.46, topInset: topInset)
+                    bossStage(width: screenWidth, height: stageHeight, topInset: topInset)
                     content
+                        .frame(width: screenWidth)
                 }
                 .offset(screenShake)
                 Color.red
@@ -44,7 +49,8 @@ struct BossBattleView: View {
                     .ignoresSafeArea()
                     .allowsHitTesting(false)
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            .frame(width: screenWidth)
+            .frame(maxHeight: .infinity, alignment: .top)
             .ignoresSafeArea(edges: .top)
         }
         .toolbar(.hidden, for: .navigationBar)
@@ -98,15 +104,15 @@ struct BossBattleView: View {
     /// 絵は background に置く。scaledToFill した画像は提案された幅より大きい寸法を
     /// 返すため、ZStack の子として並べると土台の横幅ごと広がり、重ねたバーや
     /// ハートが画面外へはみ出す。background なら親の大きさに従うので広がらない。
-    private func bossStage(height: CGFloat, topInset: CGFloat) -> some View {
+    private func bossStage(width: CGFloat, height: CGFloat, topInset: CGFloat) -> some View {
         VStack(spacing: 0) {
             Spacer(minLength: 0)
             statusBar
-                .padding(.horizontal, 14)
+                // 幅を数値で決め打ちする。これで何が来ても画面外へ出ない
+                .frame(width: max(width - 28, 120))
                 .padding(.bottom, 8)
         }
-        .frame(maxWidth: .infinity)
-        .frame(height: max(height, 200))
+        .frame(width: width, height: height)
         .background(alignment: .center) {
             ZStack {
                 BossMonsterView(engine: engine, imageName: bossImageName)
