@@ -35,7 +35,7 @@ struct BossBattleView: View {
             ZStack {
                 GameBackground()
                 VStack(spacing: 0) {
-                    bossStage(height: (geo.size.height + topInset) * 0.44, topInset: topInset)
+                    bossStage(height: (geo.size.height + topInset) * 0.46, topInset: topInset)
                     content
                 }
                 .offset(screenShake)
@@ -94,21 +94,32 @@ struct BossBattleView: View {
     // MARK: - 上部: 画像いっぱい + 重ねた HP・タイマー・ハート
 
     /// 画面上部いっぱいのボス画像。下端にステータスを重ねる。
+    ///
+    /// 絵は background に置く。scaledToFill した画像は提案された幅より大きい寸法を
+    /// 返すため、ZStack の子として並べると土台の横幅ごと広がり、重ねたバーや
+    /// ハートが画面外へはみ出す。background なら親の大きさに従うので広がらない。
     private func bossStage(height: CGFloat, topInset: CGFloat) -> some View {
-        ZStack(alignment: .bottom) {
-            BossMonsterView(engine: engine, imageName: bossImageName)
-            LinearGradient(
-                colors: [.clear, Theme.backgroundBottom.opacity(0.5), Theme.backgroundBottom.opacity(0.92)],
-                startPoint: .center,
-                endPoint: .bottom
-            )
-            .allowsHitTesting(false)
+        VStack(spacing: 0) {
+            Spacer(minLength: 0)
             statusBar
-                .padding(.horizontal, 16)
-                .padding(.bottom, 10)
+                .padding(.horizontal, 14)
+                .padding(.bottom, 8)
         }
-        .frame(height: max(height, 200))
         .frame(maxWidth: .infinity)
+        .frame(height: max(height, 200))
+        .background(alignment: .center) {
+            ZStack {
+                BossMonsterView(engine: engine, imageName: bossImageName)
+                LinearGradient(
+                    colors: [.clear,
+                             Theme.backgroundBottom.opacity(0.45),
+                             Theme.backgroundBottom.opacity(0.92)],
+                    startPoint: .center,
+                    endPoint: .bottom
+                )
+            }
+            .allowsHitTesting(false)
+        }
         .clipped()
         .overlay(alignment: .topLeading) { backButton(topInset: topInset) }
         .overlay(alignment: .topTrailing) { surrenderButton(topInset: topInset) }
@@ -154,87 +165,118 @@ struct BossBattleView: View {
         .animation(.easeOut(duration: 0.25), value: engine.phase)
     }
 
+    /// 名前を中央に大きく、その下に BOSS バッジ・HP バー・数値と時間・ハート。
     private var statusBar: some View {
-        VStack(spacing: 8) {
-            HStack(spacing: 8) {
-                Label("BOSS", systemImage: "bolt.trianglebadge.exclamationmark.fill")
-                    .font(.caption2.bold())
-                    .foregroundStyle(Theme.wrong)
-                    .shadow(color: .black.opacity(0.9), radius: 3)
-                Text(displayName)
-                    .font(.title3.weight(.black))
-                    .foregroundStyle(Theme.textPrimary)
-                    .shadow(color: .black.opacity(0.9), radius: 4)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.5)
-                    .scaleEffect(nameReveal ? 1 : 1.25, anchor: .leading)
-                    .opacity(nameReveal ? 1 : 0)
-                    .animation(.spring(response: 0.45, dampingFraction: 0.6).delay(0.15), value: nameReveal)
-                if engine.isEnraged {
-                    Text("ENRAGED")
-                        .font(.caption2.weight(.black))
-                        .foregroundStyle(Theme.backgroundBottom)
-                        .padding(.horizontal, 7)
-                        .padding(.vertical, 2)
-                        .background(Theme.wrong, in: Capsule())
-                        .transition(.scale.combined(with: .opacity))
-                }
-                Spacer(minLength: 4)
-                HStack(spacing: 3) {
-                    ForEach(0..<BossEngine.maxHearts, id: \.self) { i in
-                        Image(systemName: i < engine.hearts ? "heart.fill" : "heart")
-                            .foregroundStyle(i < engine.hearts ? Theme.wrong : Color.white.opacity(0.35))
-                    }
-                }
-                .font(.subheadline)
+        VStack(spacing: 6) {
+            nameLine
+            badgeLine
+            hpBar
+            numbersLine
+            timeBar
+        }
+    }
+
+    private var nameLine: some View {
+        Text(displayName)
+            .font(.system(size: 26, weight: .black, design: .rounded))
+            .foregroundStyle(Theme.textPrimary)
+            .shadow(color: .black.opacity(0.9), radius: 6)
+            .lineLimit(1)
+            .minimumScaleFactor(0.4)
+            .frame(maxWidth: .infinity)
+            .scaleEffect(nameReveal ? 1 : 1.25)
+            .opacity(nameReveal ? 1 : 0)
+            .animation(.spring(response: 0.45, dampingFraction: 0.6).delay(0.15), value: nameReveal)
+    }
+
+    private var badgeLine: some View {
+        HStack(spacing: 6) {
+            Label("BOSS", systemImage: "bolt.trianglebadge.exclamationmark.fill")
+                .font(.caption2.bold())
+                .foregroundStyle(Theme.wrong)
                 .shadow(color: .black.opacity(0.9), radius: 3)
-                .animation(.spring(response: 0.3, dampingFraction: 0.5), value: engine.hearts)
+            if engine.isEnraged {
+                Text("ENRAGED")
+                    .font(.caption2.weight(.black))
+                    .foregroundStyle(Theme.backgroundBottom)
+                    .padding(.horizontal, 7)
+                    .padding(.vertical, 2)
+                    .background(Theme.wrong, in: Capsule())
+                    .transition(.scale.combined(with: .opacity))
             }
-            // ボス HP
-            GeometryReader { geo in
-                ZStack(alignment: .leading) {
-                    Capsule().fill(Color.white.opacity(0.12))
-                    Capsule()
-                        .fill(LinearGradient(colors: [Theme.wrong, Color(red: 1.0, green: 0.6, blue: 0.3)], startPoint: .leading, endPoint: .trailing))
-                        .frame(width: geo.size.width * CGFloat(engine.bossHP) / CGFloat(max(engine.maxHP, 1)))
-                        .animation(.spring(response: 0.4, dampingFraction: 0.7), value: engine.bossHP)
-                }
-            }
-            .frame(height: 14)
-            HStack {
-                Text("HP \(engine.bossHP) / \(engine.maxHP)")
-                    .font(.caption.monospacedDigit())
-                    .foregroundStyle(Theme.textPrimary.opacity(0.85))
-                    .shadow(color: .black.opacity(0.9), radius: 3)
-                Spacer()
-                if engine.combo >= 2 {
-                    Text("\(engine.combo) COMBO")
-                        .font(.caption.bold())
-                        .foregroundStyle(Theme.backgroundBottom)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 2)
-                        .background(Theme.volt, in: Capsule())
-                        .transition(.scale.combined(with: .opacity))
-                }
-                Label(StudyFormat.clock(engine.remaining), systemImage: "timer")
-                    .font(.caption.monospacedDigit().bold())
-                    .foregroundStyle(engine.remaining < 15 ? Theme.wrong : Theme.textPrimary)
-                    .shadow(color: .black.opacity(0.9), radius: 3)
-                    .scaleEffect(timerPulse)
-            }
-            .animation(.spring(response: 0.3, dampingFraction: 0.6), value: engine.combo)
-            // 残り時間バー
-            GeometryReader { geo in
-                ZStack(alignment: .leading) {
-                    Capsule().fill(Color.white.opacity(0.10))
-                    Capsule()
-                        .fill(engine.remaining < 15 ? Theme.wrong : Theme.volt)
-                        .frame(width: geo.size.width * CGFloat(engine.remaining / max(engine.timeLimit, 1)))
-                }
-            }
-            .frame(height: 5)
+            Spacer(minLength: 0)
         }
         .animation(.spring(response: 0.35, dampingFraction: 0.6), value: engine.isEnraged)
+    }
+
+    private var hpBar: some View {
+        GeometryReader { geo in
+            ZStack(alignment: .leading) {
+                Capsule().fill(Color.black.opacity(0.45))
+                Capsule()
+                    .fill(LinearGradient(colors: [Theme.wrong, Color(red: 1.0, green: 0.6, blue: 0.3)],
+                                         startPoint: .leading, endPoint: .trailing))
+                    .frame(width: geo.size.width * CGFloat(engine.bossHP) / CGFloat(max(engine.maxHP, 1)))
+                    .animation(.spring(response: 0.4, dampingFraction: 0.7), value: engine.bossHP)
+            }
+        }
+        .frame(height: 13)
+    }
+
+    private var numbersLine: some View {
+        HStack(spacing: 10) {
+            Text("HP \(engine.bossHP) / \(engine.maxHP)")
+                .font(.caption.monospacedDigit())
+                .foregroundStyle(Theme.textPrimary.opacity(0.9))
+                .shadow(color: .black.opacity(0.9), radius: 3)
+                .lineLimit(1)
+                .minimumScaleFactor(0.7)
+            Spacer(minLength: 4)
+            if engine.combo >= 2 {
+                Text("\(engine.combo) COMBO")
+                    .font(.caption2.bold())
+                    .foregroundStyle(Theme.backgroundBottom)
+                    .padding(.horizontal, 7)
+                    .padding(.vertical, 2)
+                    .background(Theme.volt, in: Capsule())
+                    .transition(.scale.combined(with: .opacity))
+            }
+            Label(StudyFormat.clock(engine.remaining), systemImage: "timer")
+                .font(.caption.monospacedDigit().bold())
+                .foregroundStyle(engine.remaining < 15 ? Theme.wrong : Theme.textPrimary)
+                .shadow(color: .black.opacity(0.9), radius: 3)
+                .scaleEffect(timerPulse)
+                .fixedSize()
+                .layoutPriority(1)
+            hearts
+        }
+        .animation(.spring(response: 0.3, dampingFraction: 0.6), value: engine.combo)
+    }
+
+    private var hearts: some View {
+        HStack(spacing: 4) {
+            ForEach(0..<BossEngine.maxHearts, id: \.self) { index in
+                Image(systemName: index < engine.hearts ? "heart.fill" : "heart")
+                    .foregroundStyle(index < engine.hearts ? Theme.wrong : Color.white.opacity(0.35))
+            }
+        }
+        .font(.subheadline)
+        .shadow(color: .black.opacity(0.9), radius: 3)
+        .fixedSize()
+        .layoutPriority(2)
+        .animation(.spring(response: 0.3, dampingFraction: 0.5), value: engine.hearts)
+    }
+
+    private var timeBar: some View {
+        GeometryReader { geo in
+            ZStack(alignment: .leading) {
+                Capsule().fill(Color.black.opacity(0.4))
+                Capsule()
+                    .fill(engine.remaining < 15 ? Theme.wrong : Theme.volt)
+                    .frame(width: geo.size.width * CGFloat(engine.remaining / max(engine.timeLimit, 1)))
+            }
+        }
+        .frame(height: 5)
     }
 
     // MARK: - 下部
@@ -285,9 +327,8 @@ struct BossBattleView: View {
             VStack(spacing: 12) {
                 HStack(spacing: 8) {
                     Text("ボスが現れた！")
-                        .font(.subheadline.bold())
+                        .font(.headline.bold())
                         .foregroundStyle(Theme.wrong)
-                        .tracking(4)
                     if let boss = engine.boss {
                         Text(boss.rank.label)
                             .font(.caption2.bold())
@@ -587,19 +628,24 @@ private struct BossMonsterView: View {
             let defeated: Bool = engine.phase == .won
 
             ZStack {
-                // 画面上部いっぱいに敷く。はみ出しは親（bossStage）が切る
-                Image(imageName)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .scaleEffect(defeated ? 0.94 : breath * punch)
-                    .rotationEffect(.degrees(defeated ? 6 : sway))
-                    .offset(shake)
-                    .saturation(defeated ? 0.1 : 1.0)
-                    .brightness(defeated ? -0.4 : 0)
+                // 画面上部いっぱいに敷く。
+                // scaledToFill した画像は提案より大きい寸法を返すので、
+                // Color.clear の overlay に入れて親の大きさを超えないようにする
+                Color.clear
+                    .overlay {
+                        Image(imageName)
+                            .resizable()
+                            .scaledToFill()
+                            .scaleEffect(defeated ? 0.94 : breath * punch)
+                            .rotationEffect(.degrees(defeated ? 6 : sway))
+                            .offset(shake)
+                            .saturation(defeated ? 0.1 : 1.0)
+                            .brightness(defeated ? -0.4 : 0)
+                            .animation(.spring(response: 0.6, dampingFraction: 0.7), value: defeated)
+                    }
                     .overlay(Color.red.opacity(tint + rage))
                     .overlay(Color.white.opacity(flash))
-                    .animation(.spring(response: 0.6, dampingFraction: 0.7), value: defeated)
+                    .clipped()
 
                 if !defeated {
                     lightning(time: t)
