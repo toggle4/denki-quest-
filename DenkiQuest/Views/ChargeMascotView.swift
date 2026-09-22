@@ -21,6 +21,7 @@ struct ChargeMascotView: View {
                 arcs(charge: charge, phase: phase, time: t)
                 chargeRing(charge: charge, phase: phase)
                 mascot(charge: charge, phase: phase, time: t)
+                smoke(phase: phase, time: t)
                 sparks(phase: phase, now: context.date)
                 caption(charge: charge, phase: phase)
             }
@@ -84,11 +85,6 @@ struct ChargeMascotView: View {
         return CGSize(width: dx, height: dy)
     }
 
-    private func smokeOffsetY(time: Double) -> CGFloat {
-        let bob: Double = sin(time * 2) * 6
-        return -size * 0.15 - CGFloat(bob)
-    }
-
     private func glow(charge: Double, phase: ChargeController.Phase) -> some View {
         let heat = phase == .shorted ? 1.0 : charge
         return Circle()
@@ -129,28 +125,65 @@ struct ChargeMascotView: View {
     }
 
     private func mascot(charge: Double, phase: ChargeController.Phase, time: Double) -> some View {
-        let dead = phase == .shorted || phase == .cooldown
-        let heat = phase == .shorted ? 1.0 : charge
-        return Image("Mascot")
-            .resizable()
-            .scaledToFit()
-            .frame(width: size, height: size)
-            .saturation(dead ? 0.15 : 1.0)
-            .brightness(dead ? -0.35 : 0.25 * heat)
-            .rotationEffect(.degrees(phase == .cooldown ? -12 : 0))
-            .scaleEffect(mascotScale(charge: charge, phase: phase))
-            .offset(jitter(charge: charge, phase: phase, time: time))
-            .shadow(color: glowColor(heat: heat).opacity(0.4 + 0.6 * heat), radius: 12 + 28 * heat)
-            .animation(.spring(response: 0.35, dampingFraction: 0.6), value: phase)
-            .overlay(alignment: .top) {
-                if phase == .cooldown {
-                    Image(systemName: "smoke.fill")
-                        .font(.system(size: size * 0.32))
-                        .foregroundStyle(Color.white.opacity(0.6))
-                        .offset(x: size * 0.15, y: smokeOffsetY(time: time))
-                        .transition(.opacity)
-                }
+        let burnt: Bool = phase == .shorted || phase == .cooldown
+        let heat: Double = phase == .shorted ? 1.0 : charge
+        return ZStack {
+            // 通常 → こげた姿へ、重ねて入れ替える
+            Image("Mascot")
+                .resizable()
+                .scaledToFit()
+                .brightness(0.25 * heat)
+                .opacity(burnt ? 0 : 1)
+            Image("MascotBurnt")
+                .resizable()
+                .scaledToFit()
+                .opacity(burnt ? 1 : 0)
+        }
+        .frame(width: size, height: size)
+        .brightness(phase == .cooldown ? -0.12 : 0)
+        .rotationEffect(.degrees(dazedTilt(phase: phase, time: time)))
+        .scaleEffect(mascotScale(charge: charge, phase: phase))
+        .offset(jitter(charge: charge, phase: phase, time: time))
+        .shadow(color: burnt ? Color(red: 1.0, green: 0.42, blue: 0.2).opacity(0.5)
+                              : glowColor(heat: heat).opacity(0.4 + 0.6 * heat),
+                radius: burnt ? 16 : 12 + 28 * heat)
+        .animation(.easeOut(duration: 0.18), value: burnt)
+        .animation(.spring(response: 0.35, dampingFraction: 0.6), value: phase)
+    }
+
+    /// こげたあとの、ふらふらした傾き。
+    private func dazedTilt(phase: ChargeController.Phase, time: Double) -> Double {
+        switch phase {
+        case .cooldown: return -12.0 + sin(time * 2.6) * 5.0
+        case .shorted: return sin(time * 30) * 3.0
+        default: return 0
+        }
+    }
+
+    /// こげているあいだ、頭から立ちのぼる煙。
+    private func smoke(phase: ChargeController.Phase, time: Double) -> some View {
+        let visible: Bool = phase == .shorted || phase == .cooldown
+        return ZStack {
+            ForEach(0..<3, id: \.self) { index in
+                smokePuff(index: index, time: time)
             }
+        }
+        .opacity(visible ? 1 : 0)
+        .animation(.easeOut(duration: 0.3), value: visible)
+        .allowsHitTesting(false)
+    }
+
+    private func smokePuff(index: Int, time: Double) -> some View {
+        let s: Double = Double(size)
+        let cycle: Double = (time * 0.55 + Double(index) * 0.33).truncatingRemainder(dividingBy: 1.0)
+        let fontSize: Double = s * (0.15 + 0.14 * cycle)
+        let dx: Double = s * (Double(index) - 1.0) * 0.18 + sin(time * 1.8 + Double(index) * 2.0) * 5.0
+        let dy: Double = -s * (0.30 + 0.55 * cycle)
+        let alpha: Double = (1.0 - cycle) * 0.5
+        return Image(systemName: "smoke.fill")
+            .font(.system(size: CGFloat(fontSize)))
+            .foregroundStyle(Color.white.opacity(alpha))
+            .offset(x: CGFloat(dx), y: CGFloat(dy))
     }
 
     /// 充電中に周囲に走る稲妻。時間で種を変えてチラつかせる。
@@ -227,15 +260,35 @@ struct ChargeMascotView: View {
         return path
     }
 
-    /// ショート時に飛び散る火花。
+    /// ショート時に飛び散る火花と、そのあと舞い落ちるすす。
     private func sparks(phase: ChargeController.Phase, now: Date) -> some View {
         Canvas { context, canvasSize in
-            guard phase == .shorted, let shortedAt = controller.shortedAt else { return }
+            guard phase == .shorted || phase == .cooldown,
+                  let shortedAt = controller.shortedAt else { return }
             let age: Double = now.timeIntervalSince(shortedAt)
-            guard age < 0.9 else { return }
+            guard age < 2.2 else { return }
 
             let centerX = Double(canvasSize.width) / 2
             let centerY = Double(canvasSize.height) / 2
+
+            // すす: ゆっくり舞い落ちる黒い粒
+            var sootRng = SeededGenerator(seed: 777)
+            for i in 0..<16 {
+                let delay: Double = Double(i) * 0.04
+                let life: Double = age - delay
+                guard life > 0, life < 2.0 else { continue }
+                let angle: Double = Double.random(in: 0..<(2 * Double.pi), using: &sootRng)
+                let spread: Double = Double.random(in: 20...90, using: &sootRng)
+                let drift: Double = sin(life * 3.0 + Double(i)) * 10
+                let x: Double = centerX + cos(angle) * spread * min(1.0, life * 2.0) + drift
+                let y: Double = centerY + sin(angle) * spread * 0.4 + 70 * life * life
+                let radius: Double = 1.6 + Double.random(in: 0...2.0, using: &sootRng)
+                let alpha: Double = max(0, 1 - life / 1.8) * 0.75
+                let rect = CGRect(x: x - radius, y: y - radius, width: radius * 2, height: radius * 2)
+                context.fill(Path(ellipseIn: rect), with: .color(Color.black.opacity(alpha)))
+            }
+
+            guard age < 0.9 else { return }
             var rng = SeededGenerator(seed: 12345)
             let twoPi: Double = 2 * Double.pi
 
@@ -280,7 +333,7 @@ struct ChargeMascotView: View {
                         .font(.title.weight(.black))
                         .shadow(color: Theme.wrong, radius: 8)
                 case .cooldown:
-                    Text("ちょっと休ませて…")
+                    Text("こげた… ちょっと休ませて")
                         .foregroundStyle(Theme.textSecondary)
                 case .idle:
                     EmptyView()
