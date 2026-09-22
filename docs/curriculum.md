@@ -282,3 +282,11 @@ docs/exam-patterns.md の分析をもとに、次の単元コードの問題デ�
 
 `DenkiQuest/Assets.xcassets/Bosses/BossNN.imageset/boss_NN.png`（NN は 01〜12）。背景透過 PNG。
 仮画像は `python3 tools/gen_boss_placeholders.py` で生成している。差し替えるときは **ファイル名を変えずに上書き**する。
+
+用意した絵をまとめて入れるときは次を実行する（PNG に変換し、長辺 1200px に縮めて置く）。
+
+```sh
+sh tools/install_boss_images.sh ~/Downloads/denki-monster-image
+```
+
+元ファイルの名前は `boss-01` `boss_01` `boss01` のどれでもよく、拡張子は問わない。
