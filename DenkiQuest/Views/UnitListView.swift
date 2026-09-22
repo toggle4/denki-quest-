@@ -16,6 +16,9 @@ struct UnitListView: View {
     @State private var showBossDex = false
     @State private var flash: Double = 0
     @State private var screenShake: CGSize = .zero
+    /// マスコットがこげている間だけ true
+    @State private var mascotBurnt = false
+    @State private var sootVeil: Double = 0
 
     private var stats: StudyStats { StudyStats(records: records) }
 
@@ -90,6 +93,18 @@ struct UnitListView: View {
             }
             .offset(screenShake)
             .overlay {
+                // こげている間は画面のふちがすすけて暗くなる
+                RadialGradient(
+                    colors: [.clear, Color.black.opacity(0.85)],
+                    center: .top,
+                    startRadius: 120,
+                    endRadius: 520
+                )
+                .opacity(sootVeil)
+                .ignoresSafeArea()
+                .allowsHitTesting(false)
+            }
+            .overlay {
                 Color.white
                     .opacity(flash)
                     .ignoresSafeArea()
@@ -103,10 +118,14 @@ struct UnitListView: View {
 
     private var header: some View {
         VStack(spacing: 8) {
-            ChargeMascotView(size: 96, onShortCircuit: shortCircuitEffect)
-            Text("読んで、すぐ解く。1 セッション 5〜8 分")
+            ChargeMascotView(size: 96,
+                             onShortCircuit: shortCircuitEffect,
+                             onBurntChanged: burntChanged)
+            Text(mascotBurnt ? "ショートした。少し待てば元に戻る" : "読んで、すぐ解く。1 セッション 5〜8 分")
                 .font(.subheadline)
-                .foregroundStyle(Theme.textSecondary)
+                .foregroundStyle(mascotBurnt ? Color(red: 1.0, green: 0.62, blue: 0.30) : Theme.textSecondary)
+                .contentTransition(.opacity)
+                .animation(.easeOut(duration: 0.3), value: mascotBurnt)
         }
         .padding(.top, 4)
     }
@@ -237,6 +256,14 @@ struct UnitListView: View {
             .padding(12)
             .frame(maxWidth: .infinity, alignment: .leading)
             .gameCard(tint: Theme.wrong.opacity(0.08), border: Theme.wrong.opacity(0.5))
+    }
+
+    /// マスコットがこげ始めた・元に戻った、を受け取る。
+    private func burntChanged(_ burnt: Bool) {
+        mascotBurnt = burnt
+        withAnimation(.easeOut(duration: burnt ? 0.45 : 0.8)) {
+            sootVeil = burnt ? 0.45 : 0
+        }
     }
 
     /// ショート時: 画面全体を白くフラッシュさせ、ガタガタ揺らす。

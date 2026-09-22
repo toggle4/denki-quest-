@@ -5,6 +5,8 @@ struct ChargeMascotView: View {
     let size: CGFloat
     /// ショートした瞬間に呼ばれる（画面全体のフラッシュなどに使う）
     var onShortCircuit: () -> Void = {}
+    /// こげている間だけ true になる（ホーム画面の見た目を変えるのに使う）
+    var onBurntChanged: (Bool) -> Void = { _ in }
 
     @State private var controller = ChargeController()
     @State private var isPressing = false
@@ -57,6 +59,7 @@ struct ChargeMascotView: View {
             if phase == .shorted {
                 onShortCircuit()
             }
+            onBurntChanged(phase == .shorted || phase == .cooldown)
         }
         .accessibilityLabel("マスコット。長押しで充電、6 秒でショート")
     }
