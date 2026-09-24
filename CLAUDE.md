@@ -46,7 +46,7 @@ xcodebuild -project DenkiQuest.xcodeproj -scheme DenkiQuest \
   - `Models/` … 教材 JSON の Codable 型（旧形式 `LearningUnit`/`Question`、新形式 `UnitFileV2`/`QuestionV2`）、教材テキストの `Lesson`、SwiftData の `StudyRecord`（学習時間）と `ReviewItem`（間隔反復）、ボス名簿 `Boss`/`BossRoster`/`BossCollection`
   - `Services/` … 読み込み（`ContentLoader` 旧形式、`QuestionBank` 新形式、`LessonLibrary`/`LessonParser` 教材テキスト）、`TemplateEngine`（template 問題の数値生成）、セッション進行（`QuizSession` ドリル、`LessonFlow` 読む→解く、`BossEngine` ボス戦）、効果音・触覚
   - `Theme/` … 配色・カード・ボタンなど共通スタイル
-  - `Views/` … SwiftUI 画面。ホーム `UnitListView`、教材 `LessonUnitView`/`LessonSessionView`/`LessonBlockView`、ドリル `SessionView`、ボス戦 `BossBattleView`、ボス図鑑 `BossCollectionView`
+  - `Views/` … SwiftUI 画面。ホーム `UnitListView`、教材 `LessonUnitView`/`LessonSessionView`/`LessonBlockView`、ドリル `SessionView`、1 問ぶんの出題画面 `QuestionView`（ドリルと教材の差し込み問題で共用）、ボス戦 `BossBattleView`、ボス図鑑 `BossCollectionView`
   - `Sounds/` … 効果音 WAV（`tools/gen_sounds.py` で自作合成）
   - `Assets.xcassets/Mascot.imageset` … 通常のマスコット SVG（自作）
   - `Assets.xcassets/MascotBurnt.imageset` … 感電してこげたマスコット（`tools/gen_mascot_burnt.py` で生成。差し替えは `tools/install_mascot_burnt.sh`）
