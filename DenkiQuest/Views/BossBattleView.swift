@@ -95,10 +95,9 @@ struct BossBattleView: View {
         engine.phase == .fighting || engine.phase == .countdown
     }
 
-    /// 戦闘中は名前だけ。二つ名は登場演出と図鑑でしか出さない。
-    private var displayName: String {
-        guard let boss = engine.boss else { return route.unit.title }
-        return engine.phase == .intro ? boss.fullName : boss.name
+    /// 名前（二つ名は nameLine が登場中だけ別の行で出す）。
+    private var bossName: String {
+        engine.boss?.name ?? route.unit.title
     }
 
     private var bossImageName: String {
@@ -179,7 +178,7 @@ struct BossBattleView: View {
         .animation(.easeOut(duration: 0.25), value: engine.phase)
     }
 
-    /// 名前を中央に大きく、その下に BOSS バッジ・HP バー・数値と時間・ハート。
+    /// 名前を中央に大きく、その下に BOSS バッジ・HP バー・数値と時間。
     private var statusBar: some View {
         VStack(spacing: 6) {
             nameLine
@@ -190,17 +189,34 @@ struct BossBattleView: View {
         }
     }
 
+    /// 二つ名（「雷獄竜」など）は登場中だけ名前の上に出す。戦闘に入ったら名前だけ。
     private var nameLine: some View {
-        Text(displayName)
-            .font(.system(size: 26, weight: .black, design: .rounded))
-            .foregroundStyle(Theme.textPrimary)
-            .shadow(color: .black.opacity(0.9), radius: 6)
-            .lineLimit(1)
-            .minimumScaleFactor(0.4)
-            .frame(maxWidth: .infinity)
-            .scaleEffect(nameReveal ? 1 : 1.25)
-            .opacity(nameReveal ? 1 : 0)
-            .animation(.spring(response: 0.45, dampingFraction: 0.6).delay(0.15), value: nameReveal)
+        VStack(spacing: 0) {
+            if engine.phase == .intro, let epithet = engine.boss?.epithet {
+                Text(epithet)
+                    .font(.system(size: 17, weight: .black, design: .rounded))
+                    .foregroundStyle(Theme.volt)
+                    .tracking(6)
+                    .shadow(color: .black.opacity(0.9), radius: 5)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
+                    .opacity(nameReveal ? 1 : 0)
+                    .offset(y: nameReveal ? 0 : -8)
+                    .animation(.easeOut(duration: 0.35).delay(0.05), value: nameReveal)
+                    .transition(.opacity.combined(with: .move(edge: .top)))
+            }
+            Text(bossName)
+                .font(.system(size: 30, weight: .black, design: .rounded))
+                .foregroundStyle(Theme.textPrimary)
+                .shadow(color: .black.opacity(0.9), radius: 6)
+                .lineLimit(1)
+                .minimumScaleFactor(0.4)
+                .scaleEffect(nameReveal ? 1 : 1.25)
+                .opacity(nameReveal ? 1 : 0)
+                .animation(.spring(response: 0.45, dampingFraction: 0.6).delay(0.2), value: nameReveal)
+        }
+        .frame(maxWidth: .infinity)
+        .animation(.easeOut(duration: 0.3), value: engine.phase)
     }
 
     private var badgeLine: some View {
@@ -279,23 +295,8 @@ struct BossBattleView: View {
                 .scaleEffect(timerPulse)
                 .fixedSize()
                 .layoutPriority(1)
-            hearts
         }
         .animation(.spring(response: 0.3, dampingFraction: 0.6), value: engine.combo)
-    }
-
-    private var hearts: some View {
-        HStack(spacing: 4) {
-            ForEach(0..<BossEngine.maxHearts, id: \.self) { index in
-                Image(systemName: index < engine.hearts ? "heart.fill" : "heart")
-                    .foregroundStyle(index < engine.hearts ? Theme.wrong : Color.white.opacity(0.35))
-            }
-        }
-        .font(.subheadline)
-        .shadow(color: .black.opacity(0.9), radius: 3)
-        .fixedSize()
-        .layoutPriority(2)
-        .animation(.spring(response: 0.3, dampingFraction: 0.5), value: engine.hearts)
     }
 
     private var timeBar: some View {
@@ -381,7 +382,7 @@ struct BossBattleView: View {
                 }
                 VStack(alignment: .leading, spacing: 6) {
                     Label("正解すると攻撃。速く答えるほど大ダメージ（3 秒以内でクリティカル）", systemImage: "bolt.fill")
-                    Label("不正解は反撃を受けてハートが 1 つ減る。3 回で敗北", systemImage: "heart.slash.fill")
+                    Label("不正解は反撃を受けて、コンボが途切れる", systemImage: "bolt.slash.fill")
                     Label("制限時間 \(Int(engine.timeLimit)) 秒以内に HP を 0 にすれば勝利", systemImage: "timer")
                     Label("連続正解でダメージが上がる", systemImage: "flame.fill")
                     Label("答えたあとの解説を読んでいる間は、時間が止まる", systemImage: "pause.circle.fill")
@@ -484,12 +485,11 @@ struct BossBattleView: View {
         guard let reason = engine.loseReason else { return "" }
         switch reason {
         case .timeout: return "時間切れ。1 問 3 秒を目標にすると、ダメージが 2 倍になる。"
-        case .hearts: return "ハートがなくなった。下の見直しを読んでから、もう一度挑もう。"
         case .surrender: return "ここまでの学習時間は記録した。間違えた問題は復習に回してある。"
         }
     }
 
-    /// 勝ったときだけランクを出す。無傷と速さで決まる。
+    /// 勝ったときだけランクを出す。ノーミスかどうかと速さで決まる。
     @ViewBuilder
     private func rankBadge(won: Bool) -> some View {
         if won {
@@ -514,13 +514,13 @@ struct BossBattleView: View {
     }
 
     private var rankInfo: (label: String, color: Color, note: String) {
-        let noDamage = engine.hearts == BossEngine.maxHearts
+        let noMiss = engine.answered == engine.correctCount
         let ratio = engine.elapsed / max(engine.timeLimit, 1)
-        if noDamage && ratio <= 0.4 {
-            return ("S", Theme.volt, "無傷で圧勝。この単元は仕上がっている。")
+        if noMiss && ratio <= 0.4 {
+            return ("S", Theme.volt, "ノーミスで圧勝。この単元は仕上がっている。")
         }
-        if noDamage {
-            return ("A", Theme.correct, "無傷で撃破。あとは速さだけ。")
+        if noMiss {
+            return ("A", Theme.correct, "ノーミスで撃破。あとは速さだけ。")
         }
         if ratio <= 0.7 {
             return ("B", Color(red: 0.40, green: 0.75, blue: 1.0), "速さは十分。あとは取りこぼしを減らそう。")
@@ -817,7 +817,7 @@ private struct DamagePopup: View {
                 }
                 .shadow(color: .black.opacity(0.8), radius: 3)
             case .counter:
-                Text("反撃！ -1 ♥")
+                Text("反撃！ コンボ切れ")
                     .font(.system(size: 26, weight: .black, design: .rounded))
                     .foregroundStyle(Theme.wrong)
                     .shadow(color: .black.opacity(0.8), radius: 3)
