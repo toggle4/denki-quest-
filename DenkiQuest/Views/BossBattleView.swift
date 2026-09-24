@@ -19,6 +19,8 @@ struct BossBattleView: View {
     @State private var showSurrender = false
     @State private var showBossDex = false
     @State private var timerPulse: CGFloat = 1
+    /// 減った HP を少し遅れて追いかける残像（どれだけ削れたかを見せる）
+    @State private var trailHP: Int = -1
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
@@ -66,6 +68,12 @@ struct BossBattleView: View {
         }
         .onChange(of: engine.counterToken) { _, _ in counterEffect() }
         .onChange(of: engine.warnToken) { _, _ in timeWarningEffect() }
+        .onChange(of: engine.bossHP) { _, hp in
+            // 本体のバーはすぐ減らし、残像は 0.4 秒遅れて追いつく
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                withAnimation(.easeOut(duration: 0.5)) { trailHP = hp }
+            }
+        }
         .onChange(of: engine.phase) { _, phase in
             if phase == .won || phase == .lost { saveIfNeeded() }
         }
@@ -216,14 +224,20 @@ struct BossBattleView: View {
     }
 
     private var hpBar: some View {
-        GeometryReader { geo in
+        let maxHP = CGFloat(max(engine.maxHP, 1))
+        let trail = CGFloat(trailHP < 0 ? engine.maxHP : trailHP)
+        return GeometryReader { geo in
             ZStack(alignment: .leading) {
                 Capsule().fill(Color.black.opacity(0.45))
+                // 残像: いま削った分だけ白く残り、遅れて縮む
+                Capsule()
+                    .fill(Color.white.opacity(0.75))
+                    .frame(width: geo.size.width * trail / maxHP)
                 Capsule()
                     .fill(LinearGradient(colors: [Theme.wrong, Color(red: 1.0, green: 0.6, blue: 0.3)],
                                          startPoint: .leading, endPoint: .trailing))
-                    .frame(width: geo.size.width * CGFloat(engine.bossHP) / CGFloat(max(engine.maxHP, 1)))
-                    .animation(.spring(response: 0.4, dampingFraction: 0.7), value: engine.bossHP)
+                    .frame(width: geo.size.width * CGFloat(engine.bossHP) / maxHP)
+                    .animation(.spring(response: 0.3, dampingFraction: 0.8), value: engine.bossHP)
             }
         }
         .frame(height: 13)
@@ -231,12 +245,23 @@ struct BossBattleView: View {
 
     private var numbersLine: some View {
         HStack(spacing: 10) {
-            Text("HP \(engine.bossHP) / \(engine.maxHP)")
-                .font(.caption.monospacedDigit())
-                .foregroundStyle(Theme.textPrimary.opacity(0.9))
-                .shadow(color: .black.opacity(0.9), radius: 3)
-                .lineLimit(1)
-                .minimumScaleFactor(0.7)
+            HStack(spacing: 3) {
+                Text("HP")
+                    .font(.caption2.bold())
+                    .foregroundStyle(Theme.textSecondary)
+                // 減るたびに数字が転がって変わる
+                Text("\(engine.bossHP)")
+                    .font(.subheadline.monospacedDigit().weight(.black))
+                    .foregroundStyle(engine.isEnraged ? Theme.wrong : Theme.textPrimary)
+                    .contentTransition(.numericText(value: Double(engine.bossHP)))
+                    .animation(.snappy(duration: 0.35), value: engine.bossHP)
+                Text("/ \(engine.maxHP)")
+                    .font(.caption.monospacedDigit())
+                    .foregroundStyle(Theme.textSecondary)
+            }
+            .shadow(color: .black.opacity(0.9), radius: 3)
+            .lineLimit(1)
+            .fixedSize()
             Spacer(minLength: 4)
             if engine.combo >= 2 {
                 Text("\(engine.combo) COMBO")
@@ -449,6 +474,7 @@ struct BossBattleView: View {
         saved = false
         timer.reset()
         engine = BossEngine(unit: route.unit)
+        trailHP = -1
         nameReveal = false
         attachScheduler()
         timer.start()
