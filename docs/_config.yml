@@ -1,0 +1,9 @@
+# GitHub Pages（Settings → Pages → Branch: claude/trusting-dirac-tprx3b / docs）で公開するときの設定。
+# 公開するのは privacy-policy.md だけ。開発用の資料はページにしない。
+title: でんきクエスト
+exclude:
+  - HANDOFF.md
+  - curriculum.md
+  - legacy-overview.md
+  - exam-patterns.md
+  - app-store.md
