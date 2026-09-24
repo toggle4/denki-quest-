@@ -55,4 +55,4 @@ xcodebuild -project DenkiQuest.xcodeproj -scheme DenkiQuest \
 - `tools/` … 効果音・アイコンの生成、教材 JSON の検証 `validate_content.py`（Python 標準ライブラリのみ）
 - `content/lessons/` … 教材テキスト（Markdown）
 - `content/units/` … 問題データ（JSON）
-- `docs/` … curriculum.md, HANDOFF.md, legacy-overview.md
+- `docs/` … curriculum.md, HANDOFF.md, legacy-overview.md, app-store.md（App Store Connect に載せる文言。文字数の確認は `python3 tools/check_app_store_text.py`）
