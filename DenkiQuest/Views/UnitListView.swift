@@ -19,6 +19,14 @@ struct UnitListView: View {
     /// マスコットがこげている間だけ true
     @State private var mascotBurnt = false
     @State private var sootVeil: Double = 0
+    /// 充電中に画面のふちを光らせる量（0〜1。6 秒かけて上がる）
+    @State private var chargeGlow: Double = 0
+    /// 危険域で画面全体を震わせる位相（アニメーションで進める）
+    @State private var buzzPhase: CGFloat = 0
+    /// ショート時の停電（黒い幕の濃さ）
+    @State private var blackout: Double = 0
+    @State private var mascotCharging = false
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     private var stats: StudyStats { StudyStats(records: records) }
 
@@ -48,6 +56,10 @@ struct UnitListView: View {
                     }
                     .padding()
                 }
+                // 充電中に浮き上がったマスコットが上で切れないように
+                .scrollClipDisabled()
+                // 充電中に指を動かしても画面がスクロールしないように
+                .scrollDisabled(mascotCharging)
             }
             .navigationTitle("でんきクエスト")
             .navigationBarTitleDisplayMode(.inline)
@@ -92,6 +104,19 @@ struct UnitListView: View {
                 BossCollectionView()
             }
             .offset(screenShake)
+            .modifier(BuzzEffect(amount: 1.8, phase: buzzPhase))
+            .overlay {
+                // 充電中は画面のふちが電気の色に光っていく
+                RadialGradient(
+                    colors: [.clear, Theme.volt.opacity(0.28), Theme.volt.opacity(0.55)],
+                    center: .top,
+                    startRadius: 90,
+                    endRadius: 640
+                )
+                .opacity(chargeGlow)
+                .ignoresSafeArea()
+                .allowsHitTesting(false)
+            }
             .overlay {
                 // こげている間は画面のふちがすすけて暗くなる
                 RadialGradient(
@@ -110,6 +135,13 @@ struct UnitListView: View {
                     .ignoresSafeArea()
                     .allowsHitTesting(false)
             }
+            .overlay {
+                // ショートで一瞬停電し、蛍光灯のようにちらついて戻る
+                Color.black
+                    .opacity(blackout)
+                    .ignoresSafeArea()
+                    .allowsHitTesting(false)
+            }
         }
         .task { load() }
     }
@@ -120,7 +152,9 @@ struct UnitListView: View {
         VStack(spacing: 8) {
             ChargeMascotView(size: 96,
                              onShortCircuit: shortCircuitEffect,
-                             onBurntChanged: burntChanged)
+                             onBurntChanged: burntChanged,
+                             onChargingChanged: chargingChanged,
+                             onDangerChanged: dangerChanged)
             Text(mascotBurnt ? "ショートした。少し待てば元に戻る" : "読んで、すぐ解く。1 セッション 5〜8 分")
                 .font(.subheadline)
                 .foregroundStyle(mascotBurnt ? Color(red: 1.0, green: 0.62, blue: 0.30) : Theme.textSecondary)
@@ -266,11 +300,45 @@ struct UnitListView: View {
         }
     }
 
-    /// ショート時: 画面全体を白くフラッシュさせ、ガタガタ揺らす。
+    /// 充電の始まりと終わり。ふちの光を 6 秒かけて強め、離したらすぐ消す。
+    private func chargingChanged(_ charging: Bool) {
+        mascotCharging = charging
+        if charging {
+            withAnimation(.linear(duration: ChargeController.maxSeconds)) { chargeGlow = 1 }
+        } else {
+            withAnimation(.easeOut(duration: 0.25)) { chargeGlow = 0 }
+        }
+    }
+
+    /// 危険域に入ったら画面全体を細かく震わせ、抜けたら止める。
+    private func dangerChanged(_ danger: Bool) {
+        guard !reduceMotion else { return }
+        if danger {
+            withAnimation(.linear(duration: 1.7)) { buzzPhase += 42 }
+        } else {
+            // アニメーションなしで整数に飛ばすと、震えがその場で止まる
+            var transaction = Transaction()
+            transaction.disablesAnimations = true
+            withTransaction(transaction) { buzzPhase = buzzPhase.rounded() + 1 }
+        }
+    }
+
+    /// ショート時: 画面全体を白くフラッシュさせ、ガタガタ揺らし、停電させる。
     private func shortCircuitEffect() {
         flash = 0.95
         withAnimation(.easeOut(duration: 0.6)) {
             flash = 0
+        }
+        if !reduceMotion {
+            // 暗転 → ちらつき → 点灯
+            let flicker: [(Double, Double)] = [(0.12, 0.9), (0.42, 0.25), (0.5, 0.85), (0.6, 0.15), (0.68, 0.7), (0.78, 0.3)]
+            for (delay, value) in flicker {
+                DispatchQueue.main.asyncAfter(deadline: .now() + delay) { blackout = value }
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.86) {
+                Haptics.impact(intensity: 0.4)
+                withAnimation(.easeOut(duration: 0.35)) { blackout = 0 }
+            }
         }
         let offsets: [CGSize] = [
             CGSize(width: 10, height: -6), CGSize(width: -9, height: 7), CGSize(width: 7, height: 5),
@@ -446,6 +514,23 @@ private struct UnitRow: View {
     private var bossCleared: Bool {
         _ = LessonProgressStore.changes.version
         return BossRecordStore.isCleared(unit.id)
+    }
+}
+
+/// 画面全体の細かい震え。phase をアニメーションで進めるだけで震え、整数で止まる。
+private struct BuzzEffect: GeometryEffect {
+    var amount: CGFloat
+    var phase: CGFloat
+
+    var animatableData: CGFloat {
+        get { phase }
+        set { phase = newValue }
+    }
+
+    func effectValue(size: CGSize) -> ProjectionTransform {
+        let angle = phase * .pi * 2
+        return ProjectionTransform(CGAffineTransform(translationX: amount * sin(angle),
+                                                     y: amount * 0.6 * sin(angle * 1.7)))
     }
 }
 

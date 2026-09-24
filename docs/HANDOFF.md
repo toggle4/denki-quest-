@@ -107,6 +107,9 @@ DenkiQuest.xcodeproj ほか チャット側の指示で新規作成された Swi
 >   絵を background と Color.clear の overlay に移し、レイアウトへ影響しないようにした
 > - ボス戦上部の並びを変更: 名前を中央に大きく、その下に BOSS バッジ、HP バー、
 >   HP 数値・コンボ・タイマーの行、残り時間バー。ステージの高さは画面の 46 %
+> - マスコットの長押しを作り直し: 回るゲージを廃止し、指の上へ浮き上がる（指で隠れない）。指先から稲妻でつながり、
+>   横に電圧計（0〜6.60kV）を出す。指がずれても離すまで充電が続く（DragGesture）。75 % から画面全体が震え、
+>   ふちが 6 秒かけて光る。ショートで停電してちらつき、点き直す。ショート寸前で離すと「ギリギリ記録」（UserDefaults: mascot.bestVoltage）
 > - 教材 F01〜F08 の図 34 枚を作成（tools/gen_lesson_figures.py → Assets.xcassets/Figures/<名前>.imageset）。
 >   数値は本文の例題とそろえた。文字も線で描き、日本語は入れていない。色は 電流=青・電圧=赤・電力/熱=橙・抵抗=紺。
 >   確認用 PNG は `python3 tools/gen_lesson_figures.py --preview <フォルダ>`（cairosvg が必要。アプリには不要）
