@@ -25,7 +25,7 @@ enum BossRecordStore {
     }
 }
 
-/// ボス戦の進行。正解でダメージ（速いほど大きい）、不正解・時間切れで反撃。
+/// ボス戦の進行。正解でダメージ（速いほど大きい）、不正解は反撃でコンボが途切れる。負けは時間切れと降参だけ。
 @Observable
 final class BossEngine {
     enum Phase {
@@ -38,7 +38,6 @@ final class BossEngine {
     }
 
     enum LoseReason {
-        case hearts
         case timeout
         case surrender
     }
@@ -56,8 +55,6 @@ final class BossEngine {
         let at: Date
     }
 
-    static let maxHearts = 3
-
     let unit: LearningUnit
     /// この単元に割り当てられたボス。対応表にない単元では nil。
     let boss: Boss?
@@ -68,7 +65,6 @@ final class BossEngine {
     private(set) var phase: Phase = .intro
     private(set) var loseReason: LoseReason?
     private(set) var bossHP: Int
-    private(set) var hearts = BossEngine.maxHearts
     private(set) var remaining: Double
     private(set) var combo = 0
     private(set) var maxCombo = 0
@@ -260,16 +256,12 @@ final class BossEngine {
             if !missed.contains(where: { $0.id == current!.question.id }) {
                 missed.append(current!.question)
             }
+            // 不正解は反撃を受けてコンボが途切れる。負けは時間切れだけ
             combo = 0
-            hearts -= 1
-            events.append(Event(kind: .counter, amount: 1, critical: false, combo: 0, at: Date()))
+            events.append(Event(kind: .counter, amount: 0, critical: false, combo: 0, at: Date()))
             counterToken += 1
             Haptics.shortCircuit()
             SoundPlayer.shared.play(.wrong)
-            if hearts <= 0 {
-                lose(.hearts)
-                return
-            }
         }
 
         advanceTask?.cancel()

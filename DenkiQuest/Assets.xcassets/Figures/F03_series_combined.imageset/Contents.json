@@ -1,0 +1,15 @@
+{
+  "images": [
+    {
+      "filename": "F03_series_combined.svg",
+      "idiom": "universal"
+    }
+  ],
+  "info": {
+    "author": "xcode",
+    "version": 1
+  },
+  "properties": {
+    "preserves-vector-representation": true
+  }
+}
