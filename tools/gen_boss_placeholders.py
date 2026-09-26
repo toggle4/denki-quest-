@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
 """ボス画像の仮素材と imageset を生成する。
 
-ユーザーが用意した 12 体の絵を入れるまでのつなぎ。
-生成物: DenkiQuest/Assets.xcassets/Bosses/BossNN.imageset/boss_NN.png
+ユーザーが用意した絵を入れるまでのつなぎ。
+生成物: DenkiQuest/Assets.xcassets/Bosses/BossNN.imageset/boss_NN.png（NN は 01〜24）
 差し替えるときはファイル名（boss_NN.png）を変えずに上書きする。
+すでに絵がある番号は上書きしない（全部作り直すときは --force）。
 """
 import json
 import math
 import os
 import random
+import sys
 
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
@@ -30,6 +32,18 @@ BOSSES = [
     (10, "granbolt", "轟天獣", "グランボルト", (255, 170, 60)),
     (11, "gradon", "稲妻喰らい", "グラドーン", (200, 255, 120)),
     (12, "arcvein", "終雷獣", "アークヴェイン", (255, 240, 200)),
+    (13, "chippa", "火花小鬼", "チッパ", (255, 200, 90)),
+    (14, "leechel", "吸電蛭", "リーチェル", (140, 220, 140)),
+    (15, "mimicros", "擬記獣", "ミミクロス", (220, 160, 255)),
+    (16, "sheathgard", "絶縁甲虫", "シースガルド", (120, 200, 160)),
+    (17, "labyrinte", "迷線蜘蛛", "ラビリンテ", (200, 200, 255)),
+    (18, "octolink", "結線蛸", "オクトリンク", (255, 140, 170)),
+    (19, "leaker", "漏電霊", "リーカー", (160, 255, 230)),
+    (20, "megris", "計器妖", "メグリス", (255, 230, 120)),
+    (21, "sinus", "波動蛇", "サイヌス", (100, 200, 255)),
+    (22, "neutros", "断線獣", "ニュートロス", (255, 150, 90)),
+    (23, "twinray", "複写鬼", "ツインレイ", (180, 255, 150)),
+    (24, "defecta", "欠陥王", "ディフェクタ", (230, 120, 255)),
 ]
 
 CONTENTS = {
@@ -71,7 +85,11 @@ def silhouette(draw, rng, color):
     draw.line(path, fill=color + (140,), width=18)
 
 
-def make(number, boss_id, epithet, name, color):
+def make(number, boss_id, epithet, name, color, force=False):
+    folder = os.path.join(DEST, "Boss%02d.imageset" % number)
+    filename = "boss_%02d.png" % number
+    if not force and os.path.exists(os.path.join(folder, filename)):
+        return "Boss%02d.imageset/%s  %s%s（絵があるので残す）" % (number, filename, epithet, name)
     rng = random.Random(number * 7919)
     img = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
     glow = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
@@ -88,9 +106,7 @@ def make(number, boss_id, epithet, name, color):
     label = "%02d" % number
     draw.text((SIZE / 2, 78), label, font=font, fill=(255, 255, 255, 230), anchor="mm")
 
-    folder = os.path.join(DEST, "Boss%02d.imageset" % number)
     os.makedirs(folder, exist_ok=True)
-    filename = "boss_%02d.png" % number
     img.save(os.path.join(folder, filename))
 
     contents = json.loads(json.dumps(CONTENTS))
@@ -102,12 +118,13 @@ def make(number, boss_id, epithet, name, color):
 
 
 def main():
+    force = "--force" in sys.argv
     os.makedirs(DEST, exist_ok=True)
     with open(os.path.join(DEST, "Contents.json"), "w", encoding="utf-8") as f:
         json.dump({"info": {"author": "xcode", "version": 1}}, f, indent=2)
         f.write("\n")
     for row in BOSSES:
-        print(make(*row))
+        print(make(*row, force=force))
 
 
 if __name__ == "__main__":

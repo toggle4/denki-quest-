@@ -141,6 +141,9 @@ DenkiQuest.xcodeproj ほか チャット側の指示で新規作成された Swi
 > - ステージ 0 の F09〜F12（交流の基礎・磁気と電磁誘導・交流回路とインピーダンス・三相交流）を作成。各 5〜6 セッション、各 18 問（template 35 問）。
 >   図 20 枚は tools/gen_lesson_figures_ac.py（gen_lesson_figures.py の線の文字と部品を使う）。
 >   F12 のボスはステージ 0 の総合ボス（F05〜F12 の計算から 10 問・300 秒）。ボスの questionIds に他の単元の問題を書けるよう validate_content.py を直した
+> - ボスを 24 体に増やした（ユーザー確認済み。図鑑を集める楽しさのため）。12 の区間に 2 体ずつで、区間の前の単元には新しい先鋒（13〜24 番、Rank.scout）、
+>   後の単元には最初の 12 体が出る。割り当ては docs/curriculum.md「付録：ボスの割り当て（24 体）」。先鋒の二つ名・名前・台詞・解説は Claude の案（変更可）。
+>   絵は仮画像（gen_boss_placeholders.py。絵がある番号は上書きしない）。ユーザーの絵は boss-13〜boss-24 の名前で install_boss_images.sh から入れる
 
 ### タスク A：旧ゲームの復元調査（変更なし、報告のみ）
 1. `git log --all --oneline` と `git reflog` で、現在より前に別の Swift ファイル・Xcode プロジェクトがあったコミットを探す

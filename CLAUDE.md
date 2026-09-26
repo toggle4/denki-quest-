@@ -24,7 +24,7 @@
 - 計算問題は template 形式（数値をランダム生成）を基本とし、同じ構造の問題を数値を変えて繰り返せるようにする
 - 間違えた問題は 1日→3日→7日→14日 後に再出題
 - 単元クリアは直近10問の正答率90%以上（ステージ0は95%）
-- 各単元の最後にボス戦（制限時間つき連続正解）。ボスは 12 体で、ステージを前半・後半に分けた区間ごとに 1 体が担当する（割り当ては docs/curriculum.md の付録）
+- 各単元の最後にボス戦（制限時間つき連続正解）。ボスは 24 体で、ステージを前半・後半に分けた区間ごとに 2 体（先鋒と、中ボス・ステージボス・最終ボス）が担当する（割り当ては docs/curriculum.md の付録）
 - ボスは戦闘中は名前だけを出し、二つ名は登場演出とボス図鑑でだけ出す
 
 ## 作業ルール
@@ -50,7 +50,7 @@ xcodebuild -project DenkiQuest.xcodeproj -scheme DenkiQuest \
   - `Sounds/` … 効果音 WAV（`tools/gen_sounds.py` で自作合成）
   - `Assets.xcassets/Mascot.imageset` … 通常のマスコット SVG（自作）
   - `Assets.xcassets/MascotBurnt.imageset` … 感電してこげたマスコット（`tools/gen_mascot_burnt.py` で生成。差し替えは `tools/install_mascot_burnt.sh`）
-  - `Assets.xcassets/Bosses/Boss01〜Boss12.imageset` … ボス 12 体の絵（背景透過 PNG。仮画像は tools/gen_boss_placeholders.py。差し替えはファイル名 boss_NN.png のまま上書き）
+  - `Assets.xcassets/Bosses/Boss01〜Boss24.imageset` … ボス 24 体の絵（背景透過 PNG。仮画像は tools/gen_boss_placeholders.py。差し替えはファイル名 boss_NN.png のまま上書き）
   - `Assets.xcassets/BossMonster.imageset` … 名簿にない単元用の予備画像、`Figures/` … 単線図 SVG（tools/gen_wiring_figures.py）と教材 F01〜F08 の図 37 枚（tools/gen_lesson_figures.py）、F09〜F12 の図 20 枚（tools/gen_lesson_figures_ac.py）、ステージ 1 の図記号・器具の図 103 枚（tools/gen_symbol_figures.py）
 - `tools/` … 効果音・アイコンの生成、教材 JSON の検証 `validate_content.py`、template の生成チェック `check_templates.py`（Python 標準ライブラリのみ）
 - `content/lessons/` … 教材テキスト（Markdown）

@@ -26,7 +26,7 @@ fi
 copied=0
 missing=""
 
-for n in 01 02 03 04 05 06 07 08 09 10 11 12; do
+for n in 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24; do
   src=""
   for stem in "boss-$n" "boss_$n" "boss$n"; do
     for f in "$SRC/$stem".*; do
@@ -63,11 +63,13 @@ for n in 01 02 03 04 05 06 07 08 09 10 11 12; do
 done
 
 echo ""
-echo "取り込み $copied / 12 枚"
+echo "取り込み $copied / 24 枚"
 if [ -n "$missing" ]; then
-  echo "足りない番号:$missing"
+  echo "見つからなかった番号（いまの絵のまま残します）:$missing"
   echo "元フォルダの中身:"
   ls "$SRC"
+fi
+if [ "$copied" -eq 0 ]; then
   exit 1
 fi
 echo "Xcode でビルドすれば絵が入れ替わります（追加操作は不要）。"
