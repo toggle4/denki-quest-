@@ -1,0 +1,496 @@
+{
+  "schemaVersion": 2,
+  "unit": {
+    "id": "F09",
+    "stage": 0,
+    "order": 9,
+    "title": "交流の基礎",
+    "lessonFile": "F09.md",
+    "prerequisites": [
+      "F08"
+    ],
+    "masteryThreshold": 0.95,
+    "legacyUnit": "u11_ac_basics"
+  },
+  "boss": {
+    "id": "F09-boss",
+    "title": "試験型ボス",
+    "description": "制限時間内に5問連続正解でクリア。数値は毎回変わる。",
+    "questionIds": [
+      "F09-t01",
+      "F09-t02",
+      "F09-t03",
+      "F09-t04",
+      "F09-t05",
+      "F09-t06",
+      "F09-t07",
+      "F09-t08",
+      "F09-q06",
+      "F09-q10"
+    ],
+    "pick": 5,
+    "timeLimitSeconds": 120
+  },
+  "questions": [
+    {
+      "id": "F09-q01",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "家庭のコンセントの電気のように、電圧の向きと大きさが周期的に入れ替わる電気を何というか。",
+      "choices": [
+        "交流（AC）",
+        "直流（DC）",
+        "静電気",
+        "電磁波"
+      ],
+      "answerIndex": 0,
+      "explanation": "向きと大きさが周期的に入れ替わる電気は交流（AC）。電池のように向きと大きさが一定の電気は直流（DC）。",
+      "tags": [
+        "概念",
+        "交流"
+      ],
+      "srsWeight": 1.0,
+      "origin": "AC = Alternating Current（向きが交互に変わる電流）、DC = Direct Current（一方向に流れる電流）"
+    },
+    {
+      "id": "F09-q02",
+      "type": "trueFalse",
+      "difficulty": 1,
+      "prompt": "家庭に交流が送られている大きな理由のひとつは、変圧器で電圧を簡単に上げ下げできることである。",
+      "answer": true,
+      "explanation": "正しい。交流は変圧器ひとつで電圧を変えられる。高い電圧で送って電線の損失を減らし（F08）、家の近くで 100V・200V に下げて使う。",
+      "tags": [
+        "概念",
+        "交流"
+      ],
+      "srsWeight": 1.0,
+      "tip": "電柱の上の柱上変圧器は、6600V の電気を 100V・200V に下げている。"
+    },
+    {
+      "id": "F09-q03",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "次のうち、直流の電気はどれか。",
+      "choices": [
+        "乾電池の電気",
+        "家庭のコンセントの電気",
+        "電柱の配電線の電気",
+        "発電所の発電機が作る電気"
+      ],
+      "answerIndex": 0,
+      "explanation": "乾電池の電気は向きが一定の直流。コンセント・配電線・発電所の発電機の電気は交流。",
+      "tags": [
+        "概念",
+        "直流"
+      ],
+      "srsWeight": 1.0,
+      "hint": "向きがいつも同じなのはどれか。"
+    },
+    {
+      "id": "F09-t01",
+      "type": "template",
+      "difficulty": 1,
+      "prompt": "周波数 {f}Hz の交流の周期は何 ms（ミリ秒）か。",
+      "variables": {
+        "n": {
+          "min": 0,
+          "max": 5
+        }
+      },
+      "derived": [
+        {
+          "name": "f",
+          "formula": "50 * (n == 0) + 60 * (n == 1) + 100 * (n == 2) + 200 * (n == 3) + 250 * (n == 4) + 500 * (n == 5)"
+        },
+        {
+          "name": "Ts",
+          "formula": "1 / f",
+          "roundTo": 5
+        }
+      ],
+      "answerFormula": "1000 / f",
+      "answerType": "numeric",
+      "unitLabel": "ms",
+      "roundTo": 2,
+      "explanation": "T = 1 ÷ f = 1 ÷ {f} ≒ {Ts} 秒。1000 をかけて ms に直すと {answer}ms。",
+      "tags": [
+        "計算",
+        "周波数と周期"
+      ],
+      "srsWeight": 1.0,
+      "hint": "T = 1 ÷ f で秒が出る。1000 倍して ms に直す。"
+    },
+    {
+      "id": "F09-t02",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "周期が {T}ms の交流の周波数は何 Hz か。",
+      "variables": {
+        "T": {
+          "min": 2,
+          "max": 50
+        }
+      },
+      "derived": [
+        {
+          "name": "Ts",
+          "formula": "T / 1000",
+          "roundTo": 3
+        }
+      ],
+      "constraints": [
+        "1000 % T == 0"
+      ],
+      "answerFormula": "1000 / T",
+      "answerType": "choice",
+      "unitLabel": "Hz",
+      "roundTo": 2,
+      "distractors": [
+        "1 / T",
+        "10000 / T",
+        "100 / T"
+      ],
+      "explanation": "{T}ms = {T} ÷ 1000 = {Ts} 秒。f = 1 ÷ {Ts} = {answer}Hz。",
+      "tags": [
+        "計算",
+        "周波数と周期"
+      ],
+      "srsWeight": 1.0,
+      "hint": "ms を秒に直してから f = 1 ÷ T。"
+    },
+    {
+      "id": "F09-q04",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "西日本（大阪など）の家庭に来ている交流の周波数はどれか。",
+      "choices": [
+        "60Hz",
+        "50Hz",
+        "100Hz",
+        "120Hz"
+      ],
+      "answerIndex": 0,
+      "explanation": "西日本は 60Hz、東日本は 50Hz。境目はおおむね静岡県の富士川と新潟県の糸魚川を結ぶあたり。",
+      "tags": [
+        "概念",
+        "周波数と周期"
+      ],
+      "srsWeight": 1.0,
+      "origin": "Hz（ヘルツ）は、電磁波の実験で知られるドイツの物理学者ヘルツ（Hertz）の名前から。",
+      "tip": "東日本と西日本の間では、周波数変換所で 50Hz と 60Hz を変換して電気を融通し合っている。"
+    },
+    {
+      "id": "F09-q05",
+      "type": "trueFalse",
+      "difficulty": 2,
+      "prompt": "50Hz の交流では、電流の向きが1秒間に 50回入れ替わる。",
+      "answer": false,
+      "explanation": "誤り。1つの波の中で＋の向きと−の向きに1回ずつ流れるので、向きが入れ替わるのは1秒間に 50 × 2 = 100回。",
+      "tags": [
+        "概念",
+        "周波数と周期"
+      ],
+      "srsWeight": 1.0,
+      "hint": "波1つの中で、向きは何回変わるか。"
+    },
+    {
+      "id": "F09-q06",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "家庭のコンセントの「100V」は、交流電圧のどの値か。",
+      "choices": [
+        "実効値",
+        "最大値",
+        "平均値",
+        "最小値"
+      ],
+      "answerIndex": 0,
+      "explanation": "「100V」は実効値。同じ抵抗につないだとき直流 100V と同じ熱を出すので 100V と表す。最大値は 100 × √2 ≒ 141V。",
+      "tags": [
+        "概念",
+        "実効値"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "F09-t03",
+      "type": "template",
+      "difficulty": 1,
+      "prompt": "実効値 {V}V の正弦波交流電圧の最大値は何 V か。",
+      "variables": {
+        "V": {
+          "min": 50,
+          "max": 400,
+          "step": 10
+        }
+      },
+      "answerFormula": "V * SQRT2",
+      "answerType": "numeric",
+      "unitLabel": "V",
+      "roundTo": 1,
+      "explanation": "最大値 = 実効値 × √2 = {V} × 1.414 ≒ {answer}V。最大値のほうが大きい。",
+      "tags": [
+        "計算",
+        "実効値"
+      ],
+      "srsWeight": 1.0,
+      "hint": "最大値は実効値より大きい。√2 ≒ 1.41 をかける。"
+    },
+    {
+      "id": "F09-t04",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "最大値 {Vm}V の正弦波交流電圧の実効値はおよそ何 V か。",
+      "variables": {
+        "V": {
+          "min": 10,
+          "max": 300,
+          "step": 10
+        }
+      },
+      "derived": [
+        {
+          "name": "Vm",
+          "formula": "V * SQRT2",
+          "roundTo": 1
+        }
+      ],
+      "answerFormula": "Vm / SQRT2",
+      "answerType": "choice",
+      "unitLabel": "V",
+      "roundTo": 0,
+      "distractors": [
+        "Vm * SQRT2",
+        "Vm / 2",
+        "Vm"
+      ],
+      "explanation": "実効値 = 最大値 ÷ √2 = {Vm} ÷ 1.414 ≒ {answer}V。実効値は最大値より小さい。",
+      "tags": [
+        "計算",
+        "実効値"
+      ],
+      "srsWeight": 1.0,
+      "hint": "実効値は最大値より小さい。√2 で割る。"
+    },
+    {
+      "id": "F09-q07",
+      "type": "trueFalse",
+      "difficulty": 1,
+      "prompt": "テスター（回路計）で交流 100V のコンセントの電圧を測ると、ふつう約 141V と表示される。",
+      "answer": false,
+      "explanation": "誤り。テスターや電圧計が示す交流の値はふつう実効値なので、100V 前後と表示される。141V は最大値。",
+      "tags": [
+        "概念",
+        "実効値"
+      ],
+      "srsWeight": 1.0,
+      "tip": "200V のエアコン用コンセントなら 200V 前後を示すのが正常。"
+    },
+    {
+      "id": "F09-t05",
+      "type": "template",
+      "difficulty": 1,
+      "prompt": "実効値 {V}V の交流電源に {R}Ω の抵抗をつないだ。消費電力は何 W か。",
+      "variables": {
+        "V": {
+          "min": 100,
+          "max": 200,
+          "step": 100
+        },
+        "R": {
+          "min": 5,
+          "max": 50,
+          "step": 5
+        }
+      },
+      "derived": [
+        {
+          "name": "I",
+          "formula": "V / R"
+        }
+      ],
+      "constraints": [
+        "V % R == 0"
+      ],
+      "answerFormula": "V * I",
+      "answerType": "numeric",
+      "unitLabel": "W",
+      "roundTo": 1,
+      "explanation": "電流 {V} ÷ {R} = {I}A。消費電力 {V} × {I} = {answer}W。抵抗だけの回路なら、実効値を使って直流と同じ式で計算できる。",
+      "tags": [
+        "計算",
+        "実効値"
+      ],
+      "srsWeight": 1.0,
+      "hint": "まず I = V ÷ R。それから P = V × I。"
+    },
+    {
+      "id": "F09-t06",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "最大値 {Vm}V の正弦波交流電圧を {R}Ω の抵抗にかけた。消費電力はおよそ何 W か。",
+      "variables": {
+        "V": {
+          "min": 100,
+          "max": 200,
+          "step": 100
+        },
+        "R": {
+          "min": 10,
+          "max": 50,
+          "step": 10
+        }
+      },
+      "derived": [
+        {
+          "name": "Vm",
+          "formula": "V * SQRT2",
+          "roundTo": 0
+        }
+      ],
+      "answerFormula": "V * V / R",
+      "answerType": "choice",
+      "unitLabel": "W",
+      "roundTo": 0,
+      "distractors": [
+        "Vm * Vm / R",
+        "V / R",
+        "Vm * V / R"
+      ],
+      "explanation": "実効値に直す：{Vm} ÷ √2 ≒ {V}V。消費電力 {V} × {V} ÷ {R} = {answer}W。最大値のまま計算すると約2倍の誤った値になる。",
+      "tags": [
+        "計算",
+        "実効値"
+      ],
+      "srsWeight": 1.0,
+      "hint": "電力の計算には実効値を使う。まず ÷ √2。"
+    },
+    {
+      "id": "F09-q08",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "同じ正弦波交流の最大値・実効値・平均値を、大きい順に並べたものはどれか。",
+      "choices": [
+        "最大値 ＞ 実効値 ＞ 平均値",
+        "最大値 ＞ 平均値 ＞ 実効値",
+        "実効値 ＞ 最大値 ＞ 平均値",
+        "3つとも同じ大きさ"
+      ],
+      "answerIndex": 0,
+      "explanation": "最大値 141V の交流なら、実効値は 141 × 0.707 ≒ 100V、平均値（半周期）は 141 × 0.637 ≒ 90V。最大値 ＞ 実効値 ＞ 平均値。",
+      "tags": [
+        "概念",
+        "実効値"
+      ],
+      "srsWeight": 1.0,
+      "hint": "実効値は最大値の約 0.707 倍、平均値は約 0.637 倍。"
+    },
+    {
+      "id": "F09-q09",
+      "type": "trueFalse",
+      "difficulty": 1,
+      "prompt": "交流の1周期を 360° とすると、1/4 周期のずれは 90° である。",
+      "answer": true,
+      "explanation": "正しい。360 ÷ 4 = 90°。半周期のずれは 180°（山と谷が逆になる）。",
+      "tags": [
+        "概念",
+        "位相"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "F09-q10",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "周波数が同じ電圧と電流で、電流の山が電圧の山より 1/4 周期あとに来る。電流は電圧に対してどうなっているか。",
+      "choices": [
+        "90° 遅れている",
+        "90° 進んでいる",
+        "180° ずれている（山と谷が逆）",
+        "同相である"
+      ],
+      "answerIndex": 0,
+      "explanation": "山があとに来る波は「遅れ」。1/4 周期は 90° なので、電流は電圧より 90° 遅れている。コイルだけの回路がこの形になる（F11）。",
+      "tags": [
+        "概念",
+        "位相"
+      ],
+      "srsWeight": 1.0,
+      "hint": "グラフの横軸は時間。あとに来るのは進みか遅れか。"
+    },
+    {
+      "id": "F09-t07",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "{f}Hz の交流で、電流が電圧より {th}° 遅れている。このずれは時間にすると何 ms か。",
+      "variables": {
+        "n": {
+          "min": 0,
+          "max": 1
+        },
+        "th": {
+          "min": 30,
+          "max": 180,
+          "step": 15
+        }
+      },
+      "derived": [
+        {
+          "name": "f",
+          "formula": "50 + 10 * n"
+        },
+        {
+          "name": "Tms",
+          "formula": "1000 / f",
+          "roundTo": 2
+        }
+      ],
+      "constraints": [
+        "(th % 30) * (th - 45) == 0"
+      ],
+      "answerFormula": "Tms * th / 360",
+      "answerType": "numeric",
+      "unitLabel": "ms",
+      "roundTo": 2,
+      "explanation": "周期 T = 1 ÷ {f} 秒 ≒ {Tms}ms。{th}° は1周期（360°）の {th} ÷ 360。ずれ = {Tms} × {th} ÷ 360 ≒ {answer}ms。",
+      "tags": [
+        "計算",
+        "位相"
+      ],
+      "srsWeight": 1.0,
+      "hint": "まず周期を ms で出す。1周期 = 360°。"
+    },
+    {
+      "id": "F09-t08",
+      "type": "template",
+      "difficulty": 1,
+      "prompt": "2つの交流の位相が、1周期の 1/{k} だけずれている。位相差は何度か。",
+      "variables": {
+        "k": {
+          "min": 3,
+          "max": 12
+        }
+      },
+      "constraints": [
+        "360 % k == 0"
+      ],
+      "answerFormula": "360 / k",
+      "answerType": "choice",
+      "unitLabel": "°",
+      "roundTo": 1,
+      "distractors": [
+        "180 / k",
+        "90 * k",
+        "360 - 360 / k"
+      ],
+      "explanation": "1周期は 360°。その 1/{k} は 360 ÷ {k} = {answer}°。",
+      "tags": [
+        "計算",
+        "位相"
+      ],
+      "srsWeight": 1.0,
+      "hint": "1周期 = 360°。",
+      "tip": "三相交流（F12）は、3つの交流を 1/3 周期 = 120° ずつずらしたもの。"
+    }
+  ]
+}

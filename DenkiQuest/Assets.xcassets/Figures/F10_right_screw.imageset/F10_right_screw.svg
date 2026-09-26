@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 240" width="420" height="240">
+<rect x="0" y="0" width="420" height="240" rx="14" fill="#FFFFFF"/>
+<path d="M40 126 A 64 20 0 0 1 168 126" fill="none" stroke="#1E9E6A" stroke-width="3"/>
+<polygon points="76.3,102.8 63.7,109.1 76.3,115.4" fill="#1E9E6A" stroke="#1E9E6A" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="104.0" y1="222.0" x2="104.0" y2="50.0" stroke="#1B2550" stroke-width="5" stroke-linecap="round"/>
+<line x1="104.0" y1="90.0" x2="104.0" y2="44.4" stroke="#2F6FDB" stroke-width="4" stroke-linecap="round"/><polygon points="109.7,45.7 104.0,34.0 98.3,45.7" fill="#2F6FDB" stroke="#2F6FDB" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="122.0,36.5 122.0,51.5" fill="none" stroke="#2F6FDB" stroke-width="2.15" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="118.8,36.5 125.2,36.5" fill="none" stroke="#2F6FDB" stroke-width="2.15" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="118.8,51.5 125.2,51.5" fill="none" stroke="#2F6FDB" stroke-width="2.15" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M40 126 A 64 20 0 0 0 168 126" fill="none" stroke="#1E9E6A" stroke-width="3"/>
+<polygon points="131.7,136.6 144.3,142.9 131.7,149.2" fill="#1E9E6A" stroke="#1E9E6A" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="214.0" y1="20.0" x2="214.0" y2="224.0" stroke="#C9D0E3" stroke-width="2" stroke-linecap="round"/>
+<circle cx="278.0" cy="120.0" r="36.0" fill="none" stroke="#1E9E6A" stroke-width="3"/>
+<circle cx="278.0" cy="120.0" r="13.0" fill="#FFFFFF" stroke="#2F6FDB" stroke-width="3"/><circle cx="278.0" cy="120.0" r="4" fill="#2F6FDB"/>
+<polygon points="284.3,77.7 271.7,84.0 284.3,90.3" fill="#1E9E6A" stroke="#1E9E6A" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="271.7,149.7 284.3,156.0 271.7,162.3" fill="#1E9E6A" stroke="#1E9E6A" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="278.0,175.5 278.0,188.5" fill="none" stroke="#2F6FDB" stroke-width="1.69" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="275.2,175.5 280.8,175.5" fill="none" stroke="#2F6FDB" stroke-width="1.69" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="275.2,188.5 280.8,188.5" fill="none" stroke="#2F6FDB" stroke-width="1.69" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="368.0" cy="120.0" r="36.0" fill="none" stroke="#1E9E6A" stroke-width="3"/>
+<circle cx="368.0" cy="120.0" r="13.0" fill="#FFFFFF" stroke="#2F6FDB" stroke-width="3"/><line x1="359.9" y1="111.9" x2="376.1" y2="128.1" stroke="#2F6FDB" stroke-width="3" stroke-linecap="round"/><line x1="359.9" y1="128.1" x2="376.1" y2="111.9" stroke="#2F6FDB" stroke-width="3" stroke-linecap="round"/>
+<polygon points="361.7,77.7 374.3,84.0 361.7,90.3" fill="#1E9E6A" stroke="#1E9E6A" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="374.3,149.7 361.7,156.0 374.3,162.3" fill="#1E9E6A" stroke="#1E9E6A" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="368.0,175.5 368.0,188.5" fill="none" stroke="#2F6FDB" stroke-width="1.69" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="365.2,175.5 370.8,175.5" fill="none" stroke="#2F6FDB" stroke-width="1.69" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="365.2,188.5 370.8,188.5" fill="none" stroke="#2F6FDB" stroke-width="1.69" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

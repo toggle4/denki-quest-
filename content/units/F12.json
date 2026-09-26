@@ -1,0 +1,646 @@
+{
+  "schemaVersion": 2,
+  "unit": {
+    "id": "F12",
+    "stage": 0,
+    "order": 12,
+    "title": "三相交流",
+    "lessonFile": "F12.md",
+    "prerequisites": [
+      "F11"
+    ],
+    "masteryThreshold": 0.95,
+    "legacyUnit": "u12_three_phase"
+  },
+  "boss": {
+    "id": "F12-boss",
+    "title": "ステージ0 総合ボス",
+    "description": "制限時間内に8問連続正解でクリア。三相交流の計算を中心に、数値は毎回変わる。",
+    "questionIds": [
+      "F12-t01",
+      "F12-t02",
+      "F12-t03",
+      "F12-t04",
+      "F12-t05",
+      "F12-t06",
+      "F12-t07",
+      "F12-t08",
+      "F12-t09",
+      "F12-t10",
+      "F12-q04",
+      "F12-q07"
+    ],
+    "pick": 8,
+    "timeLimitSeconds": 240
+  },
+  "questions": [
+    {
+      "id": "F12-q01",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "三相交流の3つの交流は、たがいに位相が何度ずつずれているか。",
+      "choices": [
+        "120°",
+        "90°",
+        "180°",
+        "60°"
+      ],
+      "answerIndex": 0,
+      "explanation": "1周期 360° を3等分して 120° ずつずれている。どの瞬間でも3つの値の合計は 0 になる。",
+      "tags": [
+        "概念",
+        "三相交流"
+      ],
+      "srsWeight": 1.0,
+      "hint": "1周期 360° を3つに分ける。"
+    },
+    {
+      "id": "F12-q02",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "三相交流について述べたもののうち、誤っているものはどれか。",
+      "choices": [
+        "家庭の照明やコンセントは、ふつう三相交流で配線されている",
+        "3本の電線で、3回路分の電力を送ることができる",
+        "回転磁界を作れるので、誘導電動機を簡単に回せる",
+        "ビルや工場の動力（ポンプ・エレベーターなど）に使われる"
+      ],
+      "answerIndex": 0,
+      "explanation": "家庭の照明やコンセントは単相交流（単相3線式の 100V・200V）。三相交流は3本の電線で送れ、回転磁界で誘導電動機を回せるので、ビル・工場の動力（三相 200V）に使われる。",
+      "tags": [
+        "概念",
+        "三相交流"
+      ],
+      "srsWeight": 1.0,
+      "tip": "町の電柱の高圧線 6600V は三相3線式。家庭用の柱上変圧器は、そのうち2本から単相を取り出している。"
+    },
+    {
+      "id": "F12-t01",
+      "type": "template",
+      "difficulty": 1,
+      "prompt": "線間電圧 {V}V の三相電源に、Y 結線の負荷をつないだ。相電圧（1相の負荷にかかる電圧）はおよそ何 V か。",
+      "variables": {
+        "n": {
+          "min": 0,
+          "max": 3
+        }
+      },
+      "derived": [
+        {
+          "name": "V",
+          "formula": "200 * (n == 0) + 400 * (n == 1) + 3300 * (n == 2) + 6600 * (n == 3)"
+        }
+      ],
+      "answerFormula": "V / SQRT3",
+      "answerType": "choice",
+      "unitLabel": "V",
+      "roundTo": 1,
+      "distractors": [
+        "V * SQRT3",
+        "V",
+        "V / 3"
+      ],
+      "explanation": "Y 結線では 線間電圧 = √3 × 相電圧。相電圧 = {V} ÷ √3 ≒ {answer}V（√3 ≒ 1.732）。",
+      "tags": [
+        "計算",
+        "Y結線"
+      ],
+      "srsWeight": 1.0,
+      "hint": "Y 結線は電圧に √3。相電圧のほうが小さい。"
+    },
+    {
+      "id": "F12-q03",
+      "type": "trueFalse",
+      "difficulty": 1,
+      "prompt": "Y 結線では、線電流と相電流は等しい。",
+      "answer": true,
+      "explanation": "正しい。Y 結線では電線と1相の負荷が直列につながっているので、線電流 = 相電流。√3 倍の関係になるのは電圧（線間電圧 = √3 × 相電圧）。",
+      "tags": [
+        "概念",
+        "Y結線"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "F12-t02",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "線間電圧 {V}V の三相電源に、1相 {R}Ω の抵抗を Y 結線でつないだ。線電流はおよそ何 A か。",
+      "variables": {
+        "V": {
+          "min": 200,
+          "max": 400,
+          "step": 200
+        },
+        "R": {
+          "min": 5,
+          "max": 40,
+          "step": 5
+        }
+      },
+      "derived": [
+        {
+          "name": "Vp",
+          "formula": "V / SQRT3",
+          "roundTo": 1
+        }
+      ],
+      "answerFormula": "V / (SQRT3 * R)",
+      "answerType": "choice",
+      "unitLabel": "A",
+      "roundTo": 1,
+      "distractors": [
+        "V / R",
+        "V * SQRT3 / R",
+        "V / (3 * R)"
+      ],
+      "explanation": "相電圧 {V} ÷ √3 ≒ {Vp}V。相電流 {Vp} ÷ {R} ≒ {answer}A。Y 結線では線電流 = 相電流なので {answer}A。",
+      "tags": [
+        "計算",
+        "Y結線",
+        "試験型"
+      ],
+      "srsWeight": 1.0,
+      "hint": "1相にかかるのは線間電圧 ÷ √3。"
+    },
+    {
+      "id": "F12-t03",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "Y 結線の三相負荷で、1相の抵抗が {R}Ω、線電流が {I}A だった。線間電圧はおよそ何 V か。",
+      "variables": {
+        "I": {
+          "min": 2,
+          "max": 20
+        },
+        "R": {
+          "min": 5,
+          "max": 20,
+          "step": 5
+        }
+      },
+      "derived": [
+        {
+          "name": "Vp",
+          "formula": "I * R"
+        }
+      ],
+      "constraints": [
+        "Vp >= 50",
+        "Vp <= 250"
+      ],
+      "answerFormula": "SQRT3 * I * R",
+      "answerType": "choice",
+      "unitLabel": "V",
+      "roundTo": 0,
+      "distractors": [
+        "I * R",
+        "3 * I * R",
+        "I * R / SQRT3"
+      ],
+      "explanation": "Y 結線では相電流 = 線電流 = {I}A。相電圧 {I} × {R} = {Vp}V。線間電圧 = √3 × {Vp} ≒ {answer}V。",
+      "tags": [
+        "計算",
+        "Y結線",
+        "試験型"
+      ],
+      "srsWeight": 1.0,
+      "hint": "まず相電圧を出す。線間電圧はその √3 倍。"
+    },
+    {
+      "id": "F12-t04",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "線間電圧 {V}V の三相電源に、1相 {R}Ω の抵抗を Δ 結線でつないだ。線電流はおよそ何 A か。",
+      "variables": {
+        "V": {
+          "min": 200,
+          "max": 400,
+          "step": 200
+        },
+        "R": {
+          "min": 10,
+          "max": 50,
+          "step": 10
+        }
+      },
+      "derived": [
+        {
+          "name": "Ip",
+          "formula": "V / R"
+        }
+      ],
+      "constraints": [
+        "V % R == 0"
+      ],
+      "answerFormula": "SQRT3 * Ip",
+      "answerType": "choice",
+      "unitLabel": "A",
+      "roundTo": 1,
+      "distractors": [
+        "Ip",
+        "Ip / SQRT3",
+        "3 * Ip"
+      ],
+      "explanation": "Δ 結線では相電圧 = 線間電圧 = {V}V。相電流 {V} ÷ {R} = {Ip}A。線電流 = √3 × {Ip} ≒ {answer}A。",
+      "tags": [
+        "計算",
+        "Δ結線"
+      ],
+      "srsWeight": 1.0,
+      "hint": "Δ 結線は電流に √3。線電流のほうが大きい。"
+    },
+    {
+      "id": "F12-q04",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "Y 結線と Δ 結線の √3 の関係として、正しいものはどれか。",
+      "choices": [
+        "Y は線間電圧が相電圧の √3 倍、Δ は線電流が相電流の √3 倍",
+        "Y は線電流が相電流の √3 倍、Δ は線間電圧が相電圧の √3 倍",
+        "Y も Δ も、線間電圧が相電圧の √3 倍",
+        "Y も Δ も、線電流が相電流の √3 倍"
+      ],
+      "answerIndex": 0,
+      "explanation": "Y は「電圧」に √3（線電流 = 相電流）。Δ は「電流」に √3（線間電圧 = 相電圧）。",
+      "tags": [
+        "概念",
+        "Y結線",
+        "Δ結線"
+      ],
+      "srsWeight": 1.0,
+      "hint": "Y は中心の1点にまとめる。Δ は角で2相分の電流が合流する。"
+    },
+    {
+      "id": "F12-q05",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "同じ抵抗3本を同じ三相電源につなぐ。Δ 結線にしたときの全消費電力は、Y 結線にしたときの何倍か。",
+      "choices": [
+        "3倍",
+        "√3倍",
+        "1/3倍",
+        "等しい"
+      ],
+      "answerIndex": 0,
+      "explanation": "Δ 結線では1相に線間電圧 V がかかり、Y 結線では V ÷ √3。電力は電圧の2乗に比例するので (√3)² = 3倍。例：200V・各相 20Ω なら Y で 2000W、Δ で 6000W。",
+      "tags": [
+        "概念",
+        "Δ結線"
+      ],
+      "srsWeight": 1.0,
+      "tip": "大きなモーターは、始動時に Y 結線で電流を 1/3 に抑え、回り始めたら Δ 結線に切り替える（スターデルタ始動）。"
+    },
+    {
+      "id": "F12-t05",
+      "type": "template",
+      "difficulty": 1,
+      "prompt": "三相 {V}V の電動機に線電流 {I}A が流れ、力率は {pf} である。消費電力は何 kW か。",
+      "variables": {
+        "V": {
+          "min": 200,
+          "max": 200
+        },
+        "I": {
+          "min": 10,
+          "max": 50,
+          "step": 5
+        },
+        "pp": {
+          "min": 70,
+          "max": 90,
+          "step": 5
+        }
+      },
+      "derived": [
+        {
+          "name": "pf",
+          "formula": "pp / 100"
+        },
+        {
+          "name": "Pw",
+          "formula": "SQRT3 * V * I * pf",
+          "roundTo": 0
+        }
+      ],
+      "answerFormula": "SQRT3 * V * I * pf / 1000",
+      "answerType": "numeric",
+      "unitLabel": "kW",
+      "roundTo": 2,
+      "explanation": "P = √3 × V × I × cosθ = 1.732 × {V} × {I} × {pf} ≒ {Pw}W ≒ {answer}kW。",
+      "tags": [
+        "計算",
+        "三相電力"
+      ],
+      "srsWeight": 1.0,
+      "hint": "P = √3VIcosθ。W を 1000 で割って kW にする。"
+    },
+    {
+      "id": "F12-t06",
+      "type": "template",
+      "difficulty": 3,
+      "prompt": "線間電圧 {V}V の三相電源に、抵抗 {R}Ω と誘導性リアクタンス {X}Ω を直列にしたものを1相として、Δ 結線でつないだ。全消費電力は何 W か。",
+      "variables": {
+        "n": {
+          "min": 0,
+          "max": 5
+        },
+        "V": {
+          "min": 200,
+          "max": 400,
+          "step": 200
+        }
+      },
+      "derived": [
+        {
+          "name": "R",
+          "formula": "8 * (n == 0) + 6 * (n == 1) + 4 * (n == 2) + 3 * (n == 3) + 16 * (n == 4) + 12 * (n == 5)"
+        },
+        {
+          "name": "X",
+          "formula": "6 * (n == 0) + 8 * (n == 1) + 3 * (n == 2) + 4 * (n == 3) + 12 * (n == 4) + 16 * (n == 5)"
+        },
+        {
+          "name": "Z",
+          "formula": "sqrt(R * R + X * X)",
+          "roundTo": 2
+        },
+        {
+          "name": "Ip",
+          "formula": "V / Z",
+          "roundTo": 2
+        }
+      ],
+      "answerFormula": "3 * Ip * Ip * R",
+      "answerType": "choice",
+      "unitLabel": "W",
+      "roundTo": 0,
+      "distractors": [
+        "3 * Ip * Ip * Z",
+        "Ip * Ip * R",
+        "3 * Ip * Ip * X"
+      ],
+      "explanation": "Δ 結線なので1相には {V}V がかかる。1相のインピーダンス √({R}² + {X}²) = {Z}Ω、相電流 {V} ÷ {Z} = {Ip}A。電力を消費するのは抵抗だけなので、3相分で 3 × {Ip}² × {R} = {answer}W。",
+      "tags": [
+        "計算",
+        "三相電力",
+        "試験型"
+      ],
+      "srsWeight": 1.0,
+      "hint": "1相の Z → 相電流 → 3 × I² × R。Z ではなく R を使う。"
+    },
+    {
+      "id": "F12-t07",
+      "type": "template",
+      "difficulty": 3,
+      "prompt": "三相 {V}V の誘導電動機に線電流 {I}A が流れ、消費電力は {Pk}kW だった。この電動機の力率は何 % か。",
+      "variables": {
+        "V": {
+          "min": 200,
+          "max": 200
+        },
+        "I": {
+          "min": 10,
+          "max": 40,
+          "step": 5
+        },
+        "pp": {
+          "min": 70,
+          "max": 90,
+          "step": 5
+        }
+      },
+      "derived": [
+        {
+          "name": "Pk",
+          "formula": "SQRT3 * V * I * pp / 100000",
+          "roundTo": 2
+        },
+        {
+          "name": "Pw",
+          "formula": "Pk * 1000",
+          "roundTo": 0
+        },
+        {
+          "name": "S3",
+          "formula": "SQRT3 * V * I",
+          "roundTo": 0
+        }
+      ],
+      "answerFormula": "Pw / (SQRT3 * V * I) * 100",
+      "answerType": "numeric",
+      "unitLabel": "%",
+      "roundTo": 0,
+      "explanation": "P = √3VIcosθ より cosθ = P ÷ (√3 × V × I)。√3 × {V} × {I} ≒ {S3}。cosθ = {Pw} ÷ {S3}。% にすると約 {answer}%。",
+      "tags": [
+        "計算",
+        "三相電力",
+        "試験型"
+      ],
+      "srsWeight": 1.0,
+      "hint": "kW を W に直す。cosθ = P ÷ (√3VI)。"
+    },
+    {
+      "id": "F12-t08",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "線間電圧 {V}V の三相電源に、1相 {R}Ω の抵抗を Y 結線でつないだ。全消費電力は何 W か。",
+      "variables": {
+        "V": {
+          "min": 200,
+          "max": 400,
+          "step": 200
+        },
+        "R": {
+          "min": 5,
+          "max": 50,
+          "step": 5
+        }
+      },
+      "derived": [
+        {
+          "name": "Vp",
+          "formula": "V / SQRT3",
+          "roundTo": 1
+        },
+        {
+          "name": "P1",
+          "formula": "V * V / (3 * R)",
+          "roundTo": 0
+        }
+      ],
+      "answerFormula": "V * V / R",
+      "answerType": "choice",
+      "unitLabel": "W",
+      "roundTo": 0,
+      "distractors": [
+        "3 * V * V / R",
+        "SQRT3 * V * V / R",
+        "V * V / (3 * R)"
+      ],
+      "explanation": "Y 結線の相電圧は {V} ÷ √3 ≒ {Vp}V。1相の電力 {Vp}² ÷ {R} ≒ {P1}W。3相分で約 {answer}W（ちょうど {V}² ÷ {R} になる）。",
+      "tags": [
+        "計算",
+        "三相電力"
+      ],
+      "srsWeight": 1.0,
+      "hint": "1相の電圧は線間電圧 ÷ √3。3相分を足す。"
+    },
+    {
+      "id": "F12-q06",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "Δ 結線の抵抗負荷（各相の抵抗 R）で、1線が断線した。断線していない2線の間に直接つながっている抵抗に流れる電流は、断線前と比べてどうなるか。",
+      "choices": [
+        "変わらない（V ÷ R のまま）",
+        "1/2 になる",
+        "√3 倍になる",
+        "0 になる"
+      ],
+      "answerIndex": 0,
+      "explanation": "断線していない2線の間の抵抗には、断線後も線間電圧 V がそのままかかるので、電流は V ÷ R のまま変わらない。変わるのは、断線した線につながる2本の抵抗（直列になり V ÷ 2R）。",
+      "tags": [
+        "概念",
+        "断線",
+        "試験型"
+      ],
+      "srsWeight": 1.0,
+      "hint": "その抵抗の両端にかかる電圧は変わるか。",
+      "figure": "F12_delta_open"
+    },
+    {
+      "id": "F12-t09",
+      "type": "template",
+      "difficulty": 3,
+      "prompt": "線間電圧 {V}V の三相電源に、1相 {R}Ω の抵抗を Δ 結線でつないだ負荷がある。1線が断線したとき、負荷の全消費電力は何 W か。",
+      "variables": {
+        "V": {
+          "min": 200,
+          "max": 400,
+          "step": 200
+        },
+        "R": {
+          "min": 10,
+          "max": 50,
+          "step": 10
+        }
+      },
+      "derived": [
+        {
+          "name": "R2",
+          "formula": "2 * R"
+        },
+        {
+          "name": "Pbc",
+          "formula": "V * V / R",
+          "roundTo": 0
+        },
+        {
+          "name": "Ps",
+          "formula": "V * V / (2 * R)",
+          "roundTo": 0
+        },
+        {
+          "name": "P0",
+          "formula": "3 * V * V / R",
+          "roundTo": 0
+        }
+      ],
+      "answerFormula": "1.5 * V * V / R",
+      "answerType": "choice",
+      "unitLabel": "W",
+      "roundTo": 0,
+      "distractors": [
+        "3 * V * V / R",
+        "2 * V * V / R",
+        "V * V / R"
+      ],
+      "explanation": "1線が断線すると、残る2線の間の単相回路になる。2線の間に直接つながる {R}Ω には {V}V がかかり {Pbc}W。残り2本は直列の {R2}Ω に {V}V で {Ps}W。合計 {answer}W。断線前の {P0}W の 1/2。",
+      "tags": [
+        "計算",
+        "断線",
+        "試験型"
+      ],
+      "srsWeight": 1.0,
+      "hint": "残る2線の間に描き直す。R が1本と、R + R の直列が並列に並ぶ。"
+    },
+    {
+      "id": "F12-q07",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "Δ 結線の抵抗負荷で1線が断線すると、全消費電力は断線前の何倍になるか。",
+      "choices": [
+        "1/2",
+        "2/3",
+        "1/3",
+        "変わらない"
+      ],
+      "answerIndex": 0,
+      "explanation": "断線前は 3 × V² ÷ R。断線後は、2線の間の R に V²÷R、直列の 2R に V² ÷ 2R で、合計 1.5 × V² ÷ R。1.5 ÷ 3 = 1/2。",
+      "tags": [
+        "概念",
+        "断線",
+        "試験型"
+      ],
+      "srsWeight": 1.0,
+      "hint": "1線の断線と、1相の負荷の断線を区別する。"
+    },
+    {
+      "id": "F12-q08",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "Δ 結線の抵抗負荷で、1相の抵抗（三角形の1辺）だけが断線した。電線は3本ともつながっている。全消費電力は断線前の何倍になるか。",
+      "choices": [
+        "2/3",
+        "1/2",
+        "1/3",
+        "変わらない"
+      ],
+      "answerIndex": 0,
+      "explanation": "電線は3本ともつながっているので、残る2相の抵抗には、どちらも線間電圧がそのままかかる。電力は2相分残って 2/3。電線が1本切れた場合（1/2）と区別する。",
+      "tags": [
+        "概念",
+        "断線"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "F12-t10",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "線間電圧 {V}V の三相3線式電源に、等しい抵抗を Y 結線でつないだ負荷がある。1線が断線したとき、断線していない2相の抵抗にかかる電圧はそれぞれ何 V か。",
+      "variables": {
+        "V": {
+          "min": 200,
+          "max": 420,
+          "step": 20
+        }
+      },
+      "derived": [
+        {
+          "name": "Vp",
+          "formula": "V / SQRT3",
+          "roundTo": 1
+        }
+      ],
+      "answerFormula": "V / 2",
+      "answerType": "choice",
+      "unitLabel": "V",
+      "roundTo": 1,
+      "distractors": [
+        "V / SQRT3",
+        "V",
+        "V * SQRT3 / 2"
+      ],
+      "explanation": "断線前の相電圧は {V} ÷ √3 ≒ {Vp}V。1線が断線すると、残る2相の抵抗が直列になって線間電圧 {V}V がかかるので、半分ずつ {V} ÷ 2 = {answer}V。",
+      "tags": [
+        "計算",
+        "断線",
+        "試験型"
+      ],
+      "srsWeight": 1.0,
+      "hint": "残る2相は直列。等しい抵抗なら電圧は半分ずつ。",
+      "tip": "三相の電動機で1線が切れること（欠相）は、焼損の原因になる。動力回路には欠相を検出する保護装置が使われる。"
+    }
+  ]
+}

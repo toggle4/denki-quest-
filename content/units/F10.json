@@ -1,0 +1,511 @@
+{
+  "schemaVersion": 2,
+  "unit": {
+    "id": "F10",
+    "stage": 0,
+    "order": 10,
+    "title": "磁気と電磁誘導",
+    "lessonFile": "F10.md",
+    "prerequisites": [
+      "F09"
+    ],
+    "masteryThreshold": 0.95,
+    "legacyUnit": "u11_ac_basics"
+  },
+  "boss": {
+    "id": "F10-boss",
+    "title": "試験型ボス",
+    "description": "制限時間内に5問連続正解でクリア。数値は毎回変わる。",
+    "questionIds": [
+      "F10-t01",
+      "F10-t02",
+      "F10-t03",
+      "F10-t04",
+      "F10-t05",
+      "F10-t06",
+      "F10-q01",
+      "F10-q05",
+      "F10-q09",
+      "F10-q11"
+    ],
+    "pick": 5,
+    "timeLimitSeconds": 120
+  },
+  "questions": [
+    {
+      "id": "F10-q01",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "まっすぐな電線に、紙面の手前から奥へ向かって電流（⊗）が流れている。紙面の手前から見た、電線のまわりの磁界の向きはどれか。",
+      "choices": [
+        "時計回り",
+        "反時計回り",
+        "電流と同じ奥向き",
+        "磁界はできない"
+      ],
+      "answerIndex": 0,
+      "explanation": "右ねじの法則。ねじを奥へ進めるには時計回りに回す。だから磁界は時計回り。手前へ出てくる電流（⊙）なら反時計回り。",
+      "tags": [
+        "概念",
+        "右ねじの法則"
+      ],
+      "srsWeight": 1.0,
+      "hint": "ねじを締めて奥へ進めるとき、どちらに回すか。"
+    },
+    {
+      "id": "F10-q02",
+      "type": "trueFalse",
+      "difficulty": 2,
+      "prompt": "クランプメータで負荷電流を測るときは、行きと帰りの2本の電線をまとめてはさむ。",
+      "answer": false,
+      "explanation": "誤り。行きと帰りは電流の向きが逆なので、磁界が打ち消し合ってほぼ 0 を示す。負荷電流は1本だけはさんで測る。2本まとめてはさむのは、漏れ電流を調べるとき。",
+      "tags": [
+        "概念",
+        "右ねじの法則"
+      ],
+      "srsWeight": 1.0,
+      "hint": "行きと帰りでは、電流の向きが逆になる。",
+      "tip": "漏れ電流用のクランプメータでは、2本（三相なら3本）をまとめてはさみ、打ち消し合わずに残った分を漏れ電流として読む。"
+    },
+    {
+      "id": "F10-q03",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "電磁石のコイルに流す電流の向きを逆にすると、どうなるか。",
+      "choices": [
+        "N極と S極が入れかわる",
+        "磁界が消える",
+        "磁界の強さが2倍になる",
+        "何も変わらない"
+      ],
+      "answerIndex": 0,
+      "explanation": "コイルの N極の向きは電流の向きで決まる（右手の4本の指を電流に合わせると親指が N極）。電流を逆にすると N極と S極が入れかわる。",
+      "tags": [
+        "概念",
+        "電磁石"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "F10-q04",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "電磁石を強くする方法として、誤っているものはどれか。",
+      "choices": [
+        "コイルの巻数を減らす",
+        "コイルに流す電流を大きくする",
+        "コイルに鉄心を入れる",
+        "コイルの巻数を増やす"
+      ],
+      "answerIndex": 0,
+      "explanation": "磁界の強さは「巻数 × 電流」に比例し、鉄心を入れるとさらに強くなる。巻数を減らすと弱くなる。",
+      "tags": [
+        "概念",
+        "電磁石"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "F10-t01",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "巻数 {N1}回のコイルに {I1}A 流したときと同じ強さの電磁石を、同じ大きさ・同じ鉄心で、巻数 {N2}回のコイルで作りたい。電流は何 A 流せばよいか。",
+      "variables": {
+        "N1": {
+          "min": 100,
+          "max": 500,
+          "step": 100
+        },
+        "N2": {
+          "min": 100,
+          "max": 500,
+          "step": 100
+        },
+        "I1": {
+          "min": 1,
+          "max": 12
+        }
+      },
+      "derived": [
+        {
+          "name": "NI",
+          "formula": "N1 * I1"
+        }
+      ],
+      "constraints": [
+        "N1 != N2",
+        "NI % N2 == 0"
+      ],
+      "answerFormula": "NI / N2",
+      "answerType": "numeric",
+      "unitLabel": "A",
+      "roundTo": 2,
+      "explanation": "磁界の強さは「巻数 × 電流」に比例する。{N1} × {I1} = {NI}。巻数 {N2}回で同じ {NI} にするには {NI} ÷ {N2} = {answer}A。",
+      "tags": [
+        "計算",
+        "電磁石"
+      ],
+      "srsWeight": 1.0,
+      "hint": "巻数 × 電流 が同じになるようにする。"
+    },
+    {
+      "id": "F10-q05",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "フレミングの左手の法則で、中指が表すものはどれか。",
+      "choices": [
+        "電流の向き",
+        "磁界の向き",
+        "力の向き",
+        "電圧の大きさ"
+      ],
+      "answerIndex": 0,
+      "explanation": "中指から順に「電・磁・力」。中指 = 電流、人差し指 = 磁界、親指 = 力。",
+      "tags": [
+        "概念",
+        "電磁力"
+      ],
+      "srsWeight": 1.0,
+      "hint": "中指から順に「電・磁・力」。"
+    },
+    {
+      "id": "F10-q06",
+      "type": "trueFalse",
+      "difficulty": 1,
+      "prompt": "磁界の向きはそのままで、電線に流す電流の向きを逆にすると、電線にはたらく力の向きも逆になる。",
+      "answer": true,
+      "explanation": "正しい。電流か磁界のどちらか一方を逆にすると、電磁力の向きも逆になる。両方を逆にすると元の向きにもどる。",
+      "tags": [
+        "概念",
+        "電磁力"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "F10-q07",
+      "type": "trueFalse",
+      "difficulty": 1,
+      "prompt": "棒磁石をコイルの中に入れたまま止めておいても、コイルには電流が流れ続ける。",
+      "answer": false,
+      "explanation": "誤り。電磁誘導で電圧が生じるのは、コイルを通る磁界が変化している間だけ。磁石を止めると磁界が変化しないので、電流は流れない。",
+      "tags": [
+        "概念",
+        "電磁誘導"
+      ],
+      "srsWeight": 1.0,
+      "hint": "電圧が生じるのは、磁界がどうなっているときか。"
+    },
+    {
+      "id": "F10-q08",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "コイルに磁石を出し入れして生じる誘導起電力を大きくする方法として、正しいものはどれか。",
+      "choices": [
+        "磁石を速く動かす",
+        "磁石をゆっくり動かす",
+        "コイルの巻数を減らす",
+        "磁石をコイルの中で止めておく"
+      ],
+      "answerIndex": 0,
+      "explanation": "誘導起電力は、磁界の変化が速いほど、巻数が多いほど、磁石が強いほど大きい。止めると 0 になる。",
+      "tags": [
+        "概念",
+        "電磁誘導"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "F10-q09",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "モーター（電動機）と発電機が、それぞれ利用している現象の組み合わせとして正しいものはどれか。",
+      "choices": [
+        "モーター：電磁力、発電機：電磁誘導",
+        "モーター：電磁誘導、発電機：電磁力",
+        "モーター：ジュール熱、発電機：電磁誘導",
+        "モーター：電磁力、発電機：ジュール熱"
+      ],
+      "answerIndex": 0,
+      "explanation": "モーターは磁界の中の電流が受ける力（電磁力）で回る。発電機はコイルを通る磁界を変化させて電圧を生じさせる（電磁誘導）。フレミングの法則も、モーターは左手、発電機は右手。",
+      "tags": [
+        "概念",
+        "電磁誘導"
+      ],
+      "srsWeight": 1.0,
+      "hint": "モーターは「電流 → 動き」、発電機は「動き → 電圧」。"
+    },
+    {
+      "id": "F10-q10",
+      "type": "trueFalse",
+      "difficulty": 1,
+      "prompt": "変圧器は、直流の電圧も交流と同じように上げ下げできる。",
+      "answer": false,
+      "explanation": "誤り。変圧器は、一次コイルの電流が作る磁界の「変化」で二次コイルに電圧を生じさせる。直流では磁界が変化しないので、二次側に電圧が出ない。",
+      "tags": [
+        "概念",
+        "変圧器"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "F10-t02",
+      "type": "template",
+      "difficulty": 1,
+      "prompt": "一次コイル {N1}回、二次コイル {N2}回の変圧器の一次側に、{V1}V の交流電圧を加えた。二次電圧は何 V か。",
+      "variables": {
+        "n": {
+          "min": 0,
+          "max": 5
+        },
+        "V2": {
+          "min": 100,
+          "max": 200,
+          "step": 100
+        },
+        "N2": {
+          "min": 10,
+          "max": 100,
+          "step": 10
+        }
+      },
+      "derived": [
+        {
+          "name": "a",
+          "formula": "2 * (n == 0) + 5 * (n == 1) + 10 * (n == 2) + 30 * (n == 3) + 33 * (n == 4) + 66 * (n == 5)"
+        },
+        {
+          "name": "N1",
+          "formula": "N2 * a"
+        },
+        {
+          "name": "V1",
+          "formula": "V2 * a"
+        }
+      ],
+      "answerFormula": "V1 * N2 / N1",
+      "answerType": "numeric",
+      "unitLabel": "V",
+      "roundTo": 1,
+      "explanation": "巻数比 {N1} ÷ {N2} = {a}。電圧は巻数に比例するので、二次電圧は {V1} ÷ {a} = {answer}V。",
+      "tags": [
+        "計算",
+        "変圧器"
+      ],
+      "srsWeight": 1.0,
+      "hint": "V1 : V2 = N1 : N2。まず巻数比を出す。"
+    },
+    {
+      "id": "F10-t03",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "一次電圧 {V1}V を二次電圧 {V2}V に下げる変圧器を作りたい。一次コイルの巻数が {N1}回のとき、二次コイルの巻数は何回にすればよいか。",
+      "variables": {
+        "n": {
+          "min": 0,
+          "max": 5
+        },
+        "V2": {
+          "min": 100,
+          "max": 200,
+          "step": 100
+        },
+        "N2": {
+          "min": 10,
+          "max": 100,
+          "step": 10
+        }
+      },
+      "derived": [
+        {
+          "name": "a",
+          "formula": "2 * (n == 0) + 5 * (n == 1) + 10 * (n == 2) + 30 * (n == 3) + 33 * (n == 4) + 66 * (n == 5)"
+        },
+        {
+          "name": "N1",
+          "formula": "N2 * a"
+        },
+        {
+          "name": "V1",
+          "formula": "V2 * a"
+        }
+      ],
+      "answerFormula": "N1 * V2 / V1",
+      "answerType": "choice",
+      "unitLabel": "回",
+      "roundTo": 0,
+      "distractors": [
+        "N1 * V1 / V2",
+        "V1 / V2",
+        "N1 * V2 / V1 * 10"
+      ],
+      "explanation": "巻数比 {V1} ÷ {V2} = {a}。二次の巻数は一次の 1/{a}：{N1} ÷ {a} = {answer}回。",
+      "tags": [
+        "計算",
+        "変圧器"
+      ],
+      "srsWeight": 1.0,
+      "hint": "電圧を 1/a にするなら、巻数も 1/a。"
+    },
+    {
+      "id": "F10-t04",
+      "type": "template",
+      "difficulty": 1,
+      "prompt": "一次電圧 {V1}V、二次電圧 {V2}V の変圧器の巻数比（N1 ÷ N2）はいくつか。",
+      "variables": {
+        "V1": {
+          "min": 1100,
+          "max": 6600,
+          "step": 1100
+        },
+        "V2": {
+          "min": 100,
+          "max": 200,
+          "step": 100
+        }
+      },
+      "answerFormula": "V1 / V2",
+      "answerType": "choice",
+      "unitLabel": "",
+      "roundTo": 3,
+      "distractors": [
+        "V2 / V1",
+        "V1 / V2 / 2",
+        "V1 / V2 * 2"
+      ],
+      "explanation": "電圧の比と巻数の比は等しい。巻数比 = {V1} ÷ {V2} = {answer}。",
+      "tags": [
+        "計算",
+        "変圧器"
+      ],
+      "srsWeight": 1.0,
+      "hint": "V1 : V2 = N1 : N2。"
+    },
+    {
+      "id": "F10-q11",
+      "type": "trueFalse",
+      "difficulty": 2,
+      "prompt": "損失のない変圧器で電圧を下げると、二次側の電流は一次側の電流より小さくなる。",
+      "answer": false,
+      "explanation": "誤り。入る電力と出る電力が等しい（V1 × I1 = V2 × I2）ので、電圧を下げると電流は大きくなる。電流は巻数比の逆。",
+      "tags": [
+        "概念",
+        "変圧器"
+      ],
+      "srsWeight": 1.0,
+      "hint": "V1 × I1 = V2 × I2。"
+    },
+    {
+      "id": "F10-t05",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "巻数比 {a}（一次 : 二次 = {a} : 1）の変圧器で、二次側に {I2}A の電流が流れている。一次側の電流は何 A か。損失は考えない。",
+      "variables": {
+        "n": {
+          "min": 0,
+          "max": 5
+        },
+        "I1": {
+          "min": 0.5,
+          "max": 5,
+          "step": 0.5
+        }
+      },
+      "derived": [
+        {
+          "name": "a",
+          "formula": "2 * (n == 0) + 5 * (n == 1) + 10 * (n == 2) + 30 * (n == 3) + 33 * (n == 4) + 66 * (n == 5)"
+        },
+        {
+          "name": "I2",
+          "formula": "I1 * a",
+          "roundTo": 2
+        }
+      ],
+      "answerFormula": "I2 / a",
+      "answerType": "choice",
+      "unitLabel": "A",
+      "roundTo": 2,
+      "distractors": [
+        "I2 * a",
+        "I2",
+        "I2 / a / a"
+      ],
+      "explanation": "電流は巻数比の逆。電圧の高い一次側の電流は小さく、{I2} ÷ {a} = {answer}A。",
+      "tags": [
+        "計算",
+        "変圧器"
+      ],
+      "srsWeight": 1.0,
+      "hint": "巻数の多い側（電圧の高い側）の電流は小さい。"
+    },
+    {
+      "id": "F10-t06",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "一次電圧 {V1}V、二次電圧 {V2}V の変圧器の二次側に、{P}kW の抵抗負荷をつないだ。一次側に流れる電流は何 A か。損失は考えない。",
+      "variables": {
+        "V1": {
+          "min": 6600,
+          "max": 6600
+        },
+        "V2": {
+          "min": 100,
+          "max": 200,
+          "step": 100
+        },
+        "k": {
+          "min": 1,
+          "max": 10
+        }
+      },
+      "derived": [
+        {
+          "name": "P",
+          "formula": "3.3 * k",
+          "roundTo": 1
+        },
+        {
+          "name": "I2",
+          "formula": "P * 1000 / V2",
+          "roundTo": 2
+        },
+        {
+          "name": "a",
+          "formula": "V1 / V2"
+        }
+      ],
+      "answerFormula": "P * 1000 / V1",
+      "answerType": "numeric",
+      "unitLabel": "A",
+      "roundTo": 2,
+      "explanation": "二次電流 {P} × 1000 ÷ {V2} = {I2}A。巻数比 {V1} ÷ {V2} = {a}。一次電流 {I2} ÷ {a} = {answer}A。入る電力 = 出る電力なので、{P} × 1000 ÷ {V1} でも同じ答え。",
+      "tags": [
+        "計算",
+        "変圧器"
+      ],
+      "srsWeight": 1.0,
+      "hint": "kW を W に直す。一次側の電流 = 電力 ÷ 一次電圧。",
+      "tip": "柱上変圧器の一次側（6600V）の電流は、二次側（100V・200V）の電流よりずっと小さい。"
+    },
+    {
+      "id": "F10-q12",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "住宅地の電柱の上の柱上変圧器は、一般にどの電圧をどの電圧に下げているか。",
+      "choices": [
+        "6600V を 100V・200V に",
+        "100V を 6600V に",
+        "200V を 100V に",
+        "66000V を 6600V に"
+      ],
+      "answerIndex": 0,
+      "explanation": "町の電柱の高圧線は 6600V。柱上変圧器で家庭用の 100V・200V に下げる。二次コイルの真ん中から中性線を出して、100V と 200V を同時に取り出す（単相3線式）。",
+      "tags": [
+        "概念",
+        "変圧器"
+      ],
+      "srsWeight": 1.0,
+      "tip": "発電所からは数十万 V で送り、変電所で段階的に下げて、電柱には 6600V で届く。"
+    }
+  ]
+}

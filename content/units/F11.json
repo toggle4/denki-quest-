@@ -1,0 +1,676 @@
+{
+  "schemaVersion": 2,
+  "unit": {
+    "id": "F11",
+    "stage": 0,
+    "order": 11,
+    "title": "交流回路とインピーダンス",
+    "lessonFile": "F11.md",
+    "prerequisites": [
+      "F10"
+    ],
+    "masteryThreshold": 0.95,
+    "legacyUnit": "u11_ac_basics"
+  },
+  "boss": {
+    "id": "F11-boss",
+    "title": "試験型ボス",
+    "description": "制限時間内に6問連続正解でクリア。数値は毎回変わる。",
+    "questionIds": [
+      "F11-t04",
+      "F11-t05",
+      "F11-t06",
+      "F11-t07",
+      "F11-t08",
+      "F11-t09",
+      "F11-t10",
+      "F11-t11",
+      "F11-q02",
+      "F11-q03",
+      "F11-q06"
+    ],
+    "pick": 6,
+    "timeLimitSeconds": 150
+  },
+  "questions": [
+    {
+      "id": "F11-q01",
+      "type": "trueFalse",
+      "difficulty": 1,
+      "prompt": "抵抗だけの交流回路では、電圧と電流は同相（山が同じタイミングで来る）である。",
+      "answer": true,
+      "explanation": "正しい。抵抗では電流が電圧にぴったり合わせて流れる。コイルだけなら電流は 90° 遅れ、コンデンサだけなら 90° 進む。",
+      "tags": [
+        "概念",
+        "位相"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "F11-q02",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "図の A〜D は、交流電圧 v（赤の点線）と電流 i（青）の波形である。コンデンサだけの回路に流れる電流の波形はどれか。",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "answerIndex": 1,
+      "explanation": "コンデンサだけの回路では、電流は電圧より 90° 進む。電流の山が電圧の山より 1/4 周期先（左）に来ている B。A は同相（抵抗）、C は 90° 遅れ（コイル）、D は 180° ずれ。",
+      "tags": [
+        "概念",
+        "位相",
+        "試験型"
+      ],
+      "srsWeight": 1.0,
+      "hint": "コンデンサは進み。山が先（左）に来るのはどれか。",
+      "origin": "CIVIL：C（コンデンサ）では I が V より先。V が I より先なのは L（コイル）。",
+      "figure": "F11_wave_abcd"
+    },
+    {
+      "id": "F11-q03",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "図の A〜D は、交流電圧 v（赤の点線）と電流 i（青）の波形である。コイル（純インダクタンス）だけの回路に流れる電流の波形はどれか。",
+      "choices": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "answerIndex": 2,
+      "explanation": "コイルだけの回路では、電流は電圧より 90° 遅れる。電流の山が電圧の山より 1/4 周期あと（右）に来ている C。B は 90° 進み（コンデンサ）。",
+      "tags": [
+        "概念",
+        "位相",
+        "試験型"
+      ],
+      "srsWeight": 1.0,
+      "hint": "コイルは遅れ。山があと（右）に来るのはどれか。",
+      "origin": "CIVIL：V が I より先なのは L（コイル）。",
+      "figure": "F11_wave_abcd"
+    },
+    {
+      "id": "F11-t01",
+      "type": "template",
+      "difficulty": 1,
+      "prompt": "インダクタンス {L}mH のコイルを {f}Hz の交流で使う。誘導性リアクタンスは何 Ω か。",
+      "variables": {
+        "n": {
+          "min": 0,
+          "max": 1
+        },
+        "L": {
+          "min": 10,
+          "max": 200,
+          "step": 10
+        }
+      },
+      "derived": [
+        {
+          "name": "f",
+          "formula": "50 + 10 * n"
+        },
+        {
+          "name": "Lh",
+          "formula": "L / 1000",
+          "roundTo": 3
+        }
+      ],
+      "answerFormula": "2 * PI * f * Lh",
+      "answerType": "numeric",
+      "unitLabel": "Ω",
+      "roundTo": 1,
+      "explanation": "{L}mH = {Lh}H。XL = 2πfL = 2 × 3.14 × {f} × {Lh} ≒ {answer}Ω。",
+      "tags": [
+        "計算",
+        "リアクタンス"
+      ],
+      "srsWeight": 1.0,
+      "hint": "mH を H に直してから XL = 2πfL。"
+    },
+    {
+      "id": "F11-t02",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "静電容量 {C}μF のコンデンサを {f}Hz の交流で使う。容量性リアクタンスは何 Ω か。",
+      "variables": {
+        "n": {
+          "min": 0,
+          "max": 1
+        },
+        "C": {
+          "min": 10,
+          "max": 200,
+          "step": 10
+        }
+      },
+      "derived": [
+        {
+          "name": "f",
+          "formula": "50 + 10 * n"
+        },
+        {
+          "name": "w",
+          "formula": "2 * PI * f * C",
+          "roundTo": 0
+        }
+      ],
+      "answerFormula": "1000000 / (2 * PI * f * C)",
+      "answerType": "numeric",
+      "unitLabel": "Ω",
+      "roundTo": 1,
+      "explanation": "{C}μF = {C} ÷ 1000000 F。XC = 1 ÷ (2πfC) = 1000000 ÷ (2 × 3.14 × {f} × {C}) ≒ 1000000 ÷ {w} ≒ {answer}Ω。",
+      "tags": [
+        "計算",
+        "リアクタンス"
+      ],
+      "srsWeight": 1.0,
+      "hint": "μF は 1000000 で割って F に直す。XC = 1 ÷ (2πfC)。"
+    },
+    {
+      "id": "F11-t03",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "{f1}Hz で誘導性リアクタンスが {X1}Ω のコイルを、{f2}Hz の電源で使う。リアクタンスは何 Ω になるか。",
+      "variables": {
+        "n": {
+          "min": 0,
+          "max": 1
+        },
+        "X1": {
+          "min": 30,
+          "max": 120,
+          "step": 30
+        }
+      },
+      "derived": [
+        {
+          "name": "f1",
+          "formula": "50 + 10 * n"
+        },
+        {
+          "name": "f2",
+          "formula": "110 - f1"
+        }
+      ],
+      "answerFormula": "X1 * f2 / f1",
+      "answerType": "choice",
+      "unitLabel": "Ω",
+      "roundTo": 1,
+      "distractors": [
+        "X1 * f1 / f2",
+        "X1",
+        "X1 * f2 / f1 * f2 / f1"
+      ],
+      "explanation": "XL = 2πfL は周波数に比例する。{X1} × {f2} ÷ {f1} = {answer}Ω。",
+      "tags": [
+        "計算",
+        "リアクタンス"
+      ],
+      "srsWeight": 1.0,
+      "hint": "コイルのリアクタンスは周波数に比例する。",
+      "tip": "東日本（50Hz）と西日本（60Hz）で、同じコイルのリアクタンスは 1.2 倍違う。"
+    },
+    {
+      "id": "F11-q04",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "50Hz の電源で使っていたコンデンサを、60Hz の電源で使う。容量性リアクタンスはどうなるか。",
+      "choices": [
+        "小さくなる（50/60 倍）",
+        "大きくなる（60/50 倍）",
+        "変わらない",
+        "0 になる"
+      ],
+      "answerIndex": 0,
+      "explanation": "XC = 1 ÷ (2πfC) は周波数に反比例する。60Hz では 50 ÷ 60 ≒ 0.83 倍に小さくなる。コイルの XL は逆に 1.2 倍に大きくなる。",
+      "tags": [
+        "概念",
+        "リアクタンス"
+      ],
+      "srsWeight": 1.0,
+      "hint": "f が分母にある式。"
+    },
+    {
+      "id": "F11-t04",
+      "type": "template",
+      "difficulty": 1,
+      "prompt": "抵抗 {R}Ω と、誘導性リアクタンス {X}Ω のコイルを直列につないだ。回路のインピーダンスは何 Ω か。",
+      "variables": {
+        "n": {
+          "min": 0,
+          "max": 5
+        },
+        "k": {
+          "min": 1,
+          "max": 3
+        }
+      },
+      "derived": [
+        {
+          "name": "R",
+          "formula": "k * (3 * (n == 0) + 4 * (n == 1) + 6 * (n == 2) + 8 * (n == 3) + 5 * (n == 4) + 12 * (n == 5))"
+        },
+        {
+          "name": "X",
+          "formula": "k * (4 * (n == 0) + 3 * (n == 1) + 8 * (n == 2) + 6 * (n == 3) + 12 * (n == 4) + 5 * (n == 5))"
+        },
+        {
+          "name": "R2",
+          "formula": "R * R"
+        },
+        {
+          "name": "X2",
+          "formula": "X * X"
+        }
+      ],
+      "answerFormula": "sqrt(R * R + X * X)",
+      "answerType": "choice",
+      "unitLabel": "Ω",
+      "roundTo": 1,
+      "distractors": [
+        "R + X",
+        "R * X / (R + X)",
+        "sqrt(abs(R * R - X * X))"
+      ],
+      "explanation": "R と X は直角三角形で合わせる。Z = √({R}² + {X}²) = √({R2} + {X2}) = {answer}Ω。足し算の {R} + {X} ではない。",
+      "tags": [
+        "計算",
+        "インピーダンス"
+      ],
+      "srsWeight": 1.0,
+      "hint": "Z = √(R² + X²)。2乗して足してから √。"
+    },
+    {
+      "id": "F11-t05",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "抵抗 {R}Ω と誘導性リアクタンス {X}Ω を直列にした回路に、{V}V の交流電圧を加えた。流れる電流は何 A か。",
+      "variables": {
+        "n": {
+          "min": 0,
+          "max": 5
+        },
+        "V": {
+          "min": 100,
+          "max": 200,
+          "step": 100
+        }
+      },
+      "derived": [
+        {
+          "name": "R",
+          "formula": "3 * (n == 0) + 4 * (n == 1) + 6 * (n == 2) + 8 * (n == 3) + 12 * (n == 4) + 16 * (n == 5)"
+        },
+        {
+          "name": "X",
+          "formula": "4 * (n == 0) + 3 * (n == 1) + 8 * (n == 2) + 6 * (n == 3) + 16 * (n == 4) + 12 * (n == 5)"
+        },
+        {
+          "name": "Z",
+          "formula": "sqrt(R * R + X * X)",
+          "roundTo": 2
+        }
+      ],
+      "answerFormula": "V / Z",
+      "answerType": "numeric",
+      "unitLabel": "A",
+      "roundTo": 1,
+      "explanation": "Z = √({R}² + {X}²) = {Z}Ω。I = V ÷ Z = {V} ÷ {Z} = {answer}A。",
+      "tags": [
+        "計算",
+        "インピーダンス"
+      ],
+      "srsWeight": 1.0,
+      "hint": "まず Z を出す。交流のオームの法則は I = V ÷ Z。"
+    },
+    {
+      "id": "F11-q05",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "交流回路で、電圧 × 電流（V × I）で求まる値を何というか。",
+      "choices": [
+        "皮相電力",
+        "有効電力（消費電力）",
+        "無効電力",
+        "力率"
+      ],
+      "answerIndex": 0,
+      "explanation": "V × I は皮相電力（単位 V·A）。実際に消費される有効電力は V × I × cosθ（W）、無効電力は V × I × sinθ（var）。",
+      "tags": [
+        "概念",
+        "力率"
+      ],
+      "srsWeight": 1.0,
+      "origin": "皮相（ひそう）＝ 表面だけ。見かけの電力、という意味。英語では apparent power。"
+    },
+    {
+      "id": "F11-t06",
+      "type": "template",
+      "difficulty": 1,
+      "prompt": "{V}V の交流電源につないだ負荷に {I}A の電流が流れている。負荷の力率が {pp}% のとき、消費電力は何 W か。",
+      "variables": {
+        "V": {
+          "min": 100,
+          "max": 200,
+          "step": 100
+        },
+        "I": {
+          "min": 2,
+          "max": 20
+        },
+        "pp": {
+          "min": 60,
+          "max": 95,
+          "step": 5
+        }
+      },
+      "derived": [
+        {
+          "name": "pf",
+          "formula": "pp / 100"
+        },
+        {
+          "name": "S",
+          "formula": "V * I"
+        }
+      ],
+      "answerFormula": "V * I * pf",
+      "answerType": "numeric",
+      "unitLabel": "W",
+      "roundTo": 1,
+      "explanation": "P = V × I × cosθ = {V} × {I} × {pf} = {answer}W。{V} × {I} = {S}V·A は皮相電力で、消費電力ではない。",
+      "tags": [
+        "計算",
+        "力率"
+      ],
+      "srsWeight": 1.0,
+      "hint": "P = V × I × cosθ。% は 100 で割る。"
+    },
+    {
+      "id": "F11-t07",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "抵抗 {R}Ω と誘導性リアクタンス {X}Ω を直列にした回路に、{V}V の交流電圧を加えた。回路の消費電力は何 W か。",
+      "variables": {
+        "n": {
+          "min": 0,
+          "max": 5
+        },
+        "V": {
+          "min": 100,
+          "max": 200,
+          "step": 100
+        }
+      },
+      "derived": [
+        {
+          "name": "R",
+          "formula": "3 * (n == 0) + 4 * (n == 1) + 6 * (n == 2) + 8 * (n == 3) + 12 * (n == 4) + 16 * (n == 5)"
+        },
+        {
+          "name": "X",
+          "formula": "4 * (n == 0) + 3 * (n == 1) + 8 * (n == 2) + 6 * (n == 3) + 16 * (n == 4) + 12 * (n == 5)"
+        },
+        {
+          "name": "Z",
+          "formula": "sqrt(R * R + X * X)",
+          "roundTo": 2
+        },
+        {
+          "name": "I",
+          "formula": "V / Z",
+          "roundTo": 2
+        },
+        {
+          "name": "pf",
+          "formula": "R / Z",
+          "roundTo": 2
+        }
+      ],
+      "answerFormula": "I * I * R",
+      "answerType": "choice",
+      "unitLabel": "W",
+      "roundTo": 0,
+      "distractors": [
+        "V * I",
+        "I * I * X",
+        "V * V / R"
+      ],
+      "explanation": "Z = √({R}² + {X}²) = {Z}Ω。I = {V} ÷ {Z} = {I}A。電力を消費するのは抵抗だけなので P = I² × R = {I} × {I} × {R} = {answer}W（力率 {R} ÷ {Z} = {pf} を使って {V} × {I} × {pf} でも同じ）。",
+      "tags": [
+        "計算",
+        "力率",
+        "試験型"
+      ],
+      "srsWeight": 1.0,
+      "hint": "Z → I → P = I² × R の順。V × I は皮相電力。"
+    },
+    {
+      "id": "F11-t08",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "抵抗 {R}Ω と誘導性リアクタンス {X}Ω を直列にした回路の力率は何 % か。",
+      "variables": {
+        "n": {
+          "min": 0,
+          "max": 7
+        }
+      },
+      "derived": [
+        {
+          "name": "R",
+          "formula": "3 * (n == 0) + 4 * (n == 1) + 6 * (n == 2) + 8 * (n == 3) + 5 * (n == 4) + 12 * (n == 5) + 7 * (n == 6) + 24 * (n == 7)"
+        },
+        {
+          "name": "X",
+          "formula": "4 * (n == 0) + 3 * (n == 1) + 8 * (n == 2) + 6 * (n == 3) + 12 * (n == 4) + 5 * (n == 5) + 24 * (n == 6) + 7 * (n == 7)"
+        },
+        {
+          "name": "Z",
+          "formula": "sqrt(R * R + X * X)",
+          "roundTo": 2
+        }
+      ],
+      "answerFormula": "R / Z * 100",
+      "answerType": "choice",
+      "unitLabel": "%",
+      "roundTo": 1,
+      "distractors": [
+        "X / Z * 100",
+        "R / (R + X) * 100",
+        "R * R / (Z * Z) * 100"
+      ],
+      "explanation": "Z = √({R}² + {X}²) = {Z}Ω。力率 cosθ = R ÷ Z = {R} ÷ {Z}。% にすると {answer}%。",
+      "tags": [
+        "計算",
+        "力率"
+      ],
+      "srsWeight": 1.0,
+      "hint": "力率 = R ÷ Z。X ÷ Z ではない。"
+    },
+    {
+      "id": "F11-t09",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "抵抗とコイルを直列にした負荷に交流電圧を加えたところ、電源電圧 {V}V、抵抗の両端の電圧 {VR}V、コイルの両端の電圧 {VX}V だった。この負荷の力率は何 % か。",
+      "variables": {
+        "n": {
+          "min": 0,
+          "max": 3
+        },
+        "k": {
+          "min": 1,
+          "max": 2
+        }
+      },
+      "derived": [
+        {
+          "name": "VR",
+          "formula": "k * (80 * (n == 0) + 60 * (n == 1) + 96 * (n == 2) + 28 * (n == 3))"
+        },
+        {
+          "name": "VX",
+          "formula": "k * (60 * (n == 0) + 80 * (n == 1) + 28 * (n == 2) + 96 * (n == 3))"
+        },
+        {
+          "name": "V",
+          "formula": "100 * k"
+        }
+      ],
+      "answerFormula": "VR / V * 100",
+      "answerType": "choice",
+      "unitLabel": "%",
+      "roundTo": 0,
+      "distractors": [
+        "VX / V * 100",
+        "VR / (VR + VX) * 100",
+        "(V - VX) / V * 100"
+      ],
+      "explanation": "抵抗とコイルの電圧は 90° ずれているので、足し算ではなく直角三角形で合わさる（√({VR}² + {VX}²) = {V}V）。力率 = 抵抗の電圧 ÷ 電源電圧 = {VR} ÷ {V}、% にすると {answer}%。",
+      "tags": [
+        "計算",
+        "力率",
+        "試験型"
+      ],
+      "srsWeight": 1.0,
+      "hint": "直列なので電流は共通。力率 = VR ÷ V。"
+    },
+    {
+      "id": "F11-t10",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "抵抗 {R}Ω とコイルを並列にして交流電源につないだ。抵抗に流れる電流が {IR}A、コイルに流れる電流が {IX}A のとき、回路の消費電力は何 W か。",
+      "variables": {
+        "IR": {
+          "min": 2,
+          "max": 10
+        },
+        "IX": {
+          "min": 2,
+          "max": 10
+        },
+        "R": {
+          "min": 5,
+          "max": 25,
+          "step": 5
+        }
+      },
+      "derived": [
+        {
+          "name": "V",
+          "formula": "IR * R"
+        }
+      ],
+      "constraints": [
+        "IR != IX",
+        "V >= 50",
+        "V <= 200"
+      ],
+      "answerFormula": "IR * IR * R",
+      "answerType": "choice",
+      "unitLabel": "W",
+      "roundTo": 0,
+      "distractors": [
+        "(IR + IX) * (IR + IX) * R",
+        "(IR * IR + IX * IX) * R",
+        "IX * IX * R"
+      ],
+      "explanation": "電力を消費するのは抵抗だけ。P = {IR}² × {R} = {IR} × {IR} × {R} = {answer}W。コイルの電流 {IX}A は電力を消費しない（電源電圧は {IR} × {R} = {V}V なので、{V} × {IR} でも同じ）。",
+      "tags": [
+        "計算",
+        "力率",
+        "試験型"
+      ],
+      "srsWeight": 1.0,
+      "hint": "消費電力は、抵抗に流れる電流だけで決まる。"
+    },
+    {
+      "id": "F11-q06",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "モーター（誘導性負荷）と並列に力率改善用コンデンサを接続して、力率を 100% に改善した。電源側に入れた電流計の指示はどうなるか。",
+      "choices": [
+        "小さくなる",
+        "大きくなる",
+        "変わらない",
+        "0 になる"
+      ],
+      "answerIndex": 0,
+      "explanation": "コンデンサの進み電流が、モーターの遅れ分の電流を打ち消すので、電源側の電流は小さくなる（元の電流 × 力率）。モーター自身の電流と消費電力は変わらない。",
+      "tags": [
+        "概念",
+        "力率改善",
+        "試験型"
+      ],
+      "srsWeight": 1.0,
+      "hint": "打ち消されるのは、仕事をしない遅れ分の電流。"
+    },
+    {
+      "id": "F11-q07",
+      "type": "trueFalse",
+      "difficulty": 1,
+      "prompt": "力率改善用の進相コンデンサは、モーターと直列に接続する。",
+      "answer": false,
+      "explanation": "誤り。進相コンデンサは負荷と並列に接続する。並列に入れたコンデンサの進み電流が、負荷の遅れ電流を打ち消す。",
+      "tags": [
+        "概念",
+        "力率改善"
+      ],
+      "srsWeight": 1.0,
+      "tip": "電力会社との契約によっては、力率が良いと基本料金が割り引かれる。工場のモーター回路には進相コンデンサがよく付いている。"
+    },
+    {
+      "id": "F11-t11",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "{V}V の交流電源につないだ力率 {pp}% の誘導性負荷（モーター）に {I}A 流れている。負荷と並列にコンデンサを入れて力率を 100% に改善した。電源から流れる電流は何 A になるか。",
+      "variables": {
+        "V": {
+          "min": 100,
+          "max": 200,
+          "step": 100
+        },
+        "I": {
+          "min": 10,
+          "max": 50,
+          "step": 10
+        },
+        "pp": {
+          "min": 60,
+          "max": 90,
+          "step": 10
+        }
+      },
+      "derived": [
+        {
+          "name": "pf",
+          "formula": "pp / 100"
+        },
+        {
+          "name": "P",
+          "formula": "V * I * pf"
+        }
+      ],
+      "answerFormula": "I * pf",
+      "answerType": "choice",
+      "unitLabel": "A",
+      "roundTo": 1,
+      "distractors": [
+        "I",
+        "I * (1 - pf)",
+        "I / pf"
+      ],
+      "explanation": "仕事をする分の電流は {I} × {pf} = {answer}A。遅れ分の電流はコンデンサが打ち消すので、電源側の電流は {answer}A に減る。消費電力 {V} × {I} × {pf} = {P}W は改善の前後で変わらない。",
+      "tags": [
+        "計算",
+        "力率改善"
+      ],
+      "srsWeight": 1.0,
+      "hint": "力率 100% の電流 = 元の電流 × 力率。"
+    }
+  ]
+}
