@@ -136,7 +136,8 @@
       "distractors": [
         "R1 / k",
         "R1 * A",
-        "R1 / 2"
+        "R1 / 2",
+        "R1 * k"
       ],
       "explanation": "直径の倍率 {d2} ÷ {d1} = {k}。断面積の倍率 {k} × {k} ≒ {A}。抵抗は {R1} ÷ {A} ≒ {answer}Ω。",
       "tags": [

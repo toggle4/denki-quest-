@@ -15,6 +15,8 @@ errors = []
 seen_ids = set()
 V2_TYPES = {"multipleChoice", "numericInput", "trueFalse", "matching", "imageChoice", "template"}
 v2_total = 0
+v2_ids = set()
+boss_refs = []
 
 
 def validate_v2(path, unit, err):
@@ -77,9 +79,10 @@ def validate_v2(path, unit, err):
                 err(f"{qid}: choice 形式は distractors が 3 つ以上必要")
     boss = unit.get("boss")
     if boss:
+        # ボスは他の単元の問題も使える（ステージの総合ボスなど）。全ファイルを読んだあとで調べる
         for qid in boss.get("questionIds", []):
-            if qid not in ids:
-                err(f"boss.questionIds の {qid} が存在しない")
+            boss_refs.append((path.name, qid))
+    v2_ids.update(ids)
 seen_orders = set()
 total = 0
 by_type = {}
@@ -152,6 +155,10 @@ for path in sorted(UNITS.glob("*.json")):
                 err(f"{qid}: tolerance が数値でない")
         if "hint" in q and not isinstance(q["hint"], str):
             err(f"{qid}: hint が文字列でない")
+
+for name, qid in boss_refs:
+    if qid not in v2_ids:
+        errors.append(f"{name}: boss.questionIds の {qid} が新形式の問題にない")
 
 if errors:
     print("\n".join(errors))
