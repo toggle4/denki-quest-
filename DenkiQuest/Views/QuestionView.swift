@@ -29,9 +29,25 @@ struct QuestionView: View {
 
                 switch item.question.type {
                 case .choice:
-                    VStack(spacing: 10) {
-                        ForEach(Array(item.choices.enumerated()), id: \.offset) { index, choice in
-                            choiceButton(index: index, choice: choice)
+                    if let images = item.choiceImages {
+                        ImageChoiceGrid(
+                            images: images,
+                            captions: item.choices,
+                            correctIndex: item.correctIndex,
+                            selectedIndex: session.selectedIndex,
+                            revealed: session.hasAnswered,
+                            onSelect: { index in
+                                session.answerChoice(index)
+                                reactToAnswer()
+                            }
+                        )
+                        .scaleEffect(session.hasAnswered && session.isCurrentCorrect ? correctScale : 1.0)
+                        .offset(x: session.hasAnswered && !session.isCurrentCorrect ? shakeOffset : 0)
+                    } else {
+                        VStack(spacing: 10) {
+                            ForEach(Array(item.choices.enumerated()), id: \.offset) { index, choice in
+                                choiceButton(index: index, choice: choice)
+                            }
                         }
                     }
                 case .truefalse:
@@ -107,6 +123,8 @@ struct QuestionView: View {
 
     private var typeBadge: (label: String, icon: String) {
         switch item.question.type {
+        case .choice where item.choiceImages != nil: return ("図を選ぶ", "square.grid.2x2")
+        case .choice where item.question.image != nil: return ("図を見て選ぶ", "photo")
         case .choice: return ("4 択", "list.bullet")
         case .truefalse: return ("○×", "circle.circle")
         case .number: return ("数値入力", "number")
@@ -475,5 +493,122 @@ struct QuestionFigureView: View {
                 .font(.caption)
                 .foregroundStyle(Theme.textSecondary)
         }
+    }
+}
+
+/// 選択肢が図のときの 2 列の格子（imageChoice）。ドリル・教材・ボス戦で共用。
+/// 回答後は正解を緑、選んだ誤答を赤で囲み、各図の名前（captions）を出す。
+struct ImageChoiceGrid: View {
+    let images: [String]
+    let captions: [String]
+    let correctIndex: Int
+    let selectedIndex: Int?
+    let revealed: Bool
+    var compact: Bool = false
+    let onSelect: (Int) -> Void
+
+    private let labels = ["ア", "イ", "ウ", "エ", "オ", "カ"]
+
+    var body: some View {
+        LazyVGrid(columns: [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)], spacing: 10) {
+            ForEach(Array(images.enumerated()), id: \.offset) { index, name in
+                tile(index: index, name: name)
+            }
+        }
+    }
+
+    private func tile(index: Int, name: String) -> some View {
+        Button {
+            onSelect(index)
+        } label: {
+            VStack(spacing: 6) {
+                ZStack(alignment: .topLeading) {
+                    figure(name)
+                    Text(labels[index % labels.count])
+                        .font(.caption.bold())
+                        .foregroundStyle(labelColor(index))
+                        .frame(width: 24, height: 24)
+                        .background(labelBackground(index), in: Circle())
+                        .padding(6)
+                }
+                if revealed, captions.indices.contains(index), !captions[index].isEmpty {
+                    Text(captions[index])
+                        .font(.caption.bold())
+                        .foregroundStyle(index == correctIndex ? Theme.correct : Theme.textSecondary)
+                        .multilineTextAlignment(.center)
+                        .lineLimit(2)
+                        .minimumScaleFactor(0.8)
+                        .frame(maxWidth: .infinity)
+                        .transition(.opacity)
+                }
+            }
+            .padding(6)
+            .gameCard(tint: tint(index), border: border(index))
+            .overlay(alignment: .topTrailing) {
+                if let icon = resultIcon(index) {
+                    Image(systemName: icon)
+                        .font(.title3)
+                        .foregroundStyle(index == correctIndex ? Theme.correct : Theme.wrong)
+                        .background(Circle().fill(Color.white))
+                        .padding(10)
+                }
+            }
+        }
+        .buttonStyle(.plain)
+        .disabled(revealed)
+        .accessibilityLabel(Text("\(labels[index % labels.count])"))
+    }
+
+    @ViewBuilder
+    private func figure(_ name: String) -> some View {
+        if UIImage(named: name) != nil {
+            Image(name)
+                .resizable()
+                .scaledToFit()
+                .frame(maxWidth: .infinity)
+                .frame(height: compact ? 96 : 128)
+                .background(Color.white, in: RoundedRectangle(cornerRadius: 10))
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+        } else {
+            Label(name, systemImage: "photo.artframe")
+                .font(.caption2)
+                .foregroundStyle(Theme.textSecondary)
+                .frame(maxWidth: .infinity)
+                .frame(height: compact ? 96 : 128)
+        }
+    }
+
+    private func resultIcon(_ index: Int) -> String? {
+        guard revealed else { return nil }
+        if index == correctIndex { return "checkmark.circle.fill" }
+        if index == selectedIndex { return "xmark.circle.fill" }
+        return nil
+    }
+
+    private func tint(_ index: Int) -> Color {
+        guard revealed else { return .clear }
+        if index == correctIndex { return Theme.correct.opacity(0.18) }
+        if index == selectedIndex { return Theme.wrong.opacity(0.18) }
+        return .clear
+    }
+
+    private func border(_ index: Int) -> Color {
+        guard revealed else { return Theme.cardBorder }
+        if index == correctIndex { return Theme.correct }
+        if index == selectedIndex { return Theme.wrong }
+        return Theme.cardBorder.opacity(0.5)
+    }
+
+    private func labelColor(_ index: Int) -> Color {
+        guard revealed else { return Theme.backgroundBottom }
+        if index == correctIndex || index == selectedIndex { return Theme.backgroundBottom }
+        return Theme.textSecondary
+    }
+
+    private func labelBackground(_ index: Int) -> Color {
+        guard revealed else { return Theme.volt }
+        if index == correctIndex { return Theme.correct }
+        if index == selectedIndex { return Theme.wrong }
+        return Color.white.opacity(0.6)
     }
 }

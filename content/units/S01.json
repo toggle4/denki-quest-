@@ -1,0 +1,431 @@
+{
+  "schemaVersion": 2,
+  "unit": {
+    "id": "S01",
+    "stage": 1,
+    "order": 1,
+    "title": "配線用図記号（照明・スイッチ・コンセント）",
+    "lessonFile": "S01.md",
+    "prerequisites": [
+      "F06"
+    ],
+    "masteryThreshold": 0.9,
+    "legacyUnit": "u03_symbols"
+  },
+  "questions": [
+    {
+      "id": "S01-q01",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "「確認表示灯内蔵スイッチ」の図記号はどれか。",
+      "choiceImages": [
+        "sym_switch_L",
+        "sym_switch_H",
+        "sym_switch_P",
+        "sym_switch_A"
+      ],
+      "choices": [
+        "確認表示灯内蔵（L）",
+        "位置表示灯内蔵（H）",
+        "プルスイッチ（P）",
+        "自動点滅器（A）"
+      ],
+      "answerIndex": 0,
+      "explanation": "確認表示灯内蔵は傍記 L。スイッチが入のときに光り、負荷が動いていることを知らせる。H は位置表示灯内蔵で、切のときに光る。",
+      "tags": [
+        "図記号",
+        "スイッチ"
+      ],
+      "srsWeight": 1.0,
+      "hint": "入っていることを「確認」させるランプ。",
+      "origin": "L = Lamp（点いているのを知らせるランプ）"
+    },
+    {
+      "id": "S01-q02",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "この図記号のスイッチはどれか。",
+      "figure": "sym_switch_H",
+      "choices": [
+        "位置表示灯内蔵スイッチ（切のとき光る）",
+        "確認表示灯内蔵スイッチ（入のとき光る）",
+        "熱線式自動スイッチ",
+        "防雨形スイッチ"
+      ],
+      "answerIndex": 0,
+      "explanation": "傍記 H は位置表示灯内蔵。スイッチが切のときに光り、暗い所でもスイッチの位置が分かる（ほたるスイッチ）。",
+      "tags": [
+        "図記号",
+        "スイッチ"
+      ],
+      "srsWeight": 1.0,
+      "hint": "H は「ほたる」。",
+      "tip": "寝室や廊下のスイッチでよく見る、切っているときに緑色に光るもの。"
+    },
+    {
+      "id": "S01-q03",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "「3路スイッチ」の図記号はどれか。",
+      "choiceImages": [
+        "sym_switch_3way",
+        "sym_switch_4way",
+        "sym_switch_2P",
+        "sym_switch"
+      ],
+      "choices": [
+        "3路スイッチ",
+        "4路スイッチ",
+        "2極スイッチ（両切）",
+        "単極スイッチ（片切）"
+      ],
+      "answerIndex": 0,
+      "explanation": "3路スイッチは ● に傍記 3。2 か所から点け消しするときに 2 個 1 組で使う。4 は 4路、2P は 2極。",
+      "tags": [
+        "図記号",
+        "スイッチ"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S01-q04",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "この図記号の器具はどれか。",
+      "figure": "sym_switch_RAS",
+      "choices": [
+        "熱線式自動スイッチ（人が近づくと点く）",
+        "自動点滅器（暗くなると点く）",
+        "リモコンスイッチ",
+        "遅延スイッチ"
+      ],
+      "answerIndex": 0,
+      "explanation": "傍記 RAS は熱線式自動スイッチ。人の体から出る赤外線（熱線）を感じて照明を点ける。自動点滅器は A、リモコンは R、遅延は D。",
+      "tags": [
+        "図記号",
+        "スイッチ"
+      ],
+      "srsWeight": 1.0,
+      "hint": "人の「熱」を感じるスイッチ。"
+    },
+    {
+      "id": "S01-q05",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "「調光器」の図記号はどれか。",
+      "choiceImages": [
+        "sym_dimmer",
+        "sym_switch_D",
+        "sym_switch_T",
+        "sym_switch_R"
+      ],
+      "choices": [
+        "調光器",
+        "遅延スイッチ（D）",
+        "タイマ付スイッチ（T）",
+        "リモコンスイッチ（R）"
+      ],
+      "answerIndex": 0,
+      "explanation": "調光器は傍記ではなく、● に斜めの矢印を重ねて描く。明るさを変えられることを矢印で表す。",
+      "tags": [
+        "図記号",
+        "スイッチ"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S01-q06",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "この図記号のコンセントはどれか。",
+      "figure": "sym_outlet_ET",
+      "choices": [
+        "接地端子付コンセント",
+        "接地極付コンセント",
+        "漏電遮断器付コンセント",
+        "抜け止め形コンセント"
+      ],
+      "answerIndex": 0,
+      "explanation": "傍記 ET は接地端子付（Earth Terminal）。接地極付は E、両方あるものは EET、漏電遮断器付は EL、抜け止め形は LK。",
+      "tags": [
+        "図記号",
+        "コンセント"
+      ],
+      "srsWeight": 1.0,
+      "origin": "ET = Earth Terminal（接地端子）"
+    },
+    {
+      "id": "S01-q07",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "「防雨形で抜け止め形のコンセント」の図記号はどれか。",
+      "choiceImages": [
+        "sym_outlet_WP_LK",
+        "sym_outlet_WP",
+        "sym_outlet_LK",
+        "sym_outlet_T"
+      ],
+      "choices": [
+        "防雨形・抜け止め形（WP・LK）",
+        "防雨形（WP）",
+        "抜け止め形（LK）",
+        "引掛形（T）"
+      ],
+      "answerIndex": 0,
+      "explanation": "傍記は重ねて書ける。WP（防雨形）と LK（抜け止め形）の両方が付いたものが正解。",
+      "tags": [
+        "図記号",
+        "コンセント"
+      ],
+      "srsWeight": 1.0,
+      "origin": "WP = Water Proof（防水・防雨）、LK = LocK（抜け止め）"
+    },
+    {
+      "id": "S01-q08",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "「接地極付コンセント」の図記号はどれか。",
+      "choiceImages": [
+        "sym_outlet_E",
+        "sym_outlet_ET",
+        "sym_outlet_EL",
+        "sym_outlet_EET"
+      ],
+      "choices": [
+        "接地極付（E）",
+        "接地端子付（ET）",
+        "漏電遮断器付（EL）",
+        "接地極付接地端子付（EET）"
+      ],
+      "answerIndex": 0,
+      "explanation": "接地極付は傍記 E。プラグの接地極（3 本目の刃）を差す穴がある。",
+      "tags": [
+        "図記号",
+        "コンセント"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S01-q09",
+      "type": "imageChoice",
+      "difficulty": 2,
+      "prompt": "この図記号のコンセントはどれか。",
+      "figure": "sym_outlet_E_20A_250V",
+      "choices": [
+        "接地極付 20A 250V コンセント",
+        "接地端子付 20A 250V コンセント",
+        "接地極付 20A 125V コンセント",
+        "漏電遮断器付 20A 250V コンセント"
+      ],
+      "answerIndex": 0,
+      "explanation": "E = 接地極付、20A = 定格電流、250V = 定格電圧。エアコンや IH など 200V の機器用のコンセント。",
+      "tags": [
+        "図記号",
+        "コンセント"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S01-q10",
+      "type": "trueFalse",
+      "difficulty": 1,
+      "prompt": "傍記のないコンセントの図記号は、15A 125V の 1 口コンセントを表す。",
+      "answer": true,
+      "explanation": "正しい。定格や口数が違うときだけ、20A・250V・2 などの傍記を書く。",
+      "tags": [
+        "図記号",
+        "コンセント"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S01-q11",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "この図記号のコンセントはどれか。",
+      "figure": "sym_outlet_2",
+      "choices": [
+        "2 口コンセント",
+        "20A コンセント",
+        "2 極コンセント",
+        "2 階に付けるコンセント"
+      ],
+      "answerIndex": 0,
+      "explanation": "コンセントに添えた数字は口数。2 なら差し込み口が 2 つ。20A は「20A」と単位まで書く。",
+      "tags": [
+        "図記号",
+        "コンセント"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S01-q12",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "「ペンダント」の図記号はどれか。",
+      "choiceImages": [
+        "sym_pendant",
+        "sym_light_CL",
+        "sym_bracket",
+        "sym_fan"
+      ],
+      "choices": [
+        "ペンダント",
+        "シーリング（CL）",
+        "壁付の照明",
+        "換気扇"
+      ],
+      "answerIndex": 0,
+      "explanation": "ペンダント（コードで吊り下げる照明）は ○ に横線。壁付は壁側を塗る、換気扇は ○ に ∞。",
+      "tags": [
+        "図記号",
+        "照明"
+      ],
+      "srsWeight": 1.0,
+      "origin": "pendant = 吊り下げたもの"
+    },
+    {
+      "id": "S01-q13",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "この図記号の照明器具はどれか。",
+      "figure": "sym_light_DL",
+      "choices": [
+        "ダウンライト（埋込器具）",
+        "シャンデリヤ",
+        "シーリング（天井直付）",
+        "蛍光灯"
+      ],
+      "answerIndex": 0,
+      "explanation": "傍記 DL はダウンライト。天井に埋め込んで下を照らす照明。CH はシャンデリヤ、CL はシーリング。",
+      "tags": [
+        "図記号",
+        "照明"
+      ],
+      "srsWeight": 1.0,
+      "origin": "DL = Down Light"
+    },
+    {
+      "id": "S01-q14",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "「壁付の照明（ブラケット）」の図記号はどれか。",
+      "choiceImages": [
+        "sym_bracket",
+        "sym_pendant",
+        "sym_light",
+        "sym_fluorescent"
+      ],
+      "choices": [
+        "壁付の照明",
+        "ペンダント",
+        "照明器具（白熱灯など）",
+        "蛍光灯"
+      ],
+      "answerIndex": 0,
+      "explanation": "壁付は、壁に接する側の半分を黒く塗る。",
+      "tags": [
+        "図記号",
+        "照明"
+      ],
+      "srsWeight": 1.0,
+      "hint": "壁側を塗る。"
+    },
+    {
+      "id": "S01-q15",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "照明器具の図記号に傍記「CH」がある。どの照明器具か。",
+      "choices": [
+        "シャンデリヤ",
+        "シーリング（天井直付）",
+        "ダウンライト",
+        "ペンダント"
+      ],
+      "answerIndex": 0,
+      "explanation": "CH = シャンデリヤ（CHandelier）。CL = シーリング、DL = ダウンライト。ペンダントは傍記ではなく ○ に横線で描く。",
+      "tags": [
+        "図記号",
+        "照明"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S01-q16",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "「換気扇」の図記号はどれか。",
+      "choiceImages": [
+        "sym_fan",
+        "sym_motor",
+        "sym_light",
+        "sym_pushbutton"
+      ],
+      "choices": [
+        "換気扇",
+        "電動機",
+        "照明器具",
+        "押しボタン"
+      ],
+      "answerIndex": 0,
+      "explanation": "換気扇は ○ の中に ∞（羽根の形）。○ に M は電動機、○ の中に ● は押しボタン。",
+      "tags": [
+        "図記号",
+        "機器"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S01-q17",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "「自動点滅器」を表すスイッチの傍記はどれか。",
+      "choices": [
+        "A",
+        "H",
+        "L",
+        "P"
+      ],
+      "answerIndex": 0,
+      "explanation": "自動点滅器は A（Automatic）。周囲が暗くなると点け、明るくなると消す。H は位置表示灯内蔵、L は確認表示灯内蔵、P はプルスイッチ。",
+      "tags": [
+        "図記号",
+        "スイッチ"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S01-q18",
+      "type": "trueFalse",
+      "difficulty": 1,
+      "prompt": "傍記 H のスイッチは、スイッチが「入」のときに内蔵のランプが光る。",
+      "answer": false,
+      "explanation": "誤り。H（位置表示灯内蔵）は「切」のときに光る。「入」のときに光るのは L（確認表示灯内蔵）。",
+      "tags": [
+        "図記号",
+        "スイッチ"
+      ],
+      "srsWeight": 1.0,
+      "hint": "H はほたる。暗いときにスイッチの場所を知らせる。"
+    }
+  ],
+  "boss": {
+    "id": "S01-boss",
+    "title": "試験型ボス",
+    "description": "制限時間内に6問連続正解でクリア。図記号や写真の代わりの図から選ぶ問題も出る。",
+    "questionIds": [
+      "S01-q01",
+      "S01-q02",
+      "S01-q03",
+      "S01-q04",
+      "S01-q06",
+      "S01-q07",
+      "S01-q09",
+      "S01-q12",
+      "S01-q13",
+      "S01-q17"
+    ],
+    "pick": 6,
+    "timeLimitSeconds": 120
+  }
+}

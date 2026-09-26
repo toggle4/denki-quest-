@@ -1,0 +1,342 @@
+{
+  "schemaVersion": 2,
+  "unit": {
+    "id": "S03",
+    "stage": 1,
+    "order": 3,
+    "title": "スイッチ・コンセントの種類と極配置",
+    "lessonFile": "S03.md",
+    "prerequisites": [
+      "S02"
+    ],
+    "masteryThreshold": 0.9,
+    "legacyUnit": "u03_symbols"
+  },
+  "questions": [
+    {
+      "id": "S03-q01",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "「125V 15A 接地極付コンセント」の刃受けはどれか。",
+      "choiceImages": [
+        "face_15A125V_E",
+        "face_15A125V",
+        "face_15A250V",
+        "face_20A125V"
+      ],
+      "choices": [
+        "125V 15A 接地極付",
+        "125V 15A",
+        "250V 15A",
+        "125V 15A・20A 兼用"
+      ],
+      "answerIndex": 0,
+      "explanation": "縦の穴 2 つが 125V、その下の半円の穴が接地極。",
+      "tags": [
+        "コンセント",
+        "刃受け"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S03-q02",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "この刃受けのコンセントの定格はどれか。",
+      "figure": "face_15A250V",
+      "choices": [
+        "250V 15A",
+        "125V 15A",
+        "125V 20A",
+        "125V 15A 接地極付"
+      ],
+      "answerIndex": 0,
+      "explanation": "横の穴 2 つは 250V（200V 用）の 15A。縦の穴なら 125V。",
+      "tags": [
+        "コンセント",
+        "刃受け"
+      ],
+      "srsWeight": 1.0,
+      "hint": "縦は 125V、横は 250V。"
+    },
+    {
+      "id": "S03-q03",
+      "type": "imageChoice",
+      "difficulty": 2,
+      "prompt": "「125V 15A・20A 兼用コンセント」の刃受けはどれか。",
+      "choiceImages": [
+        "face_20A125V",
+        "face_15A125V",
+        "face_15A250V",
+        "face_15A250V_E"
+      ],
+      "choices": [
+        "125V 15A・20A 兼用",
+        "125V 15A",
+        "250V 15A",
+        "250V 15A 接地極付"
+      ],
+      "answerIndex": 0,
+      "explanation": "片方の穴が「ト」の字形になっていて、20A のプラグの横向きの刃も入る。",
+      "tags": [
+        "コンセント",
+        "刃受け"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S03-q04",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "この刃受けのコンセントの定格はどれか。",
+      "figure": "face_15A250V_E",
+      "choices": [
+        "250V 15A 接地極付",
+        "125V 15A 接地極付",
+        "250V 15A",
+        "125V 20A"
+      ],
+      "answerIndex": 0,
+      "explanation": "横の穴 2 つ（250V 15A）と、下の半円の穴（接地極）。",
+      "tags": [
+        "コンセント",
+        "刃受け"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S03-q05",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "100V のコンセントの刃受けは、左右で穴の長さが違う。長いほうの穴につながるのはどれか。",
+      "choices": [
+        "接地側の電線（白）",
+        "非接地側の電線（黒）",
+        "接地線（緑）",
+        "どちらでもよい"
+      ],
+      "answerIndex": 0,
+      "explanation": "長い穴が接地側で、白い電線（W）をつなぐ。",
+      "tags": [
+        "コンセント",
+        "刃受け"
+      ],
+      "srsWeight": 1.0,
+      "tip": "コンセントの裏の端子にも W の表示があり、白線をつなぐ。"
+    },
+    {
+      "id": "S03-q06",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "「引掛形コンセント」の刃受けはどれか。",
+      "choiceImages": [
+        "face_twist",
+        "face_15A125V",
+        "face_20A125V",
+        "face_15A250V"
+      ],
+      "choices": [
+        "引掛形",
+        "125V 15A",
+        "125V 15A・20A 兼用",
+        "250V 15A"
+      ],
+      "answerIndex": 0,
+      "explanation": "引掛形は穴が円弧の形で、専用のプラグを差してひねると抜けなくなる。",
+      "tags": [
+        "コンセント",
+        "刃受け"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S03-q07",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "「3路スイッチ」の接点はどれか。",
+      "choiceImages": [
+        "cont_3way",
+        "cont_single",
+        "cont_4way",
+        "cont_2p"
+      ],
+      "choices": [
+        "3路",
+        "単極（片切）",
+        "4路",
+        "2極（両切）"
+      ],
+      "answerIndex": 0,
+      "explanation": "3路スイッチは、共通の 0 番を 1 番か 3 番に切り替える。切れている状態がない。",
+      "tags": [
+        "スイッチ",
+        "接点"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S03-q08",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "この接点のスイッチはどれか。",
+      "figure": "cont_4way",
+      "choices": [
+        "4路スイッチ",
+        "3路スイッチ",
+        "2極スイッチ",
+        "単極スイッチ"
+      ],
+      "answerIndex": 0,
+      "explanation": "4路スイッチは、まっすぐ（1–3・2–4）とたすき掛け（1–4・2–3）を切り替える。3路と 3路の間に入れる。",
+      "tags": [
+        "スイッチ",
+        "接点"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S03-q09",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "この接点のスイッチはどれか。",
+      "figure": "cont_2p",
+      "choices": [
+        "2極スイッチ（両切）",
+        "単極スイッチ（片切）",
+        "3路スイッチ",
+        "4路スイッチ"
+      ],
+      "answerIndex": 0,
+      "explanation": "2 本の電線を同時に入り切りするのが 2極（両切）。図記号の傍記は 2P。",
+      "tags": [
+        "スイッチ",
+        "接点"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S03-q10",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "3路スイッチの「0」の端子についての説明で正しいものはどれか。",
+      "choices": [
+        "1 番か 3 番のどちらかと必ずつながっている共通の端子",
+        "接地線をつなぐ端子",
+        "スイッチが切のときだけつながる端子",
+        "使わない予備の端子"
+      ],
+      "answerIndex": 0,
+      "explanation": "0 番は共通の端子。1 番と 3 番のどちらかにいつもつながっているので、2 か所のどちらからでも点け消しできる。",
+      "tags": [
+        "スイッチ",
+        "接点"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S03-q11",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "位置表示灯内蔵スイッチ（ほたるスイッチ）の表示灯が光るのはいつか。",
+      "choices": [
+        "スイッチが切のとき",
+        "スイッチが入のとき",
+        "いつも光っている",
+        "負荷が故障したとき"
+      ],
+      "answerIndex": 0,
+      "explanation": "位置表示灯は、切のとき（照明が消えて暗いとき）にスイッチの位置を知らせる。",
+      "tags": [
+        "スイッチ",
+        "表示灯"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S03-q12",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "パイロットランプを「異時点滅」させたい。どうつなぐか。",
+      "choices": [
+        "スイッチと並列",
+        "負荷と並列",
+        "電源の 2 本の間",
+        "スイッチと直列"
+      ],
+      "answerIndex": 0,
+      "explanation": "異時点滅（負荷が消えているときだけ光る）はスイッチと並列。同時点滅は負荷と並列、常時点灯は電源の 2 本の間。",
+      "tags": [
+        "スイッチ",
+        "表示灯"
+      ],
+      "srsWeight": 1.0,
+      "hint": "スイッチが入ると、並列のランプは短絡されて消える。"
+    },
+    {
+      "id": "S03-q13",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "埋込連用取付枠 1 枠に取り付けられる器具は最大何個か。",
+      "choices": [
+        "3 個",
+        "2 個",
+        "4 個",
+        "6 個"
+      ],
+      "answerIndex": 0,
+      "explanation": "連用取付枠には、スイッチ・コンセント・表示灯などを最大 3 個まで取り付けられる。",
+      "tags": [
+        "取付け"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S03-q14",
+      "type": "trueFalse",
+      "difficulty": 1,
+      "prompt": "台所の電子レンジ用のコンセントには、接地極付や接地端子付のコンセントを使う。",
+      "answer": true,
+      "explanation": "正しい。水気のある場所や金属の外箱を持つ機器は、感電を防ぐため接地（アース）をとる。",
+      "tags": [
+        "コンセント"
+      ],
+      "srsWeight": 1.0,
+      "tip": "洗濯機・電子レンジ・温水洗浄便座などは接地極付が基本。"
+    },
+    {
+      "id": "S03-q15",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "熱線式自動スイッチは、何を感じて照明を点けるか。",
+      "choices": [
+        "人の体から出る赤外線",
+        "周りの明るさ",
+        "音",
+        "床の振動"
+      ],
+      "answerIndex": 0,
+      "explanation": "熱線式は、人の体温による赤外線（熱線）の変化を感じる。明るさで動くのは自動点滅器。",
+      "tags": [
+        "スイッチ"
+      ],
+      "srsWeight": 1.0
+    }
+  ],
+  "boss": {
+    "id": "S03-boss",
+    "title": "試験型ボス",
+    "description": "制限時間内に6問連続正解でクリア。図記号や写真の代わりの図から選ぶ問題も出る。",
+    "questionIds": [
+      "S03-q01",
+      "S03-q02",
+      "S03-q03",
+      "S03-q04",
+      "S03-q07",
+      "S03-q08",
+      "S03-q10",
+      "S03-q12"
+    ],
+    "pick": 6,
+    "timeLimitSeconds": 120
+  }
+}

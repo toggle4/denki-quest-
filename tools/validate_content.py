@@ -6,6 +6,8 @@ import sys
 from pathlib import Path
 
 UNITS = Path(__file__).resolve().parent.parent / "content" / "units"
+FIGURES = Path(__file__).resolve().parent.parent / "DenkiQuest" / "Assets.xcassets" / "Figures"
+FIGURE_NAMES = {p.name.replace(".imageset", "") for p in FIGURES.glob("*.imageset")}
 STAGES = {"review", "memorize", "calculate", "practical"}
 TYPES = {"choice", "truefalse", "number"}
 
@@ -32,6 +34,8 @@ def validate_v2(path, unit, err):
             err(f"{qid}: type '{t}' が不正")
             continue
         v2_total += 1
+        if q.get("figure") and q["figure"] not in FIGURE_NAMES:
+            err(f"{qid}: 図 {q['figure']} が Assets の Figures にない")
         for key in ("prompt", "explanation"):
             if key not in q:
                 err(f"{qid}: {key} がない")
@@ -40,6 +44,25 @@ def validate_v2(path, unit, err):
             a = q.get("answerIndex")
             if not isinstance(a, int) or not (0 <= a < len(ch)):
                 err(f"{qid}: answerIndex が choices の範囲外")
+        elif t == "imageChoice":
+            a = q.get("answerIndex")
+            images = q.get("choiceImages")
+            if images is not None:
+                if not isinstance(a, int) or not (0 <= a < len(images)):
+                    err(f"{qid}: answerIndex が choiceImages の範囲外")
+                if len(images) < 2 or len(set(images)) != len(images):
+                    err(f"{qid}: choiceImages は 2 つ以上・重複なし")
+                if "choices" in q and len(q["choices"]) != len(images):
+                    err(f"{qid}: choices（図の名前）の数が choiceImages と違う")
+                for name in images:
+                    if name not in FIGURE_NAMES:
+                        err(f"{qid}: 図 {name} が Assets の Figures にない")
+            else:
+                ch = q.get("choices", [])
+                if not isinstance(a, int) or not (0 <= a < len(ch)):
+                    err(f"{qid}: answerIndex が choices の範囲外")
+                if not q.get("figure"):
+                    err(f"{qid}: choiceImages がないときは figure が必要")
         elif t == "trueFalse" and not isinstance(q.get("answer"), bool):
             err(f"{qid}: answer が true/false でない")
         elif t == "numericInput" and not isinstance(q.get("answer"), (int, float)):

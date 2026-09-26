@@ -11,6 +11,8 @@ final class QuizSession {
         /// choice のときだけ使う（シャッフル済み）
         let choices: [String]
         let correctIndex: Int
+        /// 選択肢が図のとき（choices と同じ順にシャッフル済み）
+        var choiceImages: [String]? = nil
     }
 
     static let questionsPerSession = 10
@@ -60,7 +62,10 @@ final class QuizSession {
         let order = Array(question.choices.indices).shuffled()
         let shuffledChoices = order.map { question.choices[$0] }
         let correct = order.firstIndex(of: question.answerIndex) ?? 0
-        return Item(id: question.id, question: question, choices: shuffledChoices, correctIndex: correct)
+        let images = question.choiceImages.flatMap { images in
+            images.count == question.choices.count ? order.map { images[$0] } : nil
+        }
+        return Item(id: question.id, question: question, choices: shuffledChoices, correctIndex: correct, choiceImages: images)
     }
 
     var current: Item? {

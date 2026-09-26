@@ -1,0 +1,345 @@
+{
+  "schemaVersion": 2,
+  "unit": {
+    "id": "S05",
+    "stage": 1,
+    "order": 5,
+    "title": "電線とケーブル",
+    "lessonFile": "S05.md",
+    "prerequisites": [
+      "S04"
+    ],
+    "masteryThreshold": 0.9,
+    "legacyUnit": "u04_materials_tools"
+  },
+  "questions": [
+    {
+      "id": "S05-q01",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "「VVF ケーブル（2 心）」の断面はどれか。",
+      "choiceImages": [
+        "cab_VVF2",
+        "cab_IV",
+        "cab_VVR",
+        "cab_CV"
+      ],
+      "choices": [
+        "VVF（平形 2 心）",
+        "IV（絶縁電線）",
+        "VVR（丸形）",
+        "CV（架橋ポリエチレン）"
+      ],
+      "answerIndex": 0,
+      "explanation": "VVF は平形（Flat）。2 心なら黒と白の心線が横に並ぶ。",
+      "tags": [
+        "電線",
+        "ケーブル"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S05-q02",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "この断面の電線はどれか。",
+      "figure": "cab_IV",
+      "choices": [
+        "IV（600V ビニル絶縁電線）",
+        "VVF ケーブル",
+        "VVR ケーブル",
+        "CV ケーブル"
+      ],
+      "answerIndex": 0,
+      "explanation": "導体 1 本を絶縁物で包んだだけで、シースがない。IV は電線管に入れて使う。",
+      "tags": [
+        "電線",
+        "ケーブル"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S05-q03",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "この断面のケーブルはどれか。",
+      "figure": "cab_VVR",
+      "choices": [
+        "VVR（ビニル絶縁ビニルシースケーブル丸形）",
+        "VVF（平形）",
+        "CV ケーブル",
+        "IV 線 3 本"
+      ],
+      "answerIndex": 0,
+      "explanation": "丸いシースの中に心線と介在物（すき間の詰め物）がある丸形が VVR。",
+      "tags": [
+        "電線",
+        "ケーブル"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S05-q04",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "この断面のケーブルはどれか。",
+      "figure": "cab_CV",
+      "choices": [
+        "CV（架橋ポリエチレン絶縁ビニルシースケーブル）",
+        "IV 線",
+        "VVF ケーブル",
+        "DV 線"
+      ],
+      "answerIndex": 0,
+      "explanation": "太いより線の導体を厚い架橋ポリエチレンで包み、外をシースで覆ったものが CV。太い幹線に使う。",
+      "tags": [
+        "電線",
+        "ケーブル"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S05-q05",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "絶縁物の最高許容温度が最も高いものはどれか。",
+      "choices": [
+        "CV（架橋ポリエチレン）",
+        "IV（ビニル）",
+        "VVF（ビニル）",
+        "HIV（二種ビニル）"
+      ],
+      "answerIndex": 0,
+      "explanation": "架橋ポリエチレンの CV は 90℃。HIV は 75℃、IV・VVF は 60℃。",
+      "tags": [
+        "電線",
+        "ケーブル"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S05-q06",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "600V ビニル絶縁電線（IV）の絶縁物の最高許容温度はどれか。",
+      "choices": [
+        "60℃",
+        "75℃",
+        "90℃",
+        "45℃"
+      ],
+      "answerIndex": 0,
+      "explanation": "ビニル（IV・VVF・VVR）は 60℃。",
+      "tags": [
+        "電線",
+        "ケーブル"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S05-q07",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "600V 二種ビニル絶縁電線（HIV）の絶縁物の最高許容温度はどれか。",
+      "choices": [
+        "75℃",
+        "60℃",
+        "90℃",
+        "105℃"
+      ],
+      "answerIndex": 0,
+      "explanation": "HIV は耐熱性を高めたビニルで 75℃。",
+      "tags": [
+        "電線",
+        "ケーブル"
+      ],
+      "srsWeight": 1.0,
+      "origin": "H = Heat resistant（耐熱）"
+    },
+    {
+      "id": "S05-q08",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "EM-EEF ケーブル（エコケーブル）の特徴として誤っているものはどれか。",
+      "choices": [
+        "燃えると塩化水素などの有毒ガスが多く出る",
+        "鉛などの有害物質を含まない",
+        "シースは耐燃性ポリエチレン",
+        "絶縁物の最高許容温度は 75℃"
+      ],
+      "answerIndex": 0,
+      "explanation": "エコケーブルはハロゲンを含まないので、燃えても有毒ガスがほとんど出ない。",
+      "tags": [
+        "電線",
+        "ケーブル"
+      ],
+      "srsWeight": 1.0,
+      "origin": "EM = Eco Material"
+    },
+    {
+      "id": "S05-q09",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "「EM-CE」はどんなケーブルか。",
+      "choices": [
+        "架橋ポリエチレン絶縁・耐燃性ポリエチレンシースのケーブル",
+        "ビニル絶縁ビニルシースの平形ケーブル",
+        "引込用ビニル絶縁電線",
+        "ビニルキャブタイヤケーブル"
+      ],
+      "answerIndex": 0,
+      "explanation": "EM-CE は CV のエコ版。C = 架橋ポリエチレン絶縁、E = 耐燃性ポリエチレンシース。最高許容温度 90℃。",
+      "tags": [
+        "電線",
+        "ケーブル"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S05-q10",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "「DV」はどんな電線か。",
+      "choices": [
+        "引込用ビニル絶縁電線",
+        "屋外用ビニル絶縁電線",
+        "600V ビニル絶縁電線",
+        "ビニルキャブタイヤケーブル"
+      ],
+      "answerIndex": 0,
+      "explanation": "DV は電柱から家へ引き込む架空の電線。",
+      "tags": [
+        "電線",
+        "ケーブル"
+      ],
+      "srsWeight": 1.0,
+      "origin": "D = Drop（引下げ・引込み）"
+    },
+    {
+      "id": "S05-q11",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "「OW」はどんな電線か。",
+      "choices": [
+        "屋外用ビニル絶縁電線",
+        "引込用ビニル絶縁電線",
+        "耐火ケーブル",
+        "ビニルコード"
+      ],
+      "answerIndex": 0,
+      "explanation": "OW は屋外の架空配線に使う。",
+      "tags": [
+        "電線",
+        "ケーブル"
+      ],
+      "srsWeight": 1.0,
+      "origin": "OW = Outdoor Weatherproof"
+    },
+    {
+      "id": "S05-q12",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "「VCT」はどんなケーブルか。",
+      "choices": [
+        "ビニルキャブタイヤケーブル",
+        "ビニル絶縁ビニルシースケーブル平形",
+        "架橋ポリエチレン絶縁ケーブル",
+        "引込用ビニル絶縁電線"
+      ],
+      "answerIndex": 0,
+      "explanation": "VCT は柔らかく丈夫で、移動して使う機器の電源に使う。",
+      "tags": [
+        "電線",
+        "ケーブル"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S05-q13",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "VVF ケーブル 3 心の心線の色の組合せはどれか。",
+      "choices": [
+        "黒・白・赤",
+        "黒・白・緑",
+        "赤・白・青",
+        "黒・赤・青"
+      ],
+      "answerIndex": 0,
+      "explanation": "VVF の 3 心は黒・白・赤。2 心は黒・白。",
+      "tags": [
+        "電線",
+        "ケーブル"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S05-q14",
+      "type": "trueFalse",
+      "difficulty": 1,
+      "prompt": "VVF ケーブルの白の心線は、接地側の電線として使う。",
+      "answer": true,
+      "explanation": "正しい。白を接地側（分電盤の N・コンセントの W）に使うのが決まり。",
+      "tags": [
+        "電線",
+        "ケーブル"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S05-q15",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "ビニルコードを電源コードとして使えるのはどれか。",
+      "choices": [
+        "電気扇風機",
+        "電気こたつ",
+        "電気アイロン",
+        "電気トースター"
+      ],
+      "answerIndex": 0,
+      "explanation": "ビニルコードは熱に弱いので、熱を出す電熱器具には使えない。扇風機のように熱を出さない器具なら使える。",
+      "tags": [
+        "コード"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S05-q16",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "MI ケーブルの特徴はどれか。",
+      "choices": [
+        "無機絶縁物を使っていて耐火性が高い",
+        "平形で住宅の配線に多く使う",
+        "柔らかく移動用に向く",
+        "架空の引込みに使う"
+      ],
+      "answerIndex": 0,
+      "explanation": "MI ケーブルは、銅の管の中に導体と無機物（酸化マグネシウム）の絶縁物を詰めたもので、火に強い。",
+      "tags": [
+        "電線",
+        "ケーブル"
+      ],
+      "srsWeight": 1.0,
+      "origin": "MI = Mineral Insulated（無機絶縁）"
+    }
+  ],
+  "boss": {
+    "id": "S05-boss",
+    "title": "試験型ボス",
+    "description": "制限時間内に6問連続正解でクリア。図記号や写真の代わりの図から選ぶ問題も出る。",
+    "questionIds": [
+      "S05-q01",
+      "S05-q02",
+      "S05-q04",
+      "S05-q05",
+      "S05-q08",
+      "S05-q09",
+      "S05-q10",
+      "S05-q15"
+    ],
+    "pick": 6,
+    "timeLimitSeconds": 120
+  }
+}

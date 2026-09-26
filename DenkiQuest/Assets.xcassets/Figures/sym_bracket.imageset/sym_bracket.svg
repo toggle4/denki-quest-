@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150" width="200" height="150">
+<rect x="0" y="0" width="200" height="150" rx="14" fill="#FFFFFF"/>
+<line x1="80.0" y1="21.8" x2="80.0" y2="128.2" stroke="#1B2550" stroke-width="5.6" stroke-linecap="round"/>
+<line x1="80.0" y1="28.8" x2="66.0" y2="42.8" stroke="#8A93B0" stroke-width="2.8" stroke-linecap="round"/>
+<line x1="80.0" y1="44.2" x2="66.0" y2="58.2" stroke="#8A93B0" stroke-width="2.8" stroke-linecap="round"/>
+<line x1="80.0" y1="59.6" x2="66.0" y2="73.6" stroke="#8A93B0" stroke-width="2.8" stroke-linecap="round"/>
+<line x1="80.0" y1="75.0" x2="66.0" y2="89.0" stroke="#8A93B0" stroke-width="2.8" stroke-linecap="round"/>
+<line x1="80.0" y1="90.4" x2="66.0" y2="104.4" stroke="#8A93B0" stroke-width="2.8" stroke-linecap="round"/>
+<line x1="80.0" y1="105.8" x2="66.0" y2="119.8" stroke="#8A93B0" stroke-width="2.8" stroke-linecap="round"/>
+<line x1="80.0" y1="121.2" x2="66.0" y2="135.2" stroke="#8A93B0" stroke-width="2.8" stroke-linecap="round"/>
+<circle cx="108.0" cy="75.0" r="28.0" fill="#FFFFFF" stroke="#1B2550" stroke-width="4.199999999999999"/>
+<path d="M108.0 47.0 A 28.0 28.0 0 0 0 108.0 103.0 Z" fill="#1B2550"/>
+</svg>

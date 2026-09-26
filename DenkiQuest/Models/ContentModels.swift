@@ -76,6 +76,8 @@ struct Question: Codable, Identifiable, Hashable {
     // choice
     let choices: [String]
     let answerIndex: Int
+    /// 選択肢を図で出すとき（imageChoice）。choices と同じ並びで、choices は回答後に出す名前
+    let choiceImages: [String]?
     // truefalse
     let answerBool: Bool
     // number
@@ -84,7 +86,7 @@ struct Question: Codable, Identifiable, Hashable {
     let unit: String?
 
     private enum CodingKeys: String, CodingKey {
-        case id, type, prompt, explanation, hint, image, origin, tip, choices, answer, tolerance, unit
+        case id, type, prompt, explanation, hint, image, origin, tip, choices, answer, tolerance, unit, choiceImages
     }
 
     /// コードから組み立てるとき（新形式・template 問題の変換など）に使う。
@@ -99,6 +101,7 @@ struct Question: Codable, Identifiable, Hashable {
         tip: String? = nil,
         choices: [String] = [],
         answerIndex: Int = 0,
+        choiceImages: [String]? = nil,
         answerBool: Bool = false,
         answerNumber: Double = 0,
         tolerance: Double = 0,
@@ -114,6 +117,7 @@ struct Question: Codable, Identifiable, Hashable {
         self.tip = tip
         self.choices = choices
         self.answerIndex = answerIndex
+        self.choiceImages = choiceImages
         self.answerBool = answerBool
         self.answerNumber = answerNumber
         self.tolerance = tolerance
@@ -132,6 +136,7 @@ struct Question: Codable, Identifiable, Hashable {
         tip = try c.decodeIfPresent(String.self, forKey: .tip)
         unit = try c.decodeIfPresent(String.self, forKey: .unit)
         tolerance = try c.decodeIfPresent(Double.self, forKey: .tolerance) ?? 0
+        choiceImages = try c.decodeIfPresent([String].self, forKey: .choiceImages)
 
         switch type {
         case .choice:
@@ -163,6 +168,7 @@ struct Question: Codable, Identifiable, Hashable {
         try c.encodeIfPresent(origin, forKey: .origin)
         try c.encodeIfPresent(tip, forKey: .tip)
         try c.encodeIfPresent(unit, forKey: .unit)
+        try c.encodeIfPresent(choiceImages, forKey: .choiceImages)
         switch type {
         case .choice:
             try c.encode(choices, forKey: .choices)

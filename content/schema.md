@@ -43,7 +43,23 @@
 `pairs: [{left, right}]`
 
 ### imageChoice
-`figure` を問題として表示し、`choices` から選ぶ（ステージ1以降）
+図を使う 4 択（ステージ 1 以降）。2 つの形がある。
+
+- **図 → 名前**：`figure` の図を問題に添えて、文字の `choices` から選ぶ。`answerIndex` は `choices` の番号
+- **名前 → 図**：`choiceImages`（Assets の図の名前の配列）が選択肢になり、2 列の格子で並ぶ。`answerIndex` は `choiceImages` の番号。
+  `choices` を同じ数だけ書くと、回答後に各図の下へその名前を出す（どの図が何かをその場で覚えられる）
+
+```json
+{
+  "id": "S01-q01", "type": "imageChoice", "difficulty": 1,
+  "prompt": "「確認表示灯内蔵スイッチ」の図記号はどれか。",
+  "choiceImages": ["sym_switch_L", "sym_switch_H", "sym_switch_P", "sym_switch_A"],
+  "choices": ["確認表示灯内蔵（L）", "位置表示灯内蔵（H）", "プルスイッチ（P）", "自動点滅器（A）"],
+  "answerIndex": 0,
+  "explanation": "確認表示灯内蔵は傍記 L。…", "tags": ["図記号"], "srsWeight": 1.0
+}
+```
+選択肢はアプリ側でシャッフルする（図と名前は同じ順で並べ替える）。`tools/validate_content.py` は図が Assets にあるかも調べる。
 
 ### template（パラメータ化問題）
 数値をアプリ側でランダム生成し、答えを式で計算する。
@@ -139,9 +155,23 @@ ID の付け方: 固定問題は `<単元>-q01`、template は `<単元>-t01`。
 記号: 四角に正弦波 = 電源、JB = ジョイントボックス、○に× = 照明、● = 点滅器（3・4 は 3 路・4 路）、○に縦線 2 本 = コンセント、小さい○に点 = 確認表示灯、点線の枠 = 連用取付枠。数字の丸は問題文が指す区間。
 Xcode の SVG 描画で文字が落ちないよう、文字も線で描いている。
 
+`tools/gen_symbol_figures.py` で生成するステージ 1 の図（imageChoice の選択肢は 200 × 150）:
+
+| 名前の頭 | 内容 |
+|---|---|
+| sym_ | 配線用図記号（JIS C 0303 の形を自作で描いたもの）。sym_switch_3way・sym_outlet_E・sym_light_DL・sym_panel・sym_line_floor など |
+| face_ | コンセントの刃受け（face_15A125V・face_15A125V_E・face_20A125V・face_15A250V・face_15A250V_E・face_twist） |
+| cont_ | スイッチの接点構成（cont_single・cont_2p・cont_3way・cont_4way） |
+| cab_ | 電線・ケーブルの断面（cab_IV・cab_VVF2・cab_VVF3・cab_VVR・cab_CV） |
+| mat_ / tool_ / dev_ | 材料・工具・機器の形の特徴だけを描いたイメージ図（写真ではない） |
+| S0x_ | 教材の画面に出す一覧図（番号つき。名前は本文の表で示す） |
+
+一覧は `python3 tools/gen_symbol_figures.py --preview <フォルダ>` で PNG にして確かめる。
+
 ## アプリ側の対応状況
 | type | 状態 |
 |---|---|
 | multipleChoice / trueFalse / numericInput | 対応（旧ゲームの 4 択・○×・数値入力 UI で表示） |
 | template | 対応（`answerType` が `choice` なら 4 択、`numeric` なら数値入力。数値は出題ごとに生成） |
-| matching / imageChoice | 未対応（読み飛ばす）。UI を追加するときにここを更新する |
+| imageChoice | 対応（図 → 名前は 4 択 UI に図を添える。名前 → 図は 2 列の図の格子。ボス戦も同じ） |
+| matching | 未対応（読み飛ばす）。UI を追加するときにここを更新する |

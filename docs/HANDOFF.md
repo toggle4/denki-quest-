@@ -130,6 +130,9 @@ DenkiQuest.xcodeproj ほか チャット側の指示で新規作成された Swi
 > - template に `derived`（途中の値）を追加（QuestionSetV2.swift の DerivedSpec、TemplateEngine.generate）。
 >   解説に「電流 {I}A → 損失 {answer}W」のように途中の値を出せる。仕様は content/schema.md。
 >   template の生成チェック `python3 tools/check_templates.py`
+> - ステージ 1 の教材 S01〜S07 を作成（各 3 セッション、問題 116 問、ボスつき）。図を選ぶ出題形式 imageChoice に対応
+>   （QuestionV2.choiceImages → Question.choiceImages → QuizSession.Item.choiceImages、画面は QuestionView.swift の ImageChoiceGrid。ボス戦も同じ格子）。
+>   図記号・刃受け・接点・ケーブル断面・材料・工具の図 103 枚は tools/gen_symbol_figures.py（JIS の形を自作で描いたもの。材料・工具は形の特徴だけのイメージ図）
 
 ### タスク A：旧ゲームの復元調査（変更なし、報告のみ）
 1. `git log --all --oneline` と `git reflog` で、現在より前に別の Swift ファイル・Xcode プロジェクトがあったコミットを探す

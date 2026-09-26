@@ -64,6 +64,8 @@ struct QuestionV2: Decodable, Identifiable {
     // multipleChoice / imageChoice
     let choices: [String]?
     let answerIndex: Int?
+    /// imageChoice で、選択肢を図（Assets の名前）にするとき。choices は回答後に出す名前
+    let choiceImages: [String]?
     // trueFalse
     let answerBool: Bool?
     // numericInput
@@ -81,7 +83,7 @@ struct QuestionV2: Decodable, Identifiable {
 
     private enum CodingKeys: String, CodingKey {
         case id, type, difficulty, prompt, explanation, tags, srsWeight, figure, hint, origin, tip
-        case choices, answerIndex, answer, unitLabel, tolerance
+        case choices, answerIndex, answer, unitLabel, tolerance, choiceImages
         case variables, constraints, answerFormula, answerType, roundTo, distractors, derived
     }
 
@@ -101,6 +103,7 @@ struct QuestionV2: Decodable, Identifiable {
 
         choices = try c.decodeIfPresent([String].self, forKey: .choices)
         answerIndex = try c.decodeIfPresent(Int.self, forKey: .answerIndex)
+        choiceImages = try c.decodeIfPresent([String].self, forKey: .choiceImages)
         unitLabel = try c.decodeIfPresent(String.self, forKey: .unitLabel)
         tolerance = try c.decodeIfPresent(Double.self, forKey: .tolerance)
 

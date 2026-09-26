@@ -859,6 +859,16 @@ private struct BossQuestionView: View {
                     QuestionFigureView(name: image)
                 }
                 switch item.question.type {
+                case .choice where item.choiceImages != nil:
+                    ImageChoiceGrid(
+                        images: item.choiceImages ?? [],
+                        captions: item.choices,
+                        correctIndex: item.correctIndex,
+                        selectedIndex: engine.selectedIndex,
+                        revealed: engine.lastCorrect != nil,
+                        compact: true,
+                        onSelect: { index in engine.answerChoice(index) }
+                    )
                 case .choice:
                     ForEach(Array(item.choices.enumerated()), id: \.offset) { index, choice in
                         Button {

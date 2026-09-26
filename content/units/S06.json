@@ -1,0 +1,371 @@
+{
+  "schemaVersion": 2,
+  "unit": {
+    "id": "S06",
+    "stage": 1,
+    "order": 6,
+    "title": "配線材料",
+    "lessonFile": "S06.md",
+    "prerequisites": [
+      "S05"
+    ],
+    "masteryThreshold": 0.9,
+    "legacyUnit": "u04_materials_tools"
+  },
+  "questions": [
+    {
+      "id": "S06-q01",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "「ノーマルベンド」はどれか。",
+      "choiceImages": [
+        "mat_normal_bend",
+        "mat_coupling",
+        "mat_entrance_cap",
+        "mat_locknut"
+      ],
+      "choices": [
+        "ノーマルベンド",
+        "カップリング",
+        "エントランスキャップ",
+        "ロックナット"
+      ],
+      "answerIndex": 0,
+      "explanation": "ノーマルベンドは、管の直角に曲がる部分に使う、90° に曲がった管。",
+      "tags": [
+        "材料"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S06-q02",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "この材料はどれか。",
+      "figure": "mat_locknut",
+      "choices": [
+        "ロックナット",
+        "絶縁ブッシング",
+        "カップリング",
+        "サドル"
+      ],
+      "answerIndex": 0,
+      "explanation": "周りに爪のある薄い輪はロックナット。管をボックスに固定する。",
+      "tags": [
+        "材料"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S06-q03",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "「絶縁ブッシング」はどれか。",
+      "choiceImages": [
+        "mat_bushing",
+        "mat_locknut",
+        "mat_ring_sleeve",
+        "mat_coupling"
+      ],
+      "choices": [
+        "絶縁ブッシング",
+        "ロックナット",
+        "リングスリーブ",
+        "カップリング"
+      ],
+      "answerIndex": 0,
+      "explanation": "絶縁ブッシングは管の端に付けるつばのある輪。電線の被覆が管の切り口で傷つくのを防ぐ。",
+      "tags": [
+        "材料"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S06-q04",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "この材料の用途はどれか。",
+      "figure": "mat_saddle",
+      "choices": [
+        "電線管を壁や天井に固定する",
+        "電線管どうしをつなぐ",
+        "管の端で電線を保護する",
+        "電線どうしを接続する"
+      ],
+      "answerIndex": 0,
+      "explanation": "サドルは管をまたいでねじで留め、管を造営材（壁・天井）に固定する。",
+      "tags": [
+        "材料"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S06-q05",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "「エントランスキャップ」はどれか。",
+      "choiceImages": [
+        "mat_entrance_cap",
+        "mat_normal_bend",
+        "mat_coupling",
+        "mat_saddle"
+      ],
+      "choices": [
+        "エントランスキャップ",
+        "ノーマルベンド",
+        "カップリング",
+        "サドル"
+      ],
+      "answerIndex": 0,
+      "explanation": "エントランスキャップは、屋外で管の端に付け、口を下に向けて雨水が入らないようにする。",
+      "tags": [
+        "材料"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S06-q06",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "この材料はどれか。",
+      "figure": "mat_crimp_terminal",
+      "choices": [
+        "裸圧着端子",
+        "リングスリーブ",
+        "差込形コネクタ",
+        "絶縁ブッシング"
+      ],
+      "answerIndex": 0,
+      "explanation": "丸い舌と筒の部分がある。筒に電線を差して圧着し、丸い穴を機器の端子にねじで留める。",
+      "tags": [
+        "材料"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S06-q07",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "この材料の用途はどれか。",
+      "figure": "mat_push_connector",
+      "choices": [
+        "電線を差し込むだけで接続する",
+        "電線管を曲げる",
+        "管をボックスに固定する",
+        "ケーブルを壁に固定する"
+      ],
+      "answerIndex": 0,
+      "explanation": "差込形コネクタは、被覆をむいた電線を穴に差し込むだけで接続できる。",
+      "tags": [
+        "材料"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S06-q08",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "多数の金属管が集まる場所で、電線を通しやすくするために使うものはどれか。",
+      "choices": [
+        "プルボックス",
+        "アウトレットボックス",
+        "スイッチボックス",
+        "ジョイントボックス"
+      ],
+      "answerIndex": 0,
+      "explanation": "プルボックスは、多数の管が集まる場所に設ける大きな箱。途中で電線を引き出して通線しやすくする。",
+      "tags": [
+        "材料"
+      ],
+      "srsWeight": 1.0,
+      "origin": "pull = 引っぱる"
+    },
+    {
+      "id": "S06-q09",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "配線図の「(E19)」はどの電線管か。",
+      "choices": [
+        "ねじなし電線管の 19mm",
+        "厚鋼電線管の 19mm",
+        "硬質ポリ塩化ビニル電線管の 19mm",
+        "合成樹脂製可とう電線管の 19mm"
+      ],
+      "answerIndex": 0,
+      "explanation": "E はねじなし電線管。数字は管の太さ（mm）。",
+      "tags": [
+        "電線管"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S06-q10",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "配線図の「(VE16)」はどの電線管か。",
+      "choices": [
+        "硬質ポリ塩化ビニル電線管の 16mm",
+        "ねじなし電線管の 16mm",
+        "合成樹脂製可とう電線管の 16mm",
+        "波付硬質合成樹脂管の 16mm"
+      ],
+      "answerIndex": 0,
+      "explanation": "VE は硬質ポリ塩化ビニル電線管。",
+      "tags": [
+        "電線管"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S06-q11",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "地中に埋設する配線に使う、波付硬質合成樹脂管を表す記号はどれか。",
+      "choices": [
+        "FEP",
+        "CD",
+        "PF",
+        "E"
+      ],
+      "answerIndex": 0,
+      "explanation": "FEP は波付硬質合成樹脂管で、地中埋設に使う。",
+      "tags": [
+        "電線管"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S06-q12",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "CD 管についての説明で正しいものはどれか。",
+      "choices": [
+        "燃えやすいので、コンクリートに埋め込んで使う",
+        "燃えにくいので、露出配線に使う",
+        "金属製で、電動機への接続に使う",
+        "地中埋設専用である"
+      ],
+      "answerIndex": 0,
+      "explanation": "CD 管は自己消火性がない（燃える）ので、コンクリート埋設専用。オレンジ色で区別する。",
+      "tags": [
+        "電線管"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S06-q13",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "TS カップリングの用途はどれか。",
+      "choices": [
+        "硬質ポリ塩化ビニル電線管どうしをつなぐ",
+        "金属管どうしをつなぐ",
+        "金属管をボックスにつなぐ",
+        "ケーブルどうしを接続する"
+      ],
+      "answerIndex": 0,
+      "explanation": "TS カップリングは、VE 管の端を差し込んで接着剤でつなぐ材料。",
+      "tags": [
+        "材料"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S06-q14",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "ねじなし電線管用ボックスコネクタの止めねじは、どこまで締めるか。",
+      "choices": [
+        "ねじの頭がねじ切れるまで",
+        "手で回らなくなるまで",
+        "半分まで",
+        "締めずに接着剤で固定する"
+      ],
+      "answerIndex": 0,
+      "explanation": "止めねじは頭がねじ切れるまで締める。ねじ切れていれば、十分に締まったことが見て分かる。",
+      "tags": [
+        "材料"
+      ],
+      "srsWeight": 1.0,
+      "tip": "ねじ切れた頭の部分がボックスの中に落ちないように注意する。"
+    },
+    {
+      "id": "S06-q15",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "「アウトレットボックス」はどれか。",
+      "choiceImages": [
+        "mat_outlet_box",
+        "mat_push_connector",
+        "mat_ring_sleeve",
+        "mat_locknut"
+      ],
+      "choices": [
+        "アウトレットボックス",
+        "差込形コネクタ",
+        "リングスリーブ",
+        "ロックナット"
+      ],
+      "answerIndex": 0,
+      "explanation": "アウトレットボックスは四角い金属の箱。周りに管を通す穴（ノックアウト）がある。",
+      "tags": [
+        "材料"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S06-q16",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "金属製アウトレットボックスの用途として不適切なものはどれか。",
+      "choices": [
+        "電線管の曲げの角度を大きくする",
+        "照明器具などを取り付ける",
+        "電線の接続・分岐をする",
+        "電線管の集まる場所に設ける"
+      ],
+      "answerIndex": 0,
+      "explanation": "アウトレットボックスは器具の取付け・電線の接続・管の集合に使う。管の曲げには使わない。",
+      "tags": [
+        "材料"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S06-q17",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "地中に直接埋設するケーブルを収めて、上からの衝撃から守る材料はどれか。",
+      "choices": [
+        "トラフ",
+        "金属線ぴ",
+        "ケーブルラック",
+        "サドル"
+      ],
+      "answerIndex": 0,
+      "explanation": "トラフはケーブルを収めて地中に埋める、ふた付きの溝。",
+      "tags": [
+        "材料"
+      ],
+      "srsWeight": 1.0
+    }
+  ],
+  "boss": {
+    "id": "S06-boss",
+    "title": "試験型ボス",
+    "description": "制限時間内に6問連続正解でクリア。図記号や写真の代わりの図から選ぶ問題も出る。",
+    "questionIds": [
+      "S06-q01",
+      "S06-q02",
+      "S06-q03",
+      "S06-q05",
+      "S06-q08",
+      "S06-q11",
+      "S06-q12",
+      "S06-q14",
+      "S06-q16"
+    ],
+    "pick": 6,
+    "timeLimitSeconds": 120
+  }
+}

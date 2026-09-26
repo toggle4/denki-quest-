@@ -72,6 +72,7 @@ final class QuestionBank {
                     q = Question(
                         id: "\(q.id)#\(k)", type: q.type, prompt: q.prompt, explanation: q.explanation,
                         hint: q.hint, image: q.image, origin: q.origin, tip: q.tip, choices: q.choices, answerIndex: q.answerIndex,
+                        choiceImages: q.choiceImages,
                         answerBool: q.answerBool, answerNumber: q.answerNumber, tolerance: q.tolerance, unit: q.unit
                     )
                 }
@@ -181,10 +182,50 @@ enum QuestionFactory {
         case "template":
             return makeTemplate(source)
 
+        case "imageChoice":
+            return makeImageChoice(source)
+
         default:
-            // matching / imageChoice は未対応（schema.md 参照）
+            // matching は未対応（schema.md 参照）
             return nil
         }
+    }
+
+    /// imageChoice。choiceImages があれば図の中から選ぶ（名前 → 図）。
+    /// なければ figure の図を見て、文字の choices から選ぶ（図 → 名前）。
+    private static func makeImageChoice(_ source: QuestionV2) -> Question? {
+        guard let index = source.answerIndex else { return nil }
+        if let images = source.choiceImages, images.count >= 2 {
+            guard images.indices.contains(index) else { return nil }
+            let names = source.choices ?? []
+            let captions = images.indices.map { names.indices.contains($0) ? names[$0] : "" }
+            return Question(
+                id: source.id,
+                type: .choice,
+                prompt: source.prompt,
+                explanation: source.explanation,
+                hint: source.hint,
+                image: source.figure,
+                origin: source.origin,
+                tip: source.tip,
+                choices: captions,
+                answerIndex: index,
+                choiceImages: images
+            )
+        }
+        guard let choices = source.choices, choices.indices.contains(index), source.figure != nil else { return nil }
+        return Question(
+            id: source.id,
+            type: .choice,
+            prompt: source.prompt,
+            explanation: source.explanation,
+            hint: source.hint,
+            image: source.figure,
+            origin: source.origin,
+            tip: source.tip,
+            choices: choices,
+            answerIndex: index
+        )
     }
 
     private static func makeTemplate(_ source: QuestionV2) -> Question? {

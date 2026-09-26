@@ -1,0 +1,390 @@
+{
+  "schemaVersion": 2,
+  "unit": {
+    "id": "S04",
+    "stage": 1,
+    "order": 4,
+    "title": "照明器具・電気機器",
+    "lessonFile": "S04.md",
+    "prerequisites": [
+      "S03"
+    ],
+    "masteryThreshold": 0.9,
+    "legacyUnit": "u05_devices"
+  },
+  "questions": [
+    {
+      "id": "S04-t01",
+      "type": "template",
+      "difficulty": 1,
+      "prompt": "極数 {p}、周波数 {f}Hz の三相誘導電動機の同期速度は何 min⁻¹ か。",
+      "variables": {
+        "fk": {
+          "min": 0,
+          "max": 1
+        },
+        "pk": {
+          "min": 1,
+          "max": 4
+        }
+      },
+      "derived": [
+        {
+          "name": "f",
+          "formula": "50 + 10 * fk"
+        },
+        {
+          "name": "p",
+          "formula": "2 * pk"
+        }
+      ],
+      "answerFormula": "120 * f / p",
+      "answerType": "numeric",
+      "unitLabel": "min⁻¹",
+      "roundTo": 0,
+      "explanation": "同期速度 N = 120 × f ÷ p = 120 × {f} ÷ {p} = {answer} min⁻¹。",
+      "tags": [
+        "計算",
+        "同期速度"
+      ],
+      "srsWeight": 1.0,
+      "hint": "N = 120f ÷ p。極数で割る。"
+    },
+    {
+      "id": "S04-t02",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "周波数 {f}Hz で同期速度が {N} min⁻¹ の三相誘導電動機の極数はいくつか。",
+      "variables": {
+        "fk": {
+          "min": 0,
+          "max": 1
+        },
+        "pk": {
+          "min": 1,
+          "max": 4
+        }
+      },
+      "derived": [
+        {
+          "name": "f",
+          "formula": "50 + 10 * fk"
+        },
+        {
+          "name": "p",
+          "formula": "2 * pk"
+        },
+        {
+          "name": "N",
+          "formula": "120 * f / p",
+          "roundTo": 0
+        }
+      ],
+      "answerFormula": "p",
+      "answerType": "numeric",
+      "roundTo": 0,
+      "explanation": "N = 120f ÷ p を変形して p = 120 × f ÷ N = 120 × {f} ÷ {N} = {answer}。",
+      "tags": [
+        "計算",
+        "同期速度"
+      ],
+      "srsWeight": 1.0,
+      "hint": "p = 120f ÷ N。"
+    },
+    {
+      "id": "S04-t03",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "50Hz で同期速度 {N50} min⁻¹ の三相誘導電動機を、60Hz の電源で使う。同期速度は何 min⁻¹ になるか。",
+      "variables": {
+        "pk": {
+          "min": 1,
+          "max": 4
+        }
+      },
+      "derived": [
+        {
+          "name": "p",
+          "formula": "2 * pk"
+        },
+        {
+          "name": "N50",
+          "formula": "120 * 50 / p",
+          "roundTo": 0
+        }
+      ],
+      "answerFormula": "N50 * 60 / 50",
+      "answerType": "numeric",
+      "unitLabel": "min⁻¹",
+      "roundTo": 0,
+      "explanation": "同期速度は周波数に比例する。{N50} × 60 ÷ 50 = {N50} × 1.2 = {answer} min⁻¹。",
+      "tags": [
+        "計算",
+        "同期速度"
+      ],
+      "srsWeight": 1.0,
+      "hint": "周波数が 1.2 倍になる。"
+    },
+    {
+      "id": "S04-q01",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "三相誘導電動機の回転の向きを逆にするにはどうするか。",
+      "choices": [
+        "電源の 3 本のうち 2 本を入れ替える",
+        "3 本すべてを入れ替える",
+        "周波数を下げる",
+        "スターデルタ始動にする"
+      ],
+      "answerIndex": 0,
+      "explanation": "3 本のうち任意の 2 本を入れ替えると、回る磁界の向きが逆になり、電動機も逆に回る。3 本とも順に入れ替えると向きは変わらない。",
+      "tags": [
+        "電動機"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S04-q02",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "三相誘導電動機のスターデルタ始動の目的はどれか。",
+      "choices": [
+        "始動電流を小さくする",
+        "回転速度を上げる",
+        "力率を改善する",
+        "回転の向きを変える"
+      ],
+      "answerIndex": 0,
+      "explanation": "始動時に Y 結線にすると、始動電流は Δ 結線の 1/3 になる。回り始めたら Δ に切り替える。",
+      "tags": [
+        "電動機"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S04-q03",
+      "type": "trueFalse",
+      "difficulty": 1,
+      "prompt": "スターデルタ始動では、始動するときに巻線を Δ 結線にし、回り始めたら Y 結線に切り替える。",
+      "answer": false,
+      "explanation": "誤り。始動時が Y（スター）、運転時が Δ（デルタ）。Y のほうが巻線にかかる電圧が低く、始動電流を抑えられる。",
+      "tags": [
+        "電動機"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S04-q04",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "低圧進相コンデンサを三相誘導電動機に接続する方法と目的の組合せで正しいものはどれか。",
+      "choices": [
+        "電動機と並列につなぎ、力率を改善する",
+        "電動機と直列につなぎ、力率を改善する",
+        "電動機と並列につなぎ、始動電流を減らす",
+        "電動機と直列につなぎ、回転速度を上げる"
+      ],
+      "answerIndex": 0,
+      "explanation": "進相コンデンサは電動機と並列。電動機の遅れた電流をコンデンサの進んだ電流で打ち消し、力率を改善する。",
+      "tags": [
+        "電動機"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S04-q05",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "この図の機器（上下 2 つの部分を組み合わせたもの）の名前はどれか。",
+      "figure": "dev_magnetic_starter",
+      "choices": [
+        "電磁開閉器",
+        "配線用遮断器",
+        "漏電遮断器",
+        "タイムスイッチ"
+      ],
+      "answerIndex": 0,
+      "explanation": "上の電磁接触器（MC）と下の熱動継電器（THR）を組み合わせたものが電磁開閉器。",
+      "tags": [
+        "電動機"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S04-q06",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "電磁開閉器の熱動継電器（サーマルリレー）の役割はどれか。",
+      "choices": [
+        "過負荷が続いたとき回路を切り、電動機を守る",
+        "漏電を感じて回路を切る",
+        "電動機の回転の向きを変える",
+        "力率を改善する"
+      ],
+      "answerIndex": 0,
+      "explanation": "熱動継電器は、過大な電流による熱で動作し、電動機が焼けるのを防ぐ。",
+      "tags": [
+        "電動機"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S04-q07",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "LED ランプの特徴として誤っているものはどれか。",
+      "choices": [
+        "白熱電球より消費電力が大きい",
+        "白熱電球より寿命が長い",
+        "白熱電球より発光効率が高い",
+        "点灯してすぐに明るくなる"
+      ],
+      "answerIndex": 0,
+      "explanation": "LED は白熱電球より消費電力が小さい。寿命が長く、効率が高く、すぐに明るくなる。",
+      "tags": [
+        "照明"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S04-q08",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "蛍光灯に使う安定器の役割はどれか。",
+      "choices": [
+        "放電の電流を制限して安定させる",
+        "電圧を 200V に上げる",
+        "力率を悪くする",
+        "明るさを自動で変える"
+      ],
+      "answerIndex": 0,
+      "explanation": "蛍光灯などの放電灯は、放電が始まると電流が増え続けようとするので、安定器で電流を抑える。",
+      "tags": [
+        "照明"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S04-q09",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "自動点滅器は何によって照明を点け消しするか。",
+      "choices": [
+        "周囲の明るさ",
+        "人の体から出る赤外線",
+        "時刻",
+        "音"
+      ],
+      "answerIndex": 0,
+      "explanation": "自動点滅器は周囲の明るさを感じて、暗くなると点け、明るくなると消す。門灯や街灯に使う。",
+      "tags": [
+        "照明"
+      ],
+      "srsWeight": 1.0,
+      "origin": "図記号の傍記は A（Automatic）"
+    },
+    {
+      "id": "S04-q10",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "リモコンリレーの用途はどれか。",
+      "choices": [
+        "リモコンスイッチの信号で照明などの回路を入り切りする",
+        "漏電を検出して回路を切る",
+        "電動機の過負荷を防ぐ",
+        "電力量を測る"
+      ],
+      "answerIndex": 0,
+      "explanation": "リモコンリレーは分電盤などに並べて取り付け、離れた場所のリモコンスイッチの信号で回路を入り切りする。",
+      "tags": [
+        "照明"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S04-q11",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "三相誘導電動機の電源の周波数を 50Hz から 60Hz にすると、回転速度はどうなるか。",
+      "choices": [
+        "約 1.2 倍に速くなる",
+        "約 0.83 倍に遅くなる",
+        "変わらない",
+        "2 倍になる"
+      ],
+      "answerIndex": 0,
+      "explanation": "同期速度 N = 120f ÷ p は周波数に比例する。60 ÷ 50 = 1.2 倍。",
+      "tags": [
+        "電動機"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S04-q12",
+      "type": "trueFalse",
+      "difficulty": 1,
+      "prompt": "三相誘導電動機の同期速度は、極数が多いほど速い。",
+      "answer": false,
+      "explanation": "誤り。N = 120f ÷ p なので、極数 p が多いほど遅い。",
+      "tags": [
+        "電動機"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S04-q13",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "系統連系型の太陽光発電設備で、太陽電池の直流を交流に変える機器はどれか。",
+      "choices": [
+        "パワーコンディショナ",
+        "変圧器",
+        "進相コンデンサ",
+        "電磁開閉器"
+      ],
+      "answerIndex": 0,
+      "explanation": "パワーコンディショナは、太陽電池の直流を、配電線と同じ交流に変えて送り出す。",
+      "tags": [
+        "機器"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S04-q14",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "組み合わせて使う機器の組合せとして誤っているものはどれか。",
+      "choices": [
+        "白熱電球 と 安定器",
+        "蛍光灯 と 安定器",
+        "三相誘導電動機 と 進相コンデンサ",
+        "水銀灯 と 安定器"
+      ],
+      "answerIndex": 0,
+      "explanation": "安定器は放電で光る蛍光灯・水銀灯などに使う。白熱電球には要らない。",
+      "tags": [
+        "照明",
+        "機器"
+      ],
+      "srsWeight": 1.0
+    }
+  ],
+  "boss": {
+    "id": "S04-boss",
+    "title": "試験型ボス",
+    "description": "制限時間内に6問連続正解でクリア。図記号や写真の代わりの図から選ぶ問題も出る。",
+    "questionIds": [
+      "S04-t01",
+      "S04-t02",
+      "S04-t03",
+      "S04-q01",
+      "S04-q02",
+      "S04-q04",
+      "S04-q05",
+      "S04-q07",
+      "S04-q14"
+    ],
+    "pick": 6,
+    "timeLimitSeconds": 150
+  }
+}

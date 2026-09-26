@@ -14,5 +14,11 @@ build/
 .build/
 .swiftpm/
 
+# Python
+__pycache__/
+
+# Claude Code（作業用のワークツリー）
+.claude/worktrees/
+
 # macOS
 .DS_Store

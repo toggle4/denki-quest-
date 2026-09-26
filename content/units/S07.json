@@ -1,0 +1,366 @@
+{
+  "schemaVersion": 2,
+  "unit": {
+    "id": "S07",
+    "stage": 1,
+    "order": 7,
+    "title": "工具",
+    "lessonFile": "S07.md",
+    "prerequisites": [
+      "S06"
+    ],
+    "masteryThreshold": 0.9,
+    "legacyUnit": "u04_materials_tools"
+  },
+  "questions": [
+    {
+      "id": "S07-q01",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "「リングスリーブ用の圧着工具」はどれか。",
+      "choiceImages": [
+        "tool_crimper",
+        "tool_pliers",
+        "tool_stripper",
+        "tool_cable_cutter"
+      ],
+      "choices": [
+        "リングスリーブ用圧着工具（柄が黄色）",
+        "ペンチ",
+        "ワイヤストリッパ",
+        "ケーブルカッタ"
+      ],
+      "answerIndex": 0,
+      "explanation": "リングスリーブ用の圧着工具は柄が黄色。あごに小・中・大の圧着のくぼみがある。",
+      "tags": [
+        "工具"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S07-q02",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "この工具の用途はどれか。",
+      "figure": "tool_stripper",
+      "choices": [
+        "電線の被覆をむく",
+        "リングスリーブを圧着する",
+        "太い電線を切る",
+        "金属管を曲げる"
+      ],
+      "answerIndex": 0,
+      "explanation": "ワイヤストリッパ。刃に太さ別の穴が並び、電線の被覆をむく。",
+      "tags": [
+        "工具"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S07-q03",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "この工具の用途はどれか。",
+      "figure": "tool_click_ball",
+      "choices": [
+        "先にリーマを付けて、金属管の内側のバリを取る",
+        "金属管を曲げる",
+        "管に電線を通す",
+        "架空電線のたるみを取る"
+      ],
+      "answerIndex": 0,
+      "explanation": "クリックボールはクランク形の柄を回す工具。先にリーマを付けて金属管の切り口の内側を削る。",
+      "tags": [
+        "工具"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S07-q04",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "「パイプベンダ」はどれか。",
+      "choiceImages": [
+        "tool_pipe_bender",
+        "tool_click_ball",
+        "tool_hacksaw",
+        "tool_fish_tape"
+      ],
+      "choices": [
+        "パイプベンダ",
+        "クリックボール",
+        "金切りのこ",
+        "呼び線挿入器"
+      ],
+      "answerIndex": 0,
+      "explanation": "パイプベンダは長い柄の先に管を引っかける曲げ型があり、てこの力で金属管を曲げる。",
+      "tags": [
+        "工具"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S07-q05",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "この工具の用途はどれか。",
+      "figure": "tool_hole_saw",
+      "choices": [
+        "電動ドリルに付けて、金属板に丸い穴をあける",
+        "金属管を切る",
+        "木材にねじを締める",
+        "電線を管に通す"
+      ],
+      "answerIndex": 0,
+      "explanation": "ホルソはのこ刃のついたカップ形の刃。中心のドリルで位置を決め、丸い穴をあける。",
+      "tags": [
+        "工具"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S07-q06",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "この工具の用途はどれか。",
+      "figure": "tool_fish_tape",
+      "choices": [
+        "電線管に電線を通す",
+        "架空電線のたるみを取る",
+        "ケーブルの長さを測る",
+        "電線の被覆をむく"
+      ],
+      "answerIndex": 0,
+      "explanation": "呼び線挿入器。リールに巻いた鋼線を管に通し、先に電線を結んで引き入れる。",
+      "tags": [
+        "工具"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S07-q07",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "この工具の用途はどれか。",
+      "figure": "tool_torch",
+      "choices": [
+        "硬質ポリ塩化ビニル電線管をあぶって曲げる",
+        "金属管を切断する",
+        "ボックスに穴をあける",
+        "電線の接続部を絶縁する"
+      ],
+      "answerIndex": 0,
+      "explanation": "ガストーチランプ。VE 管を加熱して柔らかくし、曲げる。",
+      "tags": [
+        "工具"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S07-q08",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "「金切りのこ」はどれか。",
+      "choiceImages": [
+        "tool_hacksaw",
+        "tool_hole_saw",
+        "tool_cable_cutter",
+        "tool_screwdriver"
+      ],
+      "choices": [
+        "金切りのこ",
+        "ホルソ",
+        "ケーブルカッタ",
+        "ドライバ"
+      ],
+      "answerIndex": 0,
+      "explanation": "金切りのこはコの字の枠に細い刃を張ったのこぎり。金属管を切る。",
+      "tags": [
+        "工具"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S07-q09",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "この工具の用途はどれか。",
+      "figure": "tool_cable_cutter",
+      "choices": [
+        "太い電線やケーブルを切る",
+        "リングスリーブを圧着する",
+        "電線の被覆をむく",
+        "金属管を曲げる"
+      ],
+      "answerIndex": 0,
+      "explanation": "ケーブルカッタ。長い柄と湾曲した刃で、太い電線やケーブルを切る。",
+      "tags": [
+        "工具"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S07-q10",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "ねじなし電線管工事で、一般に使わない工具はどれか。",
+      "choices": [
+        "ねじ切り器",
+        "金切りのこ",
+        "パイプベンダ",
+        "リーマ"
+      ],
+      "answerIndex": 0,
+      "explanation": "ねじなし電線管はねじを切らない。ねじ切り器は厚鋼・薄鋼電線管に使う。",
+      "tags": [
+        "工具"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S07-q11",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "作業と工具の組合せとして誤っているものはどれか。",
+      "choices": [
+        "金属管のねじ切り ― パイプベンダ",
+        "金属管の切断 ― 金切りのこ",
+        "VE 管の曲げ ― ガストーチランプ",
+        "管への通線 ― 呼び線挿入器"
+      ],
+      "answerIndex": 0,
+      "explanation": "パイプベンダは金属管を曲げる工具。ねじ切りはねじ切り器を使う。",
+      "tags": [
+        "工具"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S07-q12",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "張線器の用途はどれか。",
+      "choices": [
+        "架空電線のたるみを取る",
+        "電線管に電線を通す",
+        "電線の被覆をむく",
+        "ケーブルを壁に固定する"
+      ],
+      "answerIndex": 0,
+      "explanation": "張線器（シメラー）は、架空の電線を引っ張ってたるみを取る。",
+      "tags": [
+        "工具"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S07-q13",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "金属製のボックスや分電盤の鉄板に、電線管を通す穴をあける工具はどれか。",
+      "choices": [
+        "ノックアウトパンチャ",
+        "クリックボール",
+        "パイプベンダ",
+        "張線器"
+      ],
+      "answerIndex": 0,
+      "explanation": "ノックアウトパンチャは、鉄板を打ち抜いて丸い穴をあける。",
+      "tags": [
+        "工具"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S07-q14",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "2 種金属製可とう電線管を切るときに使う工具はどれか。",
+      "choices": [
+        "プリカナイフ",
+        "パイプベンダ",
+        "合成樹脂管用カッタ",
+        "ワイヤストリッパ"
+      ],
+      "answerIndex": 0,
+      "explanation": "2 種金属製可とう電線管（プリカチューブ）はプリカナイフで切る。",
+      "tags": [
+        "工具"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S07-q15",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "コンクリートの壁に穴をあけるときに使う工具はどれか。",
+      "choices": [
+        "振動ドリル",
+        "ホルソ",
+        "クリックボール",
+        "リーマ"
+      ],
+      "answerIndex": 0,
+      "explanation": "振動ドリルは回転に打撃を加えて、コンクリートに穴をあける。",
+      "tags": [
+        "工具"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S07-q16",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "リングスリーブ用の圧着工具の柄の色はどれか。",
+      "choices": [
+        "黄色",
+        "赤色",
+        "青色",
+        "緑色"
+      ],
+      "answerIndex": 0,
+      "explanation": "リングスリーブ用は黄色。裸圧着端子用は赤色で、取り違えないようにしてある。",
+      "tags": [
+        "工具"
+      ],
+      "srsWeight": 1.0,
+      "tip": "技能試験では、黄色の柄の圧着工具でリングスリーブを圧着する。"
+    },
+    {
+      "id": "S07-q17",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "合成樹脂管（VE 管）工事で、一般に使わない工具はどれか。",
+      "choices": [
+        "パイプベンダ",
+        "合成樹脂管用カッタ",
+        "ガストーチランプ",
+        "面取器"
+      ],
+      "answerIndex": 0,
+      "explanation": "パイプベンダは金属管用。VE 管は合成樹脂管用カッタで切り、面取器で仕上げ、ガストーチランプで曲げる。",
+      "tags": [
+        "工具"
+      ],
+      "srsWeight": 1.0
+    }
+  ],
+  "boss": {
+    "id": "S07-boss",
+    "title": "試験型ボス",
+    "description": "制限時間内に6問連続正解でクリア。図記号や写真の代わりの図から選ぶ問題も出る。",
+    "questionIds": [
+      "S07-q01",
+      "S07-q03",
+      "S07-q04",
+      "S07-q05",
+      "S07-q07",
+      "S07-q10",
+      "S07-q11",
+      "S07-q13",
+      "S07-q17"
+    ],
+    "pick": 6,
+    "timeLimitSeconds": 120
+  }
+}

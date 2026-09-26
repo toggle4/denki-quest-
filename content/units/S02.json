@@ -1,0 +1,367 @@
+{
+  "schemaVersion": 2,
+  "unit": {
+    "id": "S02",
+    "stage": 1,
+    "order": 2,
+    "title": "配線用図記号（盤・機器・計器・配線）",
+    "lessonFile": "S02.md",
+    "prerequisites": [
+      "S01"
+    ],
+    "masteryThreshold": 0.9,
+    "legacyUnit": "u03_symbols"
+  },
+  "questions": [
+    {
+      "id": "S02-q01",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "「分電盤」の図記号はどれか。",
+      "choiceImages": [
+        "sym_panel",
+        "sym_kaiheiki",
+        "sym_breaker",
+        "sym_meter_wh"
+      ],
+      "choices": [
+        "分電盤",
+        "開閉器（S）",
+        "配線用遮断器（B）",
+        "電力量計（Wh）"
+      ],
+      "answerIndex": 0,
+      "explanation": "分電盤は、長方形を斜めに分けて半分を塗った形。",
+      "tags": [
+        "図記号",
+        "盤・遮断器"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S02-q02",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "この図記号の機器はどれか。",
+      "figure": "sym_elcb",
+      "choices": [
+        "漏電遮断器",
+        "配線用遮断器",
+        "開閉器",
+        "電力量計"
+      ],
+      "answerIndex": 0,
+      "explanation": "四角に E は漏電遮断器。漏電（地絡）を感じて回路を切る。B は配線用遮断器、S は開閉器。",
+      "tags": [
+        "図記号",
+        "盤・遮断器"
+      ],
+      "srsWeight": 1.0,
+      "origin": "E = Earth leakage（漏電）"
+    },
+    {
+      "id": "S02-q03",
+      "type": "imageChoice",
+      "difficulty": 2,
+      "prompt": "この図記号の機器はどれか。",
+      "figure": "sym_elcb_oc",
+      "choices": [
+        "過負荷保護付漏電遮断器",
+        "配線用遮断器",
+        "漏電遮断器（過負荷保護なし）",
+        "電磁開閉器"
+      ],
+      "answerIndex": 0,
+      "explanation": "四角に BE は、配線用遮断器（B）の働きと漏電遮断器（E）の働きを両方持つ、過負荷保護付漏電遮断器。",
+      "tags": [
+        "図記号",
+        "盤・遮断器"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S02-q04",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "「配線用遮断器」の図記号はどれか。",
+      "choiceImages": [
+        "sym_breaker",
+        "sym_elcb",
+        "sym_kaiheiki",
+        "sym_heater"
+      ],
+      "choices": [
+        "配線用遮断器（B）",
+        "漏電遮断器（E）",
+        "開閉器（S）",
+        "電熱器（○ に H）"
+      ],
+      "answerIndex": 0,
+      "explanation": "配線用遮断器は四角に B（Breaker）。過電流で回路を切る。",
+      "tags": [
+        "図記号",
+        "盤・遮断器"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S02-q05",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "この図記号の計器はどれか。",
+      "figure": "sym_meter_wh",
+      "choices": [
+        "電力量計",
+        "電力計",
+        "電流計",
+        "電圧計"
+      ],
+      "answerIndex": 0,
+      "explanation": "○ に Wh は電力量計。使った電力量（ワット時）を測る。電流計は A、電圧計は V。",
+      "tags": [
+        "図記号",
+        "機器"
+      ],
+      "srsWeight": 1.0,
+      "origin": "Wh = Watt hour（ワット時）"
+    },
+    {
+      "id": "S02-q06",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "「電動機」の図記号はどれか。",
+      "choiceImages": [
+        "sym_motor",
+        "sym_heater",
+        "sym_meter_wh",
+        "sym_fan"
+      ],
+      "choices": [
+        "電動機（M）",
+        "電熱器（H）",
+        "電力量計（Wh）",
+        "換気扇"
+      ],
+      "answerIndex": 0,
+      "explanation": "電動機は ○ に M（Motor）。",
+      "tags": [
+        "図記号",
+        "機器"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S02-q07",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "この図記号の機器はどれか。",
+      "figure": "sym_heater",
+      "choices": [
+        "電熱器",
+        "電動機",
+        "換気扇",
+        "押しボタン"
+      ],
+      "answerIndex": 0,
+      "explanation": "○ に H は電熱器（Heater）。",
+      "tags": [
+        "図記号",
+        "機器"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S02-q08",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "この図記号の機器はどれか。",
+      "figure": "sym_aircon_O",
+      "choices": [
+        "ルームエアコンの屋外ユニット",
+        "ルームエアコンの屋内ユニット",
+        "換気扇",
+        "電磁開閉器"
+      ],
+      "answerIndex": 0,
+      "explanation": "四角に RC はルームエアコン。傍記 O は屋外ユニット（Outdoor）、I は屋内ユニット（Indoor）。",
+      "tags": [
+        "図記号",
+        "機器"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S02-q09",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "ルームエアコンの屋内ユニットを表す図記号の傍記はどれか。",
+      "choices": [
+        "I",
+        "O",
+        "R",
+        "B"
+      ],
+      "answerIndex": 0,
+      "explanation": "屋内ユニットは I（Indoor）、屋外ユニットは O（Outdoor）。",
+      "tags": [
+        "図記号",
+        "機器"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S02-q10",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "この図記号は何を表すか。",
+      "figure": "sym_earth",
+      "choices": [
+        "接地極",
+        "避雷器",
+        "ヒューズ",
+        "電池"
+      ],
+      "answerIndex": 0,
+      "explanation": "縦線の下に、短くなっていく横線 3 本は接地極（アース）。",
+      "tags": [
+        "図記号",
+        "機器"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S02-q11",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "この図記号の器具はどれか。",
+      "figure": "sym_pushbutton",
+      "choices": [
+        "押しボタン",
+        "確認表示灯",
+        "換気扇",
+        "電熱器"
+      ],
+      "answerIndex": 0,
+      "explanation": "○ の中に ● は押しボタン。玄関のチャイムのボタンなどに使う。",
+      "tags": [
+        "図記号",
+        "機器"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S02-q12",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "「露出配線」を表す線はどれか。",
+      "choiceImages": [
+        "sym_line_exposed",
+        "sym_line_ceiling",
+        "sym_line_floor",
+        "sym_line_underground"
+      ],
+      "choices": [
+        "露出配線（点線）",
+        "天井隠ぺい配線（実線）",
+        "床隠ぺい配線（破線）",
+        "地中埋設配線（一点鎖線）"
+      ],
+      "answerIndex": 0,
+      "explanation": "露出配線は点線。天井隠ぺいは実線、床隠ぺいは破線、地中埋設は一点鎖線。",
+      "tags": [
+        "図記号",
+        "配線"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S02-q13",
+      "type": "imageChoice",
+      "difficulty": 1,
+      "prompt": "この線で表す配線はどれか。",
+      "figure": "sym_line_floor",
+      "choices": [
+        "床隠ぺい配線",
+        "天井隠ぺい配線",
+        "露出配線",
+        "地中埋設配線"
+      ],
+      "answerIndex": 0,
+      "explanation": "短い線が並ぶ破線は床隠ぺい配線。点の並び（点線）は露出配線。",
+      "tags": [
+        "図記号",
+        "配線"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S02-q14",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "配線図の線に「VVF1.6-2C」と添えられている。意味はどれか。",
+      "choices": [
+        "直径 1.6mm の VVF ケーブル、心線 2 本",
+        "断面積 1.6mm² の VVF ケーブル 2 本",
+        "直径 1.6mm の VVF ケーブル、長さ 2m",
+        "直径 1.6mm の IV 線 2 本"
+      ],
+      "answerIndex": 0,
+      "explanation": "1.6 は心線の直径（mm）、2C は心線の数（2 心）。C は Core（心線）。",
+      "tags": [
+        "図記号",
+        "配線"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S02-q15",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "配線図の線に短い斜線が 3 本引かれている。意味はどれか。",
+      "choices": [
+        "電線が 3 本",
+        "3 階の配線",
+        "3 路スイッチへの配線",
+        "電線管が 3 本"
+      ],
+      "answerIndex": 0,
+      "explanation": "線に引いた短い斜線の本数は、電線の本数を表す。",
+      "tags": [
+        "図記号",
+        "配線"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "S02-q16",
+      "type": "trueFalse",
+      "difficulty": 1,
+      "prompt": "天井隠ぺい配線は、配線図では点線で描く。",
+      "answer": false,
+      "explanation": "誤り。天井隠ぺい配線は実線。点線は露出配線。",
+      "tags": [
+        "図記号",
+        "配線"
+      ],
+      "srsWeight": 1.0
+    }
+  ],
+  "boss": {
+    "id": "S02-boss",
+    "title": "試験型ボス",
+    "description": "制限時間内に6問連続正解でクリア。図記号や写真の代わりの図から選ぶ問題も出る。",
+    "questionIds": [
+      "S02-q01",
+      "S02-q02",
+      "S02-q03",
+      "S02-q05",
+      "S02-q08",
+      "S02-q10",
+      "S02-q12",
+      "S02-q13",
+      "S02-q14"
+    ],
+    "pick": 6,
+    "timeLimitSeconds": 120
+  }
+}
