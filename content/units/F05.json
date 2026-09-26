@@ -1,0 +1,300 @@
+{
+  "schemaVersion": 2,
+  "unit": {
+    "id": "F05",
+    "stage": 0,
+    "order": 5,
+    "title": "直並列の混合回路",
+    "lessonFile": "F05.md",
+    "prerequisites": [
+      "F04"
+    ],
+    "masteryThreshold": 0.95,
+    "legacyUnit": "u02_circuits_review"
+  },
+  "boss": {
+    "id": "F05-boss",
+    "title": "試験型ボス",
+    "description": "制限時間内に5問連続正解でクリア。数値は毎回変わる。",
+    "questionIds": [
+      "F05-t01",
+      "F05-t02",
+      "F05-t03",
+      "F05-t04",
+      "F05-q01",
+      "F05-q03"
+    ],
+    "pick": 5,
+    "timeLimitSeconds": 120
+  },
+  "questions": [
+    {
+      "id": "F05-q01",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "ブリッジ回路（上の道 R1→R2、下の道 R3→R4、橋は上下の道の途中をつなぐ）が平衡する条件はどれか。",
+      "choices": [
+        "R1 × R4 = R2 × R3",
+        "R1 × R2 = R3 × R4",
+        "R1 + R4 = R2 + R3",
+        "R1 + R2 = R3 + R4"
+      ],
+      "answerIndex": 0,
+      "explanation": "向かい合う（対角の）抵抗の積が等しいとき平衡する。比で書くと R1 : R2 = R3 : R4。上の道と下の道で、電圧が同じ割合で下がるということ。",
+      "tags": [
+        "概念",
+        "ブリッジ"
+      ],
+      "srsWeight": 1.0,
+      "hint": "上の道の比と下の道の比が同じになる形を探す。",
+      "tip": "「隣どうしをかける」R1 × R2 = R3 × R4 が定番の誤答。図の向きが変わっても、比で確かめれば間違えない。"
+    },
+    {
+      "id": "F05-t01",
+      "type": "template",
+      "difficulty": 1,
+      "prompt": "ブリッジ回路で R1 = {R1}Ω、R2 = {R2}Ω、R3 = {R3}Ω。橋に電流が流れないようにするには、R4 を何 Ω にすればよいか。",
+      "variables": {
+        "R1": {
+          "min": 1,
+          "max": 6
+        },
+        "R2": {
+          "min": 2,
+          "max": 12
+        },
+        "R3": {
+          "min": 2,
+          "max": 12
+        }
+      },
+      "constraints": [
+        "(R2 * R3) % R1 == 0",
+        "R2 != R1"
+      ],
+      "answerFormula": "R2 * R3 / R1",
+      "answerType": "choice",
+      "unitLabel": "Ω",
+      "roundTo": 1,
+      "distractors": [
+        "R1 * R3 / R2",
+        "R1 * R2 / R3",
+        "R2 + R3 - R1"
+      ],
+      "explanation": "平衡の条件は R1 × R4 = R2 × R3。R4 = R2 × R3 ÷ R1 = {R2} × {R3} ÷ {R1} = {answer}Ω。比で見ると {R1} : {R2} = {R3} : {answer}。",
+      "tags": [
+        "計算",
+        "ブリッジ"
+      ],
+      "srsWeight": 1.0,
+      "hint": "R1 × R4 = R2 × R3 を R4 について解く。"
+    },
+    {
+      "id": "F05-t02",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "ブリッジ回路で R1 = {R1}Ω、R2 = {R2}Ω、R3 = {R3}Ω、R4 = {R4}Ω。橋には {R5}Ω の抵抗がある。端子間の合成抵抗は何 Ω か。",
+      "variables": {
+        "R1": {
+          "min": 1,
+          "max": 6
+        },
+        "R2": {
+          "min": 1,
+          "max": 9
+        },
+        "k": {
+          "min": 2,
+          "max": 3
+        },
+        "R5": {
+          "min": 2,
+          "max": 10
+        }
+      },
+      "derived": [
+        {
+          "name": "R3",
+          "formula": "k * R1"
+        },
+        {
+          "name": "R4",
+          "formula": "k * R2"
+        },
+        {
+          "name": "S1",
+          "formula": "R1 + R2"
+        },
+        {
+          "name": "S2",
+          "formula": "R3 + R4"
+        }
+      ],
+      "constraints": [
+        "(S1 * S2) % (S1 + S2) == 0"
+      ],
+      "answerFormula": "S1 * S2 / (S1 + S2)",
+      "answerType": "numeric",
+      "unitLabel": "Ω",
+      "roundTo": 2,
+      "explanation": "{R1} : {R2} と {R3} : {R4} は同じ比なので平衡。橋の {R5}Ω は消す。上の道 {S1}Ω と下の道 {S2}Ω の並列で、{S1} × {S2} ÷ ({S1} + {S2}) = {answer}Ω。",
+      "tags": [
+        "計算",
+        "ブリッジ",
+        "合成抵抗"
+      ],
+      "srsWeight": 1.0,
+      "hint": "まず比が同じか確かめる。平衡なら橋は消して、上の道と下の道の並列にする。",
+      "tip": "橋の抵抗は何Ωでも答えに関係しない。値を見て迷わせるための数字。"
+    },
+    {
+      "id": "F05-t03",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "ブリッジ回路で R1 = {R1}Ω、R2 = {R2}Ω、R3 = {R3}Ω、R4 = {R4}Ω、橋に {R5}Ω。電源 {V}V のとき、回路全体に流れる電流は何 A か。",
+      "variables": {
+        "R1": {
+          "min": 1,
+          "max": 6
+        },
+        "R2": {
+          "min": 1,
+          "max": 9
+        },
+        "k": {
+          "min": 2,
+          "max": 3
+        },
+        "R5": {
+          "min": 2,
+          "max": 10
+        },
+        "V": {
+          "min": 6,
+          "max": 60,
+          "step": 6
+        }
+      },
+      "derived": [
+        {
+          "name": "R3",
+          "formula": "k * R1"
+        },
+        {
+          "name": "R4",
+          "formula": "k * R2"
+        },
+        {
+          "name": "S1",
+          "formula": "R1 + R2"
+        },
+        {
+          "name": "S2",
+          "formula": "R3 + R4"
+        },
+        {
+          "name": "Rt",
+          "formula": "S1 * S2 / (S1 + S2)",
+          "roundTo": 2
+        }
+      ],
+      "constraints": [
+        "(S1 * S2) % (S1 + S2) == 0",
+        "V % Rt == 0"
+      ],
+      "answerFormula": "V / Rt",
+      "answerType": "choice",
+      "unitLabel": "A",
+      "roundTo": 2,
+      "distractors": [
+        "V / (S1 + S2)",
+        "V / S1",
+        "V / (Rt + R5)"
+      ],
+      "explanation": "平衡しているので橋は消す。上の道 {S1}Ω と下の道 {S2}Ω の並列で合成抵抗 {Rt}Ω。電流 {V} ÷ {Rt} = {answer}A。",
+      "tags": [
+        "計算",
+        "ブリッジ"
+      ],
+      "srsWeight": 1.0,
+      "hint": "合成抵抗を出してから、オームの法則 I = V ÷ R。"
+    },
+    {
+      "id": "F05-t04",
+      "type": "template",
+      "difficulty": 1,
+      "prompt": "電源 {V}V のブリッジ回路で、上の道は R1 = {R1}Ω、R2 = {R2}Ω。上の道の R1 で下がる電圧は何 V か。",
+      "variables": {
+        "V": {
+          "min": 6,
+          "max": 60,
+          "step": 6
+        },
+        "R1": {
+          "min": 1,
+          "max": 8
+        },
+        "R2": {
+          "min": 1,
+          "max": 8
+        }
+      },
+      "derived": [
+        {
+          "name": "I",
+          "formula": "V / (R1 + R2)"
+        }
+      ],
+      "constraints": [
+        "V % (R1 + R2) == 0",
+        "R1 != R2"
+      ],
+      "answerFormula": "I * R1",
+      "answerType": "numeric",
+      "unitLabel": "V",
+      "roundTo": 2,
+      "explanation": "上の道の電流 {V} ÷ ({R1} + {R2}) = {I}A。R1 で下がる電圧 {I} × {R1} = {answer}V。下の道で同じだけ下がる点に橋がつながっていれば、橋に電流は流れない。",
+      "tags": [
+        "計算",
+        "ブリッジ",
+        "電圧"
+      ],
+      "srsWeight": 1.0,
+      "hint": "上の道は R1 と R2 の直列。まず電流を出す。"
+    },
+    {
+      "id": "F05-q02",
+      "type": "trueFalse",
+      "difficulty": 1,
+      "prompt": "平衡していないブリッジ回路でも、橋の抵抗を取り除いて合成抵抗を計算してよい。",
+      "answer": false,
+      "explanation": "誤り。平衡していないと橋の両端に電圧の差ができ、橋に電流が流れる。取り除けるのは平衡しているときだけ。",
+      "tags": [
+        "概念",
+        "ブリッジ"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "F05-q03",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "平衡しているブリッジ回路の、橋の抵抗を 5Ω から 50Ω に取り替えた。回路全体に流れる電流はどうなるか。",
+      "choices": [
+        "変わらない",
+        "増える",
+        "減る",
+        "0 になる"
+      ],
+      "answerIndex": 0,
+      "explanation": "平衡していれば橋の両端は同じ電圧で、橋には電流が流れない。だから橋の抵抗を何Ωにしても、回路全体の電流は変わらない。",
+      "tags": [
+        "概念",
+        "ブリッジ"
+      ],
+      "srsWeight": 1.0,
+      "tip": "測定器のホイートストンブリッジは、この「橋に電流が流れない」状態を目印にして抵抗の値を読み取る。",
+      "origin": "bridge = 橋。Wheatstone（ホイートストン）は、この測り方を広めたイギリスの物理学者の名前。"
+    }
+  ]
+}

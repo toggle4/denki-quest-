@@ -29,7 +29,7 @@ docs/curriculum.md        全ステージ・全単元の順序と設計思想
 docs/HANDOFF.md           この文書
 content/schema.md         問題データ（JSON）の仕様。template 形式を含む
 content/lessons/README.md 教材テキスト（Markdown）の仕様と画面遷移ルール
-content/lessons/F01.md〜F08.md  ステージ0の教材テキスト（各4〜5セッション）
+content/lessons/F01.md〜F08.md  ステージ0の教材テキスト（各4〜7セッション）
 content/units/F02.json    F02 の問題データ（試作。差し込み問題つき）
 DenkiQuest.xcodeproj ほか チャット側の指示で新規作成された SwiftUI 実装（テキストビューのみ）
 ```
@@ -123,6 +123,13 @@ DenkiQuest.xcodeproj ほか チャット側の指示で新規作成された Swi
 >   結果画面に S/A/B/C ランクと取りこぼした問題の見直し、視差を減らす設定への対応
 > - ボス図鑑を追加（BossCollectionView）。撃破回数・最速タイム・最大コンボ・最大ヒット・初撃破日を UserDefaults に保存（BossCollection）。
 >   入口はホームの「ボス図鑑」カードと歯車メニュー
+> - つまずきやすい所の補強: F05 にセッション5（ブリッジを比で見る）、F07 にセッション6（長さと直径を倍率でまとめる）、
+>   F08 にセッション6（電圧降下と損失の取り違え）・セッション7（抵抗の与え方・負荷が抵抗のとき・逆算）を追加。
+>   既存セッションの本文は変えていない。問題は content/units/F05.json・F07.json・F08.json（template 16 問を含む 25 問、ボスつき）。
+>   図 3 枚を追加（F05_bridge_ratio、F07_length_and_diameter、F08_per_km）
+> - template に `derived`（途中の値）を追加（QuestionSetV2.swift の DerivedSpec、TemplateEngine.generate）。
+>   解説に「電流 {I}A → 損失 {answer}W」のように途中の値を出せる。仕様は content/schema.md。
+>   template の生成チェック `python3 tools/check_templates.py`
 
 ### タスク A：旧ゲームの復元調査（変更なし、報告のみ）
 1. `git log --all --oneline` と `git reflog` で、現在より前に別の Swift ファイル・Xcode プロジェクトがあったコミットを探す

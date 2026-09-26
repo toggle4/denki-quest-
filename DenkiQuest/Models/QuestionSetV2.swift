@@ -36,6 +36,15 @@ struct VariableSpec: Decodable {
     let step: Double?
 }
 
+/// template 問題の途中の値。変数から式で計算し、問題文・解説・答えの式で {名前} として使える。
+/// 並べた順に計算するので、前の途中の値を後ろの式で使ってよい。
+struct DerivedSpec: Decodable {
+    let name: String
+    let formula: String
+    /// 丸める桁数。丸めた値を以降の計算にも使う（表示と計算を一致させる）
+    let roundTo: Int?
+}
+
 /// 新形式の 1 問。type ごとに使うフィールドが違うので、すべて optional で持つ。
 struct QuestionV2: Decodable, Identifiable {
     let id: String
@@ -68,11 +77,12 @@ struct QuestionV2: Decodable, Identifiable {
     let answerType: String?
     let roundTo: Int?
     let distractors: [String]?
+    let derived: [DerivedSpec]?
 
     private enum CodingKeys: String, CodingKey {
         case id, type, difficulty, prompt, explanation, tags, srsWeight, figure, hint, origin, tip
         case choices, answerIndex, answer, unitLabel, tolerance
-        case variables, constraints, answerFormula, answerType, roundTo, distractors
+        case variables, constraints, answerFormula, answerType, roundTo, distractors, derived
     }
 
     init(from decoder: Decoder) throws {
@@ -112,5 +122,6 @@ struct QuestionV2: Decodable, Identifiable {
         answerType = try c.decodeIfPresent(String.self, forKey: .answerType)
         roundTo = try c.decodeIfPresent(Int.self, forKey: .roundTo)
         distractors = try c.decodeIfPresent([String].self, forKey: .distractors)
+        derived = try c.decodeIfPresent([DerivedSpec].self, forKey: .derived)
     }
 }

@@ -33,7 +33,7 @@
 - 既存の動くコードを作り直さず、拡張する
 - 新しい出題形式やMarkdown記法を追加するときは schema.md / lessons/README.md も更新する
 - 教材（lessons, units）の中身は書き換えない。パーサやUI側で対応する
-- 教材 JSON を追加・変更したら `python3 tools/validate_content.py` を通す。教材テキスト（lessons）を追加・変更したら `python3 tools/validate_lessons.py` を通す
+- 教材 JSON を追加・変更したら `python3 tools/validate_content.py` を通す（template を追加・変更したら `python3 tools/check_templates.py` も）。教材テキスト（lessons）を追加・変更したら `python3 tools/validate_lessons.py` を通す
 
 ## ビルド確認コマンド
 ```sh
@@ -51,8 +51,8 @@ xcodebuild -project DenkiQuest.xcodeproj -scheme DenkiQuest \
   - `Assets.xcassets/Mascot.imageset` … 通常のマスコット SVG（自作）
   - `Assets.xcassets/MascotBurnt.imageset` … 感電してこげたマスコット（`tools/gen_mascot_burnt.py` で生成。差し替えは `tools/install_mascot_burnt.sh`）
   - `Assets.xcassets/Bosses/Boss01〜Boss12.imageset` … ボス 12 体の絵（背景透過 PNG。仮画像は tools/gen_boss_placeholders.py。差し替えはファイル名 boss_NN.png のまま上書き）
-  - `Assets.xcassets/BossMonster.imageset` … 名簿にない単元用の予備画像、`Figures/` … 単線図 SVG（tools/gen_wiring_figures.py）と教材 F01〜F08 の図 34 枚（tools/gen_lesson_figures.py）
-- `tools/` … 効果音・アイコンの生成、教材 JSON の検証 `validate_content.py`（Python 標準ライブラリのみ）
+  - `Assets.xcassets/BossMonster.imageset` … 名簿にない単元用の予備画像、`Figures/` … 単線図 SVG（tools/gen_wiring_figures.py）と教材 F01〜F08 の図 37 枚（tools/gen_lesson_figures.py）
+- `tools/` … 効果音・アイコンの生成、教材 JSON の検証 `validate_content.py`、template の生成チェック `check_templates.py`（Python 標準ライブラリのみ）
 - `content/lessons/` … 教材テキスト（Markdown）
 - `content/units/` … 問題データ（JSON）
 - `docs/` … curriculum.md, HANDOFF.md, legacy-overview.md, app-store.md（App Store Connect に載せる文言。文字数の確認は `python3 tools/check_app_store_text.py`）

@@ -1,0 +1,459 @@
+{
+  "schemaVersion": 2,
+  "unit": {
+    "id": "F08",
+    "stage": 0,
+    "order": 8,
+    "title": "電圧降下と電力損失",
+    "lessonFile": "F08.md",
+    "prerequisites": [
+      "F07"
+    ],
+    "masteryThreshold": 0.95,
+    "legacyUnit": "u13_distribution"
+  },
+  "boss": {
+    "id": "F08-boss",
+    "title": "試験型ボス",
+    "description": "制限時間内に6問連続正解でクリア。数値は毎回変わる。",
+    "questionIds": [
+      "F08-t01",
+      "F08-t02",
+      "F08-t03",
+      "F08-t04",
+      "F08-t05",
+      "F08-t06",
+      "F08-t07",
+      "F08-q01",
+      "F08-q03"
+    ],
+    "pick": 6,
+    "timeLimitSeconds": 150
+  },
+  "questions": [
+    {
+      "id": "F08-q01",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "単相2線式で、電線1本の抵抗が r、流れる電流が I のとき、電線での電力損失を表す式はどれか。",
+      "choices": [
+        "2 × I² × r",
+        "2 × I × r",
+        "I² × r",
+        "2 × I × r²"
+      ],
+      "answerIndex": 0,
+      "explanation": "電力損失は P = I² × R。往復の抵抗は 2r なので 2 × I² × r。2 × I × r は電圧降下の式（単位は V）。",
+      "tags": [
+        "概念",
+        "電力損失"
+      ],
+      "srsWeight": 1.0,
+      "hint": "損失の単位は W。I を何回かけるかに注意。"
+    },
+    {
+      "id": "F08-t01",
+      "type": "template",
+      "difficulty": 1,
+      "prompt": "電線1本の抵抗が {r}Ω の単相2線式配線に {I}A 流れている。電線での電圧降下は何 V か。",
+      "variables": {
+        "I": {
+          "min": 5,
+          "max": 30,
+          "step": 5
+        },
+        "r": {
+          "min": 0.05,
+          "max": 0.3,
+          "step": 0.05
+        }
+      },
+      "answerFormula": "2 * I * r",
+      "answerType": "numeric",
+      "unitLabel": "V",
+      "roundTo": 2,
+      "explanation": "往復で2本分。電圧降下 2 × {I} × {r} = {answer}V。",
+      "tags": [
+        "計算",
+        "電圧降下"
+      ],
+      "srsWeight": 1.0,
+      "hint": "「1本」の抵抗なので2倍する。"
+    },
+    {
+      "id": "F08-q02",
+      "type": "multipleChoice",
+      "difficulty": 2,
+      "prompt": "電源 100V、往復の電線抵抗 0.2Ω、電流 10A の配線。電線での電力損失の求め方として、誤っているものはどれか。",
+      "choices": [
+        "100 × 100 ÷ 0.2",
+        "10 × 10 × 0.2",
+        "2 × 10（電圧降下 × 電流）",
+        "2 × 2 ÷ 0.2"
+      ],
+      "answerIndex": 0,
+      "explanation": "100V は負荷と電線の全体にかかる電圧で、電線だけにかかっているのは電圧降下の 2V。100 × 100 ÷ 0.2 = 50000W は電線の損失ではない。ほかの3つはどれも 20W。",
+      "tags": [
+        "概念",
+        "電力損失"
+      ],
+      "srsWeight": 1.0,
+      "hint": "電線にかかっている電圧はいくつか。",
+      "tip": "P = V² ÷ R を使うときは、その抵抗の両端にかかる電圧を入れる。電源の電圧をそのまま入れない。"
+    },
+    {
+      "id": "F08-t02",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "{V}V・{P}W の電気器具を、電線1本の抵抗 {r}Ω の単相2線式配線で使う。電線での電力損失は何 W か。",
+      "variables": {
+        "V": {
+          "min": 100,
+          "max": 200,
+          "step": 100
+        },
+        "P": {
+          "min": 600,
+          "max": 2000,
+          "step": 100
+        },
+        "r": {
+          "min": 0.05,
+          "max": 0.2,
+          "step": 0.05
+        }
+      },
+      "derived": [
+        {
+          "name": "I",
+          "formula": "P / V"
+        },
+        {
+          "name": "Rw",
+          "formula": "2 * r",
+          "roundTo": 2
+        }
+      ],
+      "constraints": [
+        "P % V == 0"
+      ],
+      "answerFormula": "I * I * Rw",
+      "answerType": "choice",
+      "unitLabel": "W",
+      "roundTo": 1,
+      "distractors": [
+        "I * Rw",
+        "I * I * r",
+        "V * V / Rw"
+      ],
+      "explanation": "電流 {P} ÷ {V} = {I}A。往復の抵抗 {r} × 2 = {Rw}Ω。損失 {I} × {I} × {Rw} = {answer}W。",
+      "tags": [
+        "計算",
+        "電力損失"
+      ],
+      "srsWeight": 1.0,
+      "hint": "まず I = P ÷ V で電流を出す。",
+      "tip": "1500W のドライヤーを細い延長コードで使うとコードが熱くなるのは、この損失が熱になるから。"
+    },
+    {
+      "id": "F08-t03",
+      "type": "template",
+      "difficulty": 1,
+      "prompt": "電源 {Vs}V、電線1本の抵抗 {r}Ω、電流 {I}A の単相2線式配線。電線での電圧降下は、電源電圧の何 % か。",
+      "variables": {
+        "Vs": {
+          "min": 100,
+          "max": 200,
+          "step": 100
+        },
+        "I": {
+          "min": 5,
+          "max": 20,
+          "step": 5
+        },
+        "r": {
+          "min": 0.05,
+          "max": 0.2,
+          "step": 0.05
+        }
+      },
+      "derived": [
+        {
+          "name": "Vd",
+          "formula": "2 * I * r",
+          "roundTo": 2
+        }
+      ],
+      "answerFormula": "Vd / Vs * 100",
+      "answerType": "numeric",
+      "unitLabel": "%",
+      "roundTo": 2,
+      "explanation": "電圧降下 2 × {I} × {r} = {Vd}V。電源電圧に対する割合は {Vd} ÷ {Vs} × 100 = {answer}%。",
+      "tags": [
+        "計算",
+        "電圧降下率"
+      ],
+      "srsWeight": 1.0,
+      "hint": "電圧降下を出してから、電源電圧で割って 100 をかける。"
+    },
+    {
+      "id": "F08-q03",
+      "type": "trueFalse",
+      "difficulty": 1,
+      "prompt": "電線に流れる電流が2倍になると、電線での電力損失も2倍になる。",
+      "answer": false,
+      "explanation": "誤り。電力損失は 2I²r で、電流の2乗に比例する。電流が2倍なら損失は 2 × 2 = 4倍。電圧降下（2Ir）なら2倍。",
+      "tags": [
+        "概念",
+        "電力損失"
+      ],
+      "srsWeight": 1.0
+    },
+    {
+      "id": "F08-t04",
+      "type": "template",
+      "difficulty": 1,
+      "prompt": "単相2線式配線で、電線での電圧降下が {Vd}V、流れている電流が {I}A。電線での電力損失は何 W か。",
+      "variables": {
+        "Vd": {
+          "min": 1,
+          "max": 6,
+          "step": 0.5
+        },
+        "I": {
+          "min": 5,
+          "max": 20,
+          "step": 5
+        }
+      },
+      "answerFormula": "Vd * I",
+      "answerType": "choice",
+      "unitLabel": "W",
+      "roundTo": 1,
+      "distractors": [
+        "Vd * I * 2",
+        "Vd * Vd",
+        "I * I / Vd"
+      ],
+      "explanation": "電力損失 ＝ 電圧降下 × 電流 = {Vd} × {I} = {answer}W。",
+      "tags": [
+        "計算",
+        "電力損失"
+      ],
+      "srsWeight": 1.0,
+      "hint": "電線という抵抗の「電圧 × 電流」が、その抵抗で使われる電力。"
+    },
+    {
+      "id": "F08-q04",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "「電線の抵抗の合計が 0.3Ω」の単相2線式配線に 10A 流れている。電圧降下は何 V か。",
+      "choices": [
+        "3V",
+        "6V",
+        "1.5V",
+        "0.3V"
+      ],
+      "answerIndex": 0,
+      "explanation": "「合計」は往復の2本分をすでに足した値。2倍せずにそのまま使う。10 × 0.3 = 3V。",
+      "tags": [
+        "概念",
+        "電圧降下"
+      ],
+      "srsWeight": 1.0,
+      "hint": "問題文が「1本あたり」か「合計」かを先に確かめる。",
+      "tip": "試験では「1線当たりの抵抗」と書かれることが多い。「当たり」を見たら2倍、と覚えておく。"
+    },
+    {
+      "id": "F08-t05",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "直径 {d}mm の銅線（1km あたり {Rk}Ω）で、こう長 {L}m の単相2線式配線をした。負荷電流 {I}A のとき、電圧降下は何 V か。",
+      "variables": {
+        "n": {
+          "min": 0,
+          "max": 2
+        },
+        "L": {
+          "min": 10,
+          "max": 50,
+          "step": 10
+        },
+        "I": {
+          "min": 5,
+          "max": 20,
+          "step": 5
+        }
+      },
+      "derived": [
+        {
+          "name": "d",
+          "formula": "1.6 + 0.4 * n + 0.2 * floor(n / 2)",
+          "roundTo": 1
+        },
+        {
+          "name": "Rk",
+          "formula": "9 - 3.95 * n + 0.55 * n * n",
+          "roundTo": 1
+        },
+        {
+          "name": "r",
+          "formula": "Rk * L / 1000",
+          "roundTo": 3
+        }
+      ],
+      "answerFormula": "2 * I * r",
+      "answerType": "choice",
+      "unitLabel": "V",
+      "roundTo": 2,
+      "distractors": [
+        "I * r",
+        "4 * I * r",
+        "2 * I * Rk"
+      ],
+      "explanation": "1本の抵抗 {Rk} × {L} ÷ 1000 = {r}Ω。電圧降下 2 × {I} × {r} = {answer}V。",
+      "tags": [
+        "計算",
+        "電圧降下"
+      ],
+      "srsWeight": 1.0,
+      "hint": "1km = 1000m。まず電線1本の抵抗を出す。",
+      "origin": "こう長（亘長）＝ 電線を張る区間の長さ。電源から負荷までの道のり。"
+    },
+    {
+      "id": "F08-t06",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "電源 {Vs}V に、抵抗 {RL}Ω の負荷を、電線1本の抵抗 {r}Ω の単相2線式で接続した。負荷にかかる電圧は何 V か。",
+      "variables": {
+        "Vs": {
+          "min": 100,
+          "max": 200,
+          "step": 100
+        },
+        "I": {
+          "min": 5,
+          "max": 25,
+          "step": 5
+        },
+        "r": {
+          "min": 0.1,
+          "max": 0.2,
+          "step": 0.05
+        }
+      },
+      "derived": [
+        {
+          "name": "RL",
+          "formula": "Vs / I - 2 * r",
+          "roundTo": 2
+        },
+        {
+          "name": "Rt",
+          "formula": "RL + 2 * r",
+          "roundTo": 2
+        }
+      ],
+      "constraints": [
+        "Vs % I == 0",
+        "RL > 0"
+      ],
+      "answerFormula": "I * RL",
+      "answerType": "numeric",
+      "unitLabel": "V",
+      "roundTo": 2,
+      "explanation": "回路全体の抵抗 {RL} + 2 × {r} = {Rt}Ω。電流 {Vs} ÷ {Rt} = {I}A。負荷の電圧 {I} × {RL} = {answer}V。",
+      "tags": [
+        "計算",
+        "電圧降下"
+      ],
+      "srsWeight": 1.0,
+      "hint": "電線と負荷は直列。全部の抵抗を足してから電流を出す。"
+    },
+    {
+      "id": "F08-t07",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "単相2線式配線で、電源電圧 {Vs}V、負荷の電圧 {VL}V、負荷電流 {I}A。電線1本の抵抗は何 Ω か。",
+      "variables": {
+        "VL": {
+          "min": 95,
+          "max": 100
+        },
+        "I": {
+          "min": 5,
+          "max": 20,
+          "step": 5
+        },
+        "r": {
+          "min": 0.05,
+          "max": 0.25,
+          "step": 0.05
+        }
+      },
+      "derived": [
+        {
+          "name": "Vd",
+          "formula": "2 * I * r",
+          "roundTo": 2
+        },
+        {
+          "name": "Vs",
+          "formula": "VL + Vd",
+          "roundTo": 2
+        },
+        {
+          "name": "Rw",
+          "formula": "Vd / I",
+          "roundTo": 3
+        }
+      ],
+      "answerFormula": "(Vs - VL) / (2 * I)",
+      "answerType": "choice",
+      "unitLabel": "Ω",
+      "roundTo": 3,
+      "distractors": [
+        "(Vs - VL) / I",
+        "(Vs - VL) * 2 / I",
+        "(Vs - VL) / (4 * I)"
+      ],
+      "explanation": "電圧降下 {Vs} − {VL} = {Vd}V。往復の抵抗 {Vd} ÷ {I} = {Rw}Ω。1本あたり {Rw} ÷ 2 = {answer}Ω。",
+      "tags": [
+        "計算",
+        "電圧降下"
+      ],
+      "srsWeight": 1.0,
+      "hint": "電源電圧 ＝ 負荷電圧 ＋ 2Ir から r を出す。"
+    },
+    {
+      "id": "F08-t08",
+      "type": "template",
+      "difficulty": 1,
+      "prompt": "同じ電力を同じ配線で送るとき、電圧を {k} 倍にすると、電線での電力損失は元の何倍になるか。",
+      "variables": {
+        "k": {
+          "min": 2,
+          "max": 4,
+          "step": 2
+        }
+      },
+      "answerFormula": "1 / (k * k)",
+      "answerType": "choice",
+      "unitLabel": "",
+      "roundTo": 4,
+      "distractors": [
+        "1 / k",
+        "k",
+        "k * k"
+      ],
+      "explanation": "電圧を {k} 倍にすると、同じ電力なら電流は 1/{k}。損失は電流の2乗に比例するので、1 ÷ ({k} × {k}) = {answer} 倍。",
+      "tags": [
+        "計算",
+        "電力損失"
+      ],
+      "srsWeight": 1.0,
+      "hint": "P = V × I なので、電圧を上げると電流が下がる。",
+      "tip": "送電線が数十万ボルトもの高電圧なのは、電流を小さくして損失を減らすため。"
+    }
+  ]
+}

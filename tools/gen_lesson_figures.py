@@ -84,6 +84,7 @@ G = {
     "×": [[(2, 3), (8, 11)], [(8, 3), (2, 11)]],
     "÷": [[(1, 7), (9, 7)], ("dot", 5, 3.2), ("dot", 5, 10.8)],
     "/": [[(8, 0), (2, 14)]],
+    ":": [("dot", 2, 4.5), ("dot", 2, 11.5)],
     ".": [("dot", 1.2, 13.3)],
     "(": [[(4, 0), (1, 4), (1, 10), (4, 14)]],
     ")": [[(0, 0), (3, 4), (3, 10), (0, 14)]],
@@ -100,7 +101,7 @@ G = {
 G["−"] = G["-"]
 
 ADV = {
-    "1": 8, "I": 10, ".": 3, "(": 5, ")": 5, "[": 5, "]": 5, " ": 5,
+    "1": 8, "I": 10, ".": 3, ":": 4, "(": 5, ")": 5, "[": 5, "]": 5, " ": 5,
     "h": 9, "k": 9, "m": 10, "r": 7, "t": 8, "μ": 9, "ρ": 9, "℃": 14, "?": 9,
 }
 SPACING = 2.4  # 字間（グリフ単位）
@@ -850,6 +851,37 @@ def f05_bridge():
 figures["F05_bridge"] = f05_bridge()
 
 
+def f05_bridge_ratio():
+    """セッション5：比で見るブリッジ。12V、上の道 2Ω・4Ω、下の道 4Ω・8Ω。橋の両端はどちらも 8V。"""
+    out = []
+    L, T, R, B = (110, 124), (230, 50), (350, 124), (230, 198)
+    out.append(res_on(*L, *T))
+    out.append(res_on(*T, *R))
+    out.append(res_on(*L, *B))
+    out.append(res_on(*B, *R))
+    for p in (L, T, R, B):
+        out.append(dot(*p))
+    # 橋：電位差がないので消せる（点線）
+    out.append(line(230, 50, 230, 198, GRAY, 2.5, dash="6,6"))
+    out.append(pill(230, 124, "0A", GREEN, GREEN_L, 12))
+    # 電源（左の縦線、+ が上）
+    out.append(wires([L, (40, 124), (40, 171)], [(40, 183), (40, 238), (396, 238), (396, 124), R]))
+    out.append(battery(40, 177, True, "12V", "right"))
+    out.append(text("2Ω", 152, 70, 13, INK))
+    out.append(text("4Ω", 308, 70, 13, INK))
+    out.append(text("4Ω", 152, 180, 13, INK))
+    out.append(text("8Ω", 308, 180, 13, INK))
+    # 橋の両端の電圧
+    out.append(pill(230, 22, "8V", RED, RED_L, 12))
+    out.append(pill(230, 220, "8V", RED, RED_L, 12))
+    out.append(formula([("R_1:R_2", INK), ("=", GREEN), ("R_3:R_4", INK)], 96, 24, 12))
+    out.append(formula([("2:4", INK), ("=", GREEN), ("4:8", INK)], 348, 24, 13))
+    return svg("\n".join(out), W, 256)
+
+
+figures["F05_bridge_ratio"] = f05_bridge_ratio()
+
+
 # ===========================================================================
 # F06 電力・電力量・発熱
 # ===========================================================================
@@ -1038,6 +1070,28 @@ def f07_resistivity_formula():
 figures["F07_resistivity_formula"] = f07_resistivity_formula()
 
 
+def f07_length_and_diameter():
+    """セッション6：長さ 3 倍・直径 2 倍 → 抵抗 3 ÷ (2×2) = 0.75 倍。"""
+    out = []
+    # 元の電線
+    out.append(line(70, 70, 170, 70, COPPER, 8))
+    out.append(circle(44, 70, 8, COPPER_L, COPPER, 2.5))
+    out.append(text("R", 190, 70, 14, INK, "start", 1.1))
+    # 長さ 3 倍・直径 2 倍
+    out.append(line(70, 150, 370, 150, COPPER, 16))
+    out.append(circle(44, 150, 16, COPPER_L, COPPER, 2.5))
+    out.append(text("×2", 44, 116, 13, COPPER, bold=1.1))
+    out.append(darrow(70, 184, 370, 184, BLUE, 2, 8))
+    out.append(text("×3", 220, 200, 13, BLUE, bold=1.1))
+    out.append(formula([("3", BLUE), ("÷", GRAY), ("(2×2)", COPPER), ("=", GRAY), ("0.75", RED)], 316, 40, 15))
+    out.append(formula([("R", INK), ("×", GRAY), ("0.75", RED)], 316, 96, 15))
+    out.append(arrow(316, 58, 316, 80, GRAY, 2, 8))
+    return svg("\n".join(out), W, 220)
+
+
+figures["F07_length_and_diameter"] = f07_length_and_diameter()
+
+
 # ===========================================================================
 # F08 電圧降下と電力損失
 # ===========================================================================
@@ -1147,6 +1201,29 @@ def f08_thickness_comparison():
 
 
 figures["F08_thickness_comparison"] = f08_thickness_comparison()
+
+
+def f08_per_km():
+    """セッション7：1km あたり 9Ω の電線で、こう長 20m。1本 0.18Ω、往復 0.36Ω、10A で 3.6V。"""
+    out = []
+    top, bottom = 56, 150
+    out.append(wires([(46, 86), (46, top), (152, top)], [(208, top), (350, top), (350, 73)],
+                     [(350, 133), (350, bottom), (208, bottom)], [(152, bottom), (46, bottom), (46, 120)]))
+    out.append(ac(46, 103, 17))
+    out.append(res(180, top, False, 56, 20, LIGHT, INK, "0.18Ω", 10))
+    out.append(res(180, bottom, False, 56, 20, LIGHT, INK, "0.18Ω", 10))
+    out.append(res(350, 103, True, 60, 26))
+    out.append(span_h(46, 350, 26, "20m", BLUE, 12))
+    out.append(flow(110, top, "r", BLUE, 10))
+    out.append(flow(280, bottom, "l", BLUE, 10))
+    out.append(text("10A", 280, 170, 11, BLUE))
+    out.append(formula([("9Ω", INK), ("×", GRAY), ("0.02", BLUE), ("=", GRAY), ("0.18Ω", INK)], 212, 103, 13))
+    out.append(formula([("0.18Ω", INK), ("×", GRAY), ("2", RED), ("=", GRAY), ("0.36Ω", INK)], 210, 196, 14))
+    out.append(formula([("10A", BLUE), ("×", GRAY), ("0.36Ω", INK), ("=", GRAY), ("3.6V", RED)], 210, 226, 14))
+    return svg("\n".join(out), W, 246)
+
+
+figures["F08_per_km"] = f08_per_km()
 
 
 # ---------------------------------------------------------------------------

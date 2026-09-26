@@ -75,6 +75,16 @@
 - `roundTo`：小数点以下の桁数
 - `distractors`：誤答を作る式。正答と同値になったものは捨てて再生成する
 - 表示時の数値は `roundTo` に従って丸める
+- `derived`：乱数で決めた変数から計算する途中の値。省略可。上から順に計算し、あとの式・`constraints`・`answerFormula`・`distractors`・`prompt`・`explanation` で `{名前}` として使える。`roundTo` を書くとその桁で丸めてから使う
+  ```json
+  "derived": [
+    { "name": "I",  "formula": "P / V" },
+    { "name": "Rw", "formula": "r * 2", "roundTo": 2 }
+  ],
+  "explanation": "電流 {P} ÷ {V} = {I}A。往復の抵抗 {Rw}Ω。損失 {I} × {I} × {Rw} = {answer}W。"
+  ```
+  解説に途中の値を出したいとき、直径などの決まった値の中から選ばせたいとき（`n` を 0〜3 の乱数にして `d` を式で作る）に使う
+- 追加・変更した template は `python3 tools/check_templates.py` で確かめる（400 回ずつ生成し、条件を満たせない・`{名前}` が埋まらない・4 択の誤答が足りない、を調べる。`--show 単元` で生成例を表示）
 - 同じテンプレートでも生成された数値ごとに別の出題として扱うが、間隔反復の履歴はテンプレート単位で管理する
 
 ## 評価ルール

@@ -1,0 +1,247 @@
+{
+  "schemaVersion": 2,
+  "unit": {
+    "id": "F07",
+    "stage": 0,
+    "order": 7,
+    "title": "抵抗率と電線の抵抗",
+    "lessonFile": "F07.md",
+    "prerequisites": [
+      "F06"
+    ],
+    "masteryThreshold": 0.95,
+    "legacyUnit": "u09_ohm_circuits"
+  },
+  "boss": {
+    "id": "F07-boss",
+    "title": "試験型ボス",
+    "description": "制限時間内に5問連続正解でクリア。数値は毎回変わる。",
+    "questionIds": [
+      "F07-t01",
+      "F07-t02",
+      "F07-t03",
+      "F07-t04",
+      "F07-q01",
+      "F07-q02"
+    ],
+    "pick": 5,
+    "timeLimitSeconds": 120
+  },
+  "questions": [
+    {
+      "id": "F07-q01",
+      "type": "multipleChoice",
+      "difficulty": 1,
+      "prompt": "電線の長さを2倍、直径を2倍にした。抵抗は元の何倍になるか。",
+      "choices": [
+        "1/2倍",
+        "1倍（変わらない）",
+        "2倍",
+        "1/4倍"
+      ],
+      "answerIndex": 0,
+      "explanation": "長さ2倍で抵抗 ×2。直径2倍で断面積は 2 × 2 = 4倍なので抵抗 ÷4。合わせて 2 ÷ 4 = 1/2倍。",
+      "tags": [
+        "概念",
+        "電線の抵抗"
+      ],
+      "srsWeight": 1.0,
+      "hint": "直径は2回効く（断面積は直径の2乗）。",
+      "tip": "「長さで2倍、太さで半分、合わせて変わらない」とする誤答が定番。"
+    },
+    {
+      "id": "F07-t01",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "電線の長さを {a} 倍、直径を {b} 倍にした（材料は同じ）。抵抗は元の何倍になるか。",
+      "variables": {
+        "a": {
+          "min": 2,
+          "max": 4
+        },
+        "b": {
+          "min": 0.5,
+          "max": 2,
+          "step": 0.5
+        }
+      },
+      "derived": [
+        {
+          "name": "A",
+          "formula": "b * b"
+        }
+      ],
+      "constraints": [
+        "b != 1",
+        "b != 1.5"
+      ],
+      "answerFormula": "a / A",
+      "answerType": "choice",
+      "unitLabel": "",
+      "roundTo": 4,
+      "distractors": [
+        "a / b",
+        "a * A",
+        "a * b"
+      ],
+      "explanation": "長さ {a} 倍で抵抗 ×{a}。直径 {b} 倍で断面積は {b} × {b} = {A} 倍なので、抵抗 ÷{A}。合わせて {a} ÷ {A} = {answer} 倍。",
+      "tags": [
+        "計算",
+        "電線の抵抗"
+      ],
+      "srsWeight": 1.0,
+      "hint": "抵抗の倍率 ＝ 長さの倍率 ÷（直径の倍率 × 直径の倍率）"
+    },
+    {
+      "id": "F07-t02",
+      "type": "template",
+      "difficulty": 2,
+      "prompt": "直径 {d1}mm の電線の抵抗が {R1}Ω。同じ長さ・同じ材料で直径 {d2}mm の電線の抵抗は、およそ何 Ω か。",
+      "variables": {
+        "d1": {
+          "min": 1.6,
+          "max": 2.0,
+          "step": 0.4
+        },
+        "d2": {
+          "min": 2.0,
+          "max": 3.2,
+          "step": 0.6
+        },
+        "R1": {
+          "min": 0.12,
+          "max": 0.36,
+          "step": 0.06
+        }
+      },
+      "derived": [
+        {
+          "name": "k",
+          "formula": "d2 / d1",
+          "roundTo": 3
+        },
+        {
+          "name": "A",
+          "formula": "k * k",
+          "roundTo": 2
+        }
+      ],
+      "constraints": [
+        "d2 > d1"
+      ],
+      "answerFormula": "R1 / A",
+      "answerType": "choice",
+      "unitLabel": "Ω",
+      "roundTo": 3,
+      "distractors": [
+        "R1 / k",
+        "R1 * A",
+        "R1 / 2"
+      ],
+      "explanation": "直径の倍率 {d2} ÷ {d1} = {k}。断面積の倍率 {k} × {k} ≒ {A}。抵抗は {R1} ÷ {A} ≒ {answer}Ω。",
+      "tags": [
+        "計算",
+        "電線の抵抗"
+      ],
+      "srsWeight": 1.0,
+      "hint": "直径の倍率を出して2乗すると、断面積の倍率になる。"
+    },
+    {
+      "id": "F07-t03",
+      "type": "template",
+      "difficulty": 1,
+      "prompt": "直径 {d}mm の電線の断面積は、およそ何 mm² か（円周率は 3.14）。",
+      "variables": {
+        "n": {
+          "min": 0,
+          "max": 3
+        }
+      },
+      "derived": [
+        {
+          "name": "d",
+          "formula": "1.6 + 0.4 * n + 0.2 * floor(n / 2) + 0.2 * floor(n / 3)",
+          "roundTo": 1
+        },
+        {
+          "name": "r",
+          "formula": "d / 2",
+          "roundTo": 2
+        }
+      ],
+      "answerFormula": "r * r * 3.14",
+      "answerType": "choice",
+      "unitLabel": "mm²",
+      "roundTo": 1,
+      "distractors": [
+        "d * d * 3.14",
+        "d * 3.14",
+        "r * 3.14",
+        "r * r",
+        "d * d"
+      ],
+      "explanation": "半径は {d} ÷ 2 = {r}mm。断面積 {r} × {r} × 3.14 ≒ {answer}mm²。",
+      "tags": [
+        "計算",
+        "断面積"
+      ],
+      "srsWeight": 1.0,
+      "hint": "まず直径を半分にして半径を出す。それから2乗して 3.14 をかける。"
+    },
+    {
+      "id": "F07-t04",
+      "type": "template",
+      "difficulty": 1,
+      "prompt": "断面積 {A1}mm² の電線の抵抗が {R}Ω。同じ長さ・同じ材料で断面積 {A2}mm² の電線の抵抗は何 Ω か。",
+      "variables": {
+        "A1": {
+          "min": 2,
+          "max": 2
+        },
+        "k": {
+          "min": 2,
+          "max": 4
+        },
+        "R": {
+          "min": 0.1,
+          "max": 0.9,
+          "step": 0.1
+        }
+      },
+      "derived": [
+        {
+          "name": "A2",
+          "formula": "A1 * k"
+        }
+      ],
+      "constraints": [
+        "round(R * 100) % k == 0"
+      ],
+      "answerFormula": "R / k",
+      "answerType": "numeric",
+      "unitLabel": "Ω",
+      "roundTo": 3,
+      "explanation": "断面積は {A2} ÷ {A1} = {k} 倍。抵抗は断面積に反比例するので {R} ÷ {k} = {answer}Ω。",
+      "tags": [
+        "計算",
+        "電線の抵抗"
+      ],
+      "srsWeight": 1.0,
+      "hint": "断面積が何倍かを出す。抵抗はその逆数倍。"
+    },
+    {
+      "id": "F07-q02",
+      "type": "trueFalse",
+      "difficulty": 1,
+      "prompt": "直径 2.0mm の銅線の断面積は 3.5mm² である。",
+      "answer": false,
+      "explanation": "誤り。2.0mm の断面積は 1.0 × 1.0 × 3.14 ≒ 3.1mm²。許容電流の表で 2.0mm と 3.5mm² が並ぶのは、流せる電流がほぼ同じだから。面積が同じという意味ではない。",
+      "tags": [
+        "概念",
+        "断面積"
+      ],
+      "srsWeight": 1.0,
+      "tip": "単線は直径（1.6mm・2.0mm・2.6mm）、より線は断面積（2mm²・3.5mm²・5.5mm²）で呼ぶ。"
+    }
+  ]
+}

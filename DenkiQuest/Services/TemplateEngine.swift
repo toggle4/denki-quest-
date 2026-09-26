@@ -208,6 +208,20 @@ enum TemplateEngine {
             for (name, spec) in variables {
                 values[name] = randomValue(spec)
             }
+            // 途中の値を順に計算する（問題文・解説で途中の数字を見せるため）
+            var derivedOK = true
+            for spec in question.derived ?? [] {
+                guard var value = try? ExpressionEvaluator(variables: values).evaluate(spec.formula), value.isFinite else {
+                    derivedOK = false
+                    break
+                }
+                if let digits = spec.roundTo {
+                    let scale = pow(10.0, Double(digits))
+                    value = (value * scale).rounded() / scale
+                }
+                values[spec.name] = value
+            }
+            guard derivedOK else { continue }
             let evaluator = ExpressionEvaluator(variables: values)
             let satisfied = constraints.allSatisfy { constraint in
                 let result = (try? evaluator.evaluate(constraint)) ?? 0
