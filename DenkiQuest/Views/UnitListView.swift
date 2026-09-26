@@ -49,6 +49,7 @@ struct UnitListView: View {
 
                         RecapCardView(lessons: lessonSections.flatMap(\.lessons), stats: stats)
                         ReviewCardView(items: reviewItems, units: units)
+                        weaknessMapLink
                         bossDexCard
 
                         lessonList
@@ -162,6 +163,18 @@ struct UnitListView: View {
                 .animation(.easeOut(duration: 0.3), value: mascotBurnt)
         }
         .padding(.top, 4)
+    }
+
+    // MARK: - 苦手マップへの入口
+
+    private var weaknessMapLink: some View {
+        NavigationLink {
+            WeaknessMapView(lessons: lessonSections.flatMap(\.lessons), units: units, examDrills: examDrills)
+        } label: {
+            WeaknessCardView(records: records, reviewItems: reviewItems)
+        }
+        .buttonStyle(.plain)
+        .simultaneousGesture(TapGesture().onEnded { GameFeedback.tap() })
     }
 
     // MARK: - ボス図鑑への入口

@@ -133,6 +133,11 @@ DenkiQuest.xcodeproj ほか チャット側の指示で新規作成された Swi
 > - ステージ 1 の教材 S01〜S07 を作成（各 3 セッション、問題 116 問、ボスつき）。図を選ぶ出題形式 imageChoice に対応
 >   （QuestionV2.choiceImages → Question.choiceImages → QuizSession.Item.choiceImages、画面は QuestionView.swift の ImageChoiceGrid。ボス戦も同じ格子）。
 >   図記号・刃受け・接点・ケーブル断面・材料・工具の図 103 枚は tools/gen_symbol_figures.py（JIS の形を自作で描いたもの。材料・工具は形の特徴だけのイメージ図）
+> - 苦手マップを追加（WeaknessMapView、集計は Services/WeaknessAnalyzer）。入口はホームの「苦手マップ」カード（復習カードの下）。
+>   カリキュラムの全単元を色のタイルで並べる。色は各単元の直近 30 問の正答率（StudyRecord を新しい順に足す）で、
+>   90 % 以上 = 得意（緑）、70〜90 % = もう少し（黄）、70 % 未満 = 苦手（赤）、5 問未満 = 判定中（青）。右上の赤い数字は復習待ち（ReviewItem）。
+>   「まず見直したい単元」3 つと、復習待ちの問題のタグを数えた「よく間違えるテーマ」も出す。タイルを押すと教材（なければドリル）へ。
+>   新しい保存データは増やしていない（既存の StudyRecord・ReviewItem だけで計算）
 
 ### タスク A：旧ゲームの復元調査（変更なし、報告のみ）
 1. `git log --all --oneline` と `git reflog` で、現在より前に別の Swift ファイル・Xcode プロジェクトがあったコミットを探す
